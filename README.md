@@ -1,2 +1,2 @@
 # pacs-elasticityequation
-PACS PROJECT: Alessandra Arrigoni, Sara Pichierri
+PACS PROJECT : ELASTICITY EQUATION by Alessandra Arrigoni and Sara Pichierri.
