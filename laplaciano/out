@@ -1,0 +1,16 @@
+src/Problem.cc: In member function ‘void Problem::assembleMatrix(LinearSystem*)’:
+src/Problem.cc:61:44: warning: unused parameter ‘sys’ [-Wunused-parameter]
+ void Problem::assembleMatrix(LinearSystem* sys)
+                                            ^~~
+src/Problem.cc: In member function ‘void Problem::assembleRHS(LinearSystem*)’:
+src/Problem.cc:74:41: warning: unused parameter ‘sys’ [-Wunused-parameter]
+ void Problem::assembleRHS(LinearSystem* sys)
+                                         ^~~
+src/Problem.cc: In member function ‘void Problem::exportVtk(std::__cxx11::string, std::__cxx11::string)’:
+src/Problem.cc:118:57: warning: unused parameter ‘what’ [-Wunused-parameter]
+ void Problem::exportVtk(std::string folder, std::string what)
+                                                         ^~~~
+src/Problem.cc: In member function ‘void Problem::enforceStrongBC(bool)’:
+src/Problem.cc:131:36: warning: unused parameter ‘firstTime’ [-Wunused-parameter]
+ void Problem::enforceStrongBC(bool firstTime)
+                                    ^~~~~~~~~
