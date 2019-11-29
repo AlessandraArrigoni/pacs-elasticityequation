@@ -24,6 +24,7 @@
         [./laplacian1]
 
 		bcflag = [0,0,0,1]   % 0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra.
+    interfaceIdx = 1 %Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
 
                 bulkLoad = 0  %forzante
@@ -50,7 +51,7 @@
                 spatialDiscretizationY = 30
                 lengthAbscissa = 0.5  %misure in x e y
                 lengthOrdinate = 1.0
-                startingAbscissa = 0.5 %traslazione del punto (0,0)  
+                startingAbscissa = 0.5 %traslazione del punto (0,0)
                 startingOrdinate = 0
                 meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
                 spaceDimension = 2   %bidimensionale
@@ -61,6 +62,7 @@
         [./laplacian2]
 
 		bcflag = [0,1,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+    interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
 
                 bulkLoad = 0  %forzante
