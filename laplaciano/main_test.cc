@@ -53,20 +53,27 @@ typedef gmm::col_matrix<sparse_vector_type> col_sparse_matrix_type;
 int main(int argc, char *argv[]) {
 
     GetPot command_line(argc, argv);
-    const std::string data_file_name = command_line.follow("data", 2, "-f",
+    const std::string data_file_name1 = command_line.follow("data1", 2, "-f",
             "--file");
+    const std::string data_file_name2 = command_line.follow("data2", 2, "-f",    "--file");
 
-    GetPot dataFile(data_file_name.data());
+    GetPot dataFile1(data_file_name1.data());
+    std::cout<< "File name 1: "<< data_file_name1 << std::endl;
+
+    GetPot dataFile2(data_file_name2.data());
+    std::cout<< "File name 2: " << data_file_name2 << std::endl;
 
     const std::string section = "";
 
     const std::string vtkFolder = "output_vtk/";
 
-    Bulk myDomain(dataFile);    //creo il dominio
+    Bulk myDomainLeft(dataFile1, "bulkData1/", "domain1/", "laplacian1/");    //creo i domini
+    Bulk myDomainRight(dataFile2, "bulkData2/", "domain2/", "laplacian2/");
 
-    myDomain.exportMesh(vtkFolder+"mesh.vtk");       //initial export
+    myDomainLeft.exportMesh(vtkFolder+"meshLeft.vtk");       //initial export
+    myDomainRight.exportMesh(vtkFolder+"meshRight.vtk");
 
-    Problem myProblem(dataFile, &myDomain);   //creo il problema
+    Problem myProblem(dataFile1, dataFile2, & myDomainLeft, & myDomainRight);   //creo il problema
 
     LinearSystem mySys;   //il sistema lineare corrispondente
 
@@ -78,12 +85,18 @@ int main(int argc, char *argv[]) {
 
     myProblem.assembleRHS(&mySys);
 
-    myProblem.enforceStrongBC(true);   // impongo le condizioni essenziali lavorando sulle righe della matrice
+    myProblem.enforceStrongBC(true, 1);   // impongo le condizioni essenziali lavorando sulle righe della matrice
+    myProblem.enforceStrongBC(true, 2);
+    std::cout << "Dirichlet boundary conditions      [OK]" << std::endl;
+
+    myProblem.enforceInterfaceJump(); // Impongo le condizioni di interfaccia (solo di DIRICHLET per adesso, il salto sulla derivata dovrebbe essere già assegnato da assembleRHS nel caso)
+    std::cout << "Dirichlet interface conditions      [OK]" << std::endl;
 
     mySys.saveMatrix();   //esporto la matrice per guardarla in matlab, se serve
 
     myProblem.solve();   // risolvo
+    std::cout << "Solved system      [OK]" << std::endl;
 
-    myProblem.exportVtk(vtkFolder,"all");  // esporto la soluzione per paraview
-
+    myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
+    myProblem.exportVtk(vtkFolder,"u2");
 }

@@ -1,5 +1,5 @@
-#include "../include/LinearSystem.h"
 
+#include "../include/LinearSystem.h"
 
 LinearSystem::LinearSystem( ):
 		M_Matrix(),
@@ -16,14 +16,14 @@ void LinearSystem::addToMatrix(int ndof)
 		int provv_size(M_RHS->size());
 		M_RHS->resize(provv_size+ndof);
 		M_Sol->resize(provv_size+ndof);
-		
+
 		M_Matrix->resize(provv_size+ndof,provv_size+ndof);
 	}
 	else
 	{
 		M_RHS.reset(new scalarVector_Type (ndof));
 		M_Sol.reset(new scalarVector_Type (ndof));
-		
+
 		M_Matrix.reset(new sparseMatrix_Type (ndof,ndof));
 	}
 }
@@ -62,7 +62,7 @@ void LinearSystem::addSubMatrix(sparseMatrixPtr_Type M, int first_row, int first
 
 void LinearSystem::copySubVector(scalarVectorPtr_Type M, int first_row, scalar_type scale)
 {
-	
+
 	gmm::copy ( gmm::scaled(*M,scale), gmm::sub_vector (*M_RHS,
                         gmm::sub_interval (first_row,M->size()) ));
 }
@@ -90,18 +90,18 @@ void LinearSystem::addSubSystem(LinearSystem* small, size_type shiftRows, size_t
 	gmm::add ( *(small->getMatrix()), gmm::sub_matrix (*M_Matrix,
                         gmm::sub_interval (shiftRows,gmm::mat_nrows(*(small->getMatrix()))),
                         gmm::sub_interval (shiftColumns, gmm::mat_ncols(*(small->getMatrix()))) ) );
-                        
+
         gmm::add ( *(small->getRHS()), gmm::sub_vector (*M_RHS,
                         gmm::sub_interval (shiftRows,gmm::mat_nrows(*(small->getMatrix()))) ) );
-                        
+
 }
 
 
 void LinearSystem::multAddToRHS(scalarVectorPtr_Type V, int first_row, int first_column, int nrows, int ncols)
 {
-	int length((*V).size());	
+	int length((*V).size());
 	if (ncols==(*V).size()){
-	gmm::mult_add(gmm::sub_matrix(*M_Matrix, gmm::sub_interval (first_row,nrows),gmm::sub_interval (first_column,length)),*V, gmm::sub_vector(*M_RHS,gmm::sub_interval(first_row,nrows))); 
+	gmm::mult_add(gmm::sub_matrix(*M_Matrix, gmm::sub_interval (first_row,nrows),gmm::sub_interval (first_column,length)),*V, gmm::sub_vector(*M_RHS,gmm::sub_interval(first_row,nrows)));
 	}
 	else
 	{
@@ -113,11 +113,11 @@ void LinearSystem::multAddToRHS(sparseMatrixPtr_Type M, scalarVectorPtr_Type V, 
 {
 	if (transposed)
 	{
-        gmm::mult_add(gmm::scaled(gmm::transposed(*M),scale), gmm::sub_vector(*V,gmm::sub_interval(first_rowVector,gmm::mat_nrows(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval		(first_rowRHS,gmm::mat_ncols(*M)))); 
+        gmm::mult_add(gmm::scaled(gmm::transposed(*M),scale), gmm::sub_vector(*V,gmm::sub_interval(first_rowVector,gmm::mat_nrows(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval		(first_rowRHS,gmm::mat_ncols(*M))));
 	}
 	else
 	{
-	gmm::mult_add(gmm::scaled(*M,scale), gmm::sub_vector(*V,gmm::sub_interval(first_rowVector,gmm::mat_ncols(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval(first_rowRHS,gmm::mat_nrows(*M)))); 
+	gmm::mult_add(gmm::scaled(*M,scale), gmm::sub_vector(*V,gmm::sub_interval(first_rowVector,gmm::mat_ncols(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval(first_rowRHS,gmm::mat_nrows(*M))));
 	}
 }
 
@@ -125,11 +125,11 @@ void LinearSystem::multAddToRHS(sparseMatrixPtr_Type M, scalarVector_Type& V,  i
 {
 	if (transposed)
 	{
-	gmm::mult_add(gmm::scaled(gmm::transposed(*M),scale),gmm::sub_vector(V,gmm::sub_interval(first_rowVector,gmm::mat_nrows(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval(first_rowRHS,gmm::mat_ncols(*M)))); 
+	gmm::mult_add(gmm::scaled(gmm::transposed(*M),scale),gmm::sub_vector(V,gmm::sub_interval(first_rowVector,gmm::mat_nrows(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval(first_rowRHS,gmm::mat_ncols(*M))));
 	}
 	else
 	{
-	gmm::mult_add(gmm::scaled(*M,scale),gmm::sub_vector(V,gmm::sub_interval(first_rowVector,gmm::mat_ncols(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval(first_rowRHS,gmm::mat_nrows(*M)))); 
+	gmm::mult_add(gmm::scaled(*M,scale),gmm::sub_vector(V,gmm::sub_interval(first_rowVector,gmm::mat_ncols(*M))), gmm::sub_vector(*M_RHS,gmm::sub_interval(first_rowRHS,gmm::mat_nrows(*M))));
 	}
 }
 
@@ -163,15 +163,14 @@ void LinearSystem::computeInverse()  //lento
         scalar_type rcond;
         SuperLU_solve(*M_Matrix, provv, RHS, rcond);
 	gmm::copy(gmm::col_vector(provv), gmm::sub_matrix(*M_InverseMatrix, gmm::sub_interval(0, M_ndof),  gmm::sub_interval(0,1)));
-	
+
     }
-  
+
     M_gotInverse=true;
 
 }
 
 void LinearSystem::saveMatrix(const char* nomefile)
 {
-	gmm::MatrixMarket_IO::write(nomefile , *M_Matrix); 
+	gmm::MatrixMarket_IO::write(nomefile , *M_Matrix);
 }
-

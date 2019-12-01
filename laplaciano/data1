@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% parameters for program laplacian: soluzione y a sx e 3y a dx  ; soluzione (x-0.5)^2 così la forzante non è nulla ma la condizione di interfaccia sì %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[bulkData1]
+
+        [./domain1]
+
+                meshExternal = none
+                meshFolder = ./meshes/   %per caricare mesh fatte con altri tool
+
+                spatialDiscretizationX = 30  %altrimenti, suddivisione in x e y
+                spatialDiscretizationY = 30
+                lengthAbscissa = 0.5    %misure in x e y
+                lengthOrdinate = 1.0
+                startingAbscissa = 0
+                startingOrdinate = 0
+                meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
+                spaceDimension = 2   %bidimensionale
+
+        [../]
+
+
+        [./laplacian1]
+
+		bcflag = [1,0,1,0]   % 0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra.
+    interfaceIdx = 1 %Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+                diff = 1  %coefficiente di diffusione
+
+                bulkLoad = 2  %forzante
+                u_BC = 0.25  %condizione dirichlet
+		            du_BC = 0  %valore neumann
+
+                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
+                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti
+
+                integrationMethod = IM_TRIANGLE(6)
+
+        [../]
+
+[../]
+
+
+
+
+% Nel nostro caso l'interfaccia sarà di tipo Dirichlet dove si assegna q0 (dominio a sx) e di tipo Neumann dove si assegna q1 (dominio a dx)

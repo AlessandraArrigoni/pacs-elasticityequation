@@ -79,5 +79,4 @@
 [../]
 
 
-% PROBABILMENTE POSSO CAMBIARE LE LUNGHEZZE DI ASCISSA E ORDINATA IN QUESTO FILE PER DECIDERE LA GRANDEZZA DELLA MESH CHE VIENE CREATA IN BULK. POI DEVO MODIFICARE LA MATRICE DI TRASFORMAZIONE M DEL FILE Bulk.cc PER TRASLARLA ANCHE!
 % Nel nostro caso l'interfaccia sarà di tipo Dirichlet dove si assegna q0 (dominio a sx) e di tipo Neumann dove si assegna q1 (dominio a dx)

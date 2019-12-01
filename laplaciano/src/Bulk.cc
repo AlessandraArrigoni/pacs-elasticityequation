@@ -41,12 +41,12 @@ Bulk::Bulk ( const GetPot& dataFile,
     M(1,1)=M_Ly;
 
     bgeot::base_small_vector trasl(N);
-    trasl(0)= M_origx;
-    trasl(1)= M_origy;
+    trasl[0]= M_origx;
+    trasl[1]= M_origy;
 
     M_mesh.transformation(M);
     M_mesh.translation(trasl);
-    
+
     }
     else
     {

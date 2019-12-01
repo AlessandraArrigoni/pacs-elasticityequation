@@ -11,7 +11,7 @@
 class Problem
 {
 public:
-	 Problem ( const GetPot& dataFile, Bulk* bulk=NULL );
+	 Problem ( const GetPot& dataFile1, const GetPot& dataFile2, Bulk* bulk1=NULL , Bulk* bulk2=NULL);
 
          void initialize();
 
@@ -44,9 +44,10 @@ public:
 
  private:
 
-    Bulk* M_Bulk1, M_Bulk2;
-    BC M_BC1, M_BC2, IFace1, IFace2 ; // non sono sicura delle 2 IFace
-		size_type interfaceIdx;
+    Bulk* M_Bulk1;
+		Bulk* M_Bulk2;
+    BC M_BC1, M_BC2;
+		size_type interfaceIdx1, interfaceIdx2;
     FEM M_uFEM1, M_uFEM2;
     FEM M_CoeffFEM1, M_CoeffFEM2;
 
@@ -58,10 +59,10 @@ public:
 		// Il valore M_nbDOFIFace è quello relativo alle funzioni che vanno raddoppiate, quindi in questo caso M_nbTotDOF è dato dalla somma M_nbDOF1 + M_nbDOF2 per le trial functions visto che suppongo che siano 2 domini separati; poi per le test il numero di dofs sarà M_nbTotDOF - M_nbDOFIFace.
     size_type M_nbTotDOF, M_nbDOF1, M_nbDOF2, M_nbDOFIFace;
 
-    getfem::mesh_im M_intMethod1, M_intMethod;
+    getfem::mesh_im M_intMethod1, M_intMethod2;
 
 		// Anche qui consideriamo di trattare l'interfaccia come una BC di Dirichlet per uno dei 2 domini mentre per l'altro viene lasciata "libera", nel senso che il valore di u si trova risolvendo il sistema; ciò equivale ad assegnare BC di Neumann.
-    std::vector<size_type> M_rowsStrongBC1, M_rowsStrongBC2, M_rowsIFace;
+    std::vector<size_type> M_rowsStrongBC1, M_rowsStrongBC2, M_rowsIFace1, M_rowsIFace2;
     std::vector<size_type> M_rowsStrongBCFlags1, M_rowsStrongBCFlags2, M_rowsIFace;
 
    // mutable LifeV::Parser M_parser;

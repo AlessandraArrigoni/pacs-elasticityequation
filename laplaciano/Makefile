@@ -2,7 +2,7 @@
 CXX = g++
 
 # Optimize flags
-OPTFLAGS = -O3
+OPTFLAGS = -g #-O3
 GETFEM_PATH = /home/alearrigoni/Documenti/getfem-5.3
 INCLUDE = -I$(GETFEM_PATH)/include -I$(GETFEM_PATH)/src -I$(GETFEM_PATH)/src/gmm -I./include -I/usr/include
 # Flags
@@ -15,7 +15,7 @@ EXESRCS = *.cc
 EXEOBJS = $(EXESRCS:.cc = .o)
 
 # Executable name
-EXEC = main
+EXEC = laplacianIFace
 
 # Sources folder
 FOLDER = src/

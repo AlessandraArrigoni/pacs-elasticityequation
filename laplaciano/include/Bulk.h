@@ -14,8 +14,8 @@ public:
 	 Bulk ( const GetPot& dataFile,
                    const std::string& section = "bulkData/",
                    const std::string& sectionDomain = "domain/",
-                   const std::string& sectionProblem = "laplacian/");
 
+									 const std::string& sectionProblem = "laplacian/");
   void exportMesh(std::string nomefile);
 
   inline getfem::mesh* getMesh()
