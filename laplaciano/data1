@@ -23,13 +23,17 @@
 
         [./laplacian1]
 
-		bcflag = [1,0,1,0]   % 0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra.
+		bcflag = [0,0,0,0]   % 0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra.
     interfaceIdx = 1 %Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
 
-                bulkLoad = 2  %forzante
-                u_BC = 0.25  %condizione dirichlet
-		            du_BC = 0  %valore neumann
+                % soluzione parabolica 4(x-0.5)^2 non viene perchè non ho trattato bene la condizione di salto della derivata e qui non è nulla
+                bulkLoad = -8  %forzante
+                u_BC = 4*(x-0.5)*(x-0.5)  %condizione dirichlet (valore della soluzione)
+		du_BC = 0  %valore neumann
+		%bulkload = 0 % forzante
+		%u_BC = y %condizione Dirichlet (soluzione)
+		%du_BC = 0 % valore neumann
 
                 FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
                 FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti

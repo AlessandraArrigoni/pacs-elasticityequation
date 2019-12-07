@@ -49,6 +49,12 @@ void Problem::initialize()
 {
          	M_uSol.reset(new scalarVector_Type (M_nbTotDOF));
          	gmm::clear(*M_uSol);
+
+					M_uSol1.reset(new scalarVector_Type (M_nbDOF1));
+         	gmm::clear(*M_uSol1);
+
+					M_uSol2.reset(new scalarVector_Type (M_nbDOF2));
+         	gmm::clear(*M_uSol2);
 }
 
 //restituisce un puntatore ai FEM del displacement.
@@ -152,6 +158,11 @@ void Problem::solve()
        	M_Sys->extractSubVector(M_uSol, 0, "sol");
 				std::cout << "Size of the solution in M_Sys: "<< M_Sys->getSol()->size()<< std::endl;
 				std::cout << "Size of the solution in Problem: "<< M_uSol->size() << std::endl;
+				std::cout << "the global solution is : " << std::endl;
+				/*for (size_type i=0; i<M_uSol->size(); i++){
+					std::cout << M_uSol->at(i)<< "\t";
+					if (i%10 == 0){std::cout<< "\n" << std::endl;}
+				}*/
 				// The content of the variable M_sol contained in the LinearSystem M_Sys (actually it is all a matter of pointers...) is copied into the variable M_uSol of our class Problem.
 }
 
@@ -159,23 +170,32 @@ void Problem::solve()
 void Problem::extractSol(scalarVectorPtr_Type destination, std::string variable)
 {
 
-	gmm::sub_interval test2(M_nbDOF1, M_nbTotDOF );
+/*
+	gmm::sub_interval test2(M_nbDOF1, M_nbDOF2 );
 	gmm::sub_interval test1(0,  M_nbDOF1);
-
+*/
 	if (variable == "u1"){
-			std::cout << "n DOFS omega1 = " << M_nbDOF1 << std::endl;
-			std::cout << "sub Interval first: "<< test1.first() << "; sub Interval Last: " << test1.last() << std::endl;
-			destination.reset(new scalarVector_Type (M_nbDOF1));
+			/*std::cout << "n DOFS omega1 = " << M_nbDOF1 << std::endl;
+			std::cout << "sub Interval first: "<< test1.first() << "; sub Interval Last: " << test1.last() << std::endl;*/
+			//destination.reset(new scalarVector_Type (M_nbDOF1));
 			gmm::clear(*destination);
 			gmm::copy ( gmm::sub_vector (*M_uSol, gmm::sub_interval (0,  M_nbDOF1 )), *destination); //gmm::copy(source, destination)
+			std::cout << "INSIDE THE EXTRACT FUNCTION : values of M_uSol1 after "<< std::endl;
+			for (size_type i=0; i < 5; i++){
+				std::cout << M_uSol1 -> at(i)<< "\t";
+			}
 	}
 	else if (variable == "u2"){
-		std::cout << "n DOFS omega2 = " << M_nbDOF2 << std::endl;
+		/*std::cout << "n DOFS omega2 = " << M_nbDOF2 << std::endl;
 		std::cout << "n DOFS totali = " << M_nbTotDOF << std::endl;
-		std::cout << "sub Interval first: "<< test2.first() << "; sub Interval Last: " << test2.last() << std::endl;
-			destination.reset(new scalarVector_Type (M_nbDOF2));
-			gmm::clear(*destination);
-			gmm::copy ( gmm::sub_vector (*M_uSol, gmm::sub_interval (M_nbDOF1,  M_nbDOF2 )), *destination); //gmm::copy(source, destination)
+		std::cout << "sub Interval first: "<< test2.first() << "; sub Interval Last: " << test2.last() << std::endl;*/
+		//destination.reset(new scalarVector_Type (M_nbDOF2));
+		gmm::clear(*destination);
+		gmm::copy ( gmm::sub_vector (*M_uSol, gmm::sub_interval (M_nbDOF1,  M_nbDOF2 )), *destination); //gmm::copy(source, destination)
+		std::cout << "INSIDE THE EXTRACT FUNCTION : values of M_uSol2 after "<< std::endl;
+		for (size_type i=0; i < 5; i++){
+			std::cout << M_uSol2-> at(i)<< "\t";
+		}
 	}
 	else {
 			destination.reset(new scalarVector_Type (M_nbTotDOF));
@@ -194,22 +214,20 @@ void Problem::exportVtk(std::string folder, std::string what)
 		/* // provo a utilizzare la funzione extract che ho definito per ottenere la soluzione u1 qui direttamente; altrimenti dovrei chiamarla prima per "riempire" la variabile M_uSol1 e poi fare la copy
 		std::vector<scalar_type> disp(M_nbDOF1,0.0);
 		gmm::copy(*M_uSol1, disp); */
-		scalarVectorPtr_Type dispPtr(new scalarVector_Type(M_nbDOF1,0.0));
-		extractSol(dispPtr, what);
+		extractSol(M_uSol1, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
-		exp.write_point_data( *(M_uFEM1.getFEM()), *dispPtr, what);
+		exp.write_point_data( *(M_uFEM1.getFEM()), *M_uSol1, what);
 	}
 	if (what == "u2"){
 		exp.exporting( *(M_uFEM2.getFEM()));
 		/* // provo a utilizzare la funzione extract che ho definito per ottenere la soluzione u1 qui direttamente; altrimenti dovrei chiamarla prima per "riempire" la variabile M_uSol2 e poi fare la copy
 		std::vector<scalar_type> disp(M_nbDOF2,0.0);
 		gmm::copy(*M_uSol2, disp); */
-		scalarVectorPtr_Type dispPtr(new scalarVector_Type(M_nbDOF2,0.0));
-		extractSol(dispPtr, what);
+		extractSol(M_uSol2, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
-		exp.write_point_data( *(M_uFEM2.getFEM()), *dispPtr, what);
+		exp.write_point_data( *(M_uFEM2.getFEM()), *M_uSol2, what);
 	}
 
 	/* ORIGINAL VERSION

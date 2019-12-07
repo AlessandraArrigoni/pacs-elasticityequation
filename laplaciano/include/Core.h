@@ -53,7 +53,7 @@ typedef std::vector<sparseMatrix_Type> sparseMatrixContainer_Type;
 typedef std::vector<sparseMatrixPtr_Type> sparseMatrixPtrContainer_Type;
 
 typedef std::vector<scalar_type> scalarVector_Type;
-typedef boost::shared_ptr<scalarVector_Type> scalarVectorPtr_Type;
+typedef boost::shared_ptr<scalarVector_Type> scalarVectorPtr_Type; // pointer a un vettore di double
 typedef std::vector<scalarVector_Type> scalarVectorContainer_Type;
 typedef boost::shared_ptr<scalarVectorPtr_Type> scalarVectorContainerPtr_Type;
 typedef std::vector<scalarVectorPtr_Type> scalarVectorPtrContainer_Type;
