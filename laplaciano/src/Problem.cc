@@ -43,6 +43,7 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 	 M_nbDOFIFace = 0;
 	 for(dal::bv_visitor i(dof_IFace); !i.finished(); ++i)
 	 {		 M_nbDOFIFace++;	 }
+	 std::cout<< "the number of interface dofs is : "<<M_nbDOFIFace<<std::endl;
 }
 
 void Problem::initialize()
@@ -128,7 +129,7 @@ void Problem::assembleRHS(LinearSystem* sys)
 	bulkLoad(source2, M_Bulk2, M_uFEM2, M_CoeffFEM2, M_intMethod2);
 
 	M_Sys->addSubVector(source1,0);
-	M_Sys->addSubVector(source2,M_nbDOF2);
+	M_Sys->addSubVector(source2,M_nbDOF1);
 
   // To include the Neumann boundary conditions (maybe then we will need to change this part adding the jump too - or defining it in the dataFile in a proper way)
 	scalarVectorPtr_Type  BCvec1;
@@ -139,6 +140,7 @@ void Problem::assembleRHS(LinearSystem* sys)
 	stressRHS( BCvec1, M_Bulk1,  0 , &M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
 	stressRHS( BCvec2, M_Bulk2,  0 , &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
 
+	// trovo i nodi sull'unica frontiera di Neumann che metto
 	M_Sys->addSubVector(BCvec1, 0);
 	M_Sys->addSubVector(BCvec2, M_nbDOF1);
 
@@ -156,13 +158,7 @@ void Problem::solve()
 				gmm::clear(*M_uSol);
 
        	M_Sys->extractSubVector(M_uSol, 0, "sol");
-				std::cout << "Size of the solution in M_Sys: "<< M_Sys->getSol()->size()<< std::endl;
 				std::cout << "Size of the solution in Problem: "<< M_uSol->size() << std::endl;
-				std::cout << "the global solution is : " << std::endl;
-				/*for (size_type i=0; i<M_uSol->size(); i++){
-					std::cout << M_uSol->at(i)<< "\t";
-					if (i%10 == 0){std::cout<< "\n" << std::endl;}
-				}*/
 				// The content of the variable M_sol contained in the LinearSystem M_Sys (actually it is all a matter of pointers...) is copied into the variable M_uSol of our class Problem.
 }
 
@@ -348,16 +344,18 @@ void Problem::enforceInterfaceJump(){
 		size_type idx1 = M_rowsIFace1[k];
 		size_type idx2 = M_rowsIFace2[k] + M_nbDOF1;
 
-		// Change the matrix in M_Sys
-		M_Sys->setNullRow(idx1);
-		M_Sys->setMatrixValue(idx1, idx1, 1);
-		M_Sys->setMatrixValue(idx1, idx2, -1);
-
-		// Change the RHS
+		// Get the coordinates of the points
 		bgeot::base_node where;
 		where=M_uFEM1.getFEM()->point_of_basic_dof(idx1);
-		scalar_type value= M_BC1.BCDiri(where, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
-		M_Sys->setRHSValue(idx1 , value);
-	}
 
+		// Change the matrix in M_Sys
+			M_Sys->setNullRow(idx1);
+			M_Sys->setMatrixValue(idx1, idx1, 1);
+			M_Sys->setMatrixValue(idx1, idx2, -1);
+
+			// Change the RHS
+			scalar_type value= M_BC1.BCDiri(where, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
+			M_Sys->setRHSValue(idx1 , value);
+
+	}
 }

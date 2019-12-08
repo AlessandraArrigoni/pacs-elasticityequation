@@ -58,7 +58,6 @@ void bulkLoad( scalarVectorPtr_Type V,
     assem.push_mf(femC);
 
     scalarVector_Type datax(femC.nb_dof());
-
     for (size_type i=0; i<femC.nb_dof();++i)
     {
     	datax [ i ] = medium->getData()->bulkLoad(femC.point_of_basic_dof(i))[0]; // chiama il metodo bulkLoad contenuto nella classe getData che è un membro della classe Bulk
