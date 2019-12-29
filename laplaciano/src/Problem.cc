@@ -39,11 +39,27 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 		 if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
 	 }
 
-	 dal::bit_vector dof_IFace = M_uFEM1.getFEM()->dof_on_region(M_BC1.getDiriBD()[idxIFaceInDiriBD]);
+	 dal::bit_vector dal_dof_IFace1 = M_uFEM1.getFEM()->dof_on_region(M_BC1.getDiriBD()[idxIFaceInDiriBD]);
 	 M_nbDOFIFace = 0;
-	 for(dal::bv_visitor i(dof_IFace); !i.finished(); ++i)
+	 for(dal::bv_visitor i(dal_dof_IFace1); !i.finished(); ++i)
 	 {		 M_nbDOFIFace++;	 }
 	 std::cout<< "the number of interface dofs is : "<<M_nbDOFIFace<<std::endl;
+
+	 /* Stampo i dofs sull'interfaccia del domain 1 e anche 2 per capire i loro indici */
+
+	 fromBitVectorToStdVector ( dal_dof_IFace1, dof_IFace1);
+	 std::cout<<"Gli indici sull'interfaccia di SINISTRA sono: "<<std::endl;
+	 for (size_type j=0; j<dof_IFace1.size(); j++){
+		 std::cout<< dof_IFace1[j]<<"  ";
+	 }
+
+	 // Per il dominio 2 parto dall'ipotesi che la sola frontiera con Neumann sia l'interfaccia
+	 dal::bit_vector dal_dof_IFace2 = M_uFEM2.getFEM()->dof_on_region(M_BC2.getNeumBD()[0]);
+	 fromBitVectorToStdVector ( dal_dof_IFace2, dof_IFace2 );
+	 std::cout<<"Gli indici sull'interfaccia di DESTRA sono: "<<std::endl;
+	 for (size_type j=0; j<dof_IFace2.size(); j++){
+		 std::cout<< dof_IFace2[j]<<"  ";
+	 }
 }
 
 void Problem::initialize()
@@ -140,6 +156,17 @@ void Problem::assembleRHS(LinearSystem* sys)
 	stressRHS( BCvec1, M_Bulk1,  0 , &M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
 	stressRHS( BCvec2, M_Bulk2,  0 , &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
 
+
+	/* DEBUG: print values of the "fake" rhs stressRHS to check they are 0 -->	YES
+	std::cout<<"Valori fake rhs SINISTRA "<<std::endl;
+	for (size_type i=0; i<BCvec1->size(); i++){
+		std::cout<< BCvec1->at(i)<<"  ";
+	}
+	std::cout<<"Valori fake rhs DESTRA "<<std::endl;
+	for (size_type i=0; i<BCvec2->size(); i++){
+		std::cout<< BCvec2->at(i)<<"  ";
+	}*/
+
 	// trovo i nodi sull'unica frontiera di Neumann che metto
 	M_Sys->addSubVector(BCvec1, 0);
 	M_Sys->addSubVector(BCvec2, M_nbDOF1);
@@ -234,9 +261,29 @@ void Problem::exportVtk(std::string folder, std::string what)
 	exp.write_point_data( *(M_uFEM.getFEM()), disp, "u");*/
 }
 
+/* DEBUG : print the values of the two solutions on the interface, associating the ones with the same coordinates */
+void Problem::printInterfaceValues(){
+
+	std::vector<base_node> coordsSx = M_uFEM1.getDOFpoints();
+	std::vector<base_node> coordsDx = M_uFEM2.getDOFpoints();
+	std::cout<< " I valori della soluzione sull'interfaccia di SINISTRA e di DESTRA sono:" <<std::endl;
+
+	for (size_type k=0; k<dof_IFace1.size(); k++){
+		for (size_type h=0; h<dof_IFace2.size(); h++){
+
+			if (gmm::vect_norm2(coordsSx[dof_IFace1[k]] - coordsDx[dof_IFace2[h]])<1.0e-7){
+				std::cout<<"Sx: "<< M_uSol1->at(dof_IFace1[k])<<" Dx: "<<M_uSol2->at(dof_IFace2[h])<<std::endl;
+			}
+		}
+	}
+
+}
+
+
+
 
 // Sets the DIRICHLET boundary conditions for the two domains in the global matrix contained in Sys. Actually it sets the rows of 0 and 1 also for the interface in the left (1) domain, since we defined the boundary condition in the Datafile as a Dirichlet one. Then we must modify these lines by adding the -1 in the columns that correspond to the basis functions on the right (2) domain.
-void Problem::enforceStrongBC(bool firstTime, size_type const domainIdx)
+void Problem::enforceStrongBC(size_type const domainIdx)
 {
 	// Set local variables according to the current domain
 	//(vorrei fare delle references per non sprecare memoria, ma non posso perchè dovrei inizializzarle e non so come, quindi uso dei pointers

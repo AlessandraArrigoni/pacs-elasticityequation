@@ -1,6 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program laplacian
-% Nel nostro caso l'interfaccia sarà di tipo Dirichlet dove si assegna q0 (dominio a sx) e di tipo Neumann dove si assegna q1 (dominio a dx) --> HA SENSO?
+% parameters for program laplacian: soluzione y a sx e 3y a dx  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData1]
@@ -12,9 +11,9 @@
 
                 spatialDiscretizationX = 10  %altrimenti, suddivisione in x e y
                 spatialDiscretizationY = 20
-                lengthAbscissa = 0.5    %misure in x e y
+                lengthAbscissa = 0.5  %misure in x e y
                 lengthOrdinate = 1.0
-                startingAbscissa = 0
+                startingAbscissa = 0 %traslazione del punto (0,0)
                 startingOrdinate = 0
                 meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
                 spaceDimension = 2   %bidimensionale
@@ -24,32 +23,17 @@
 
         [./laplacian1]
 
-		bcflag = [0,0,0,0]   % 0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra.
-   		interfaceIdx = 1 %Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+    		interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
 
-                % soluzione PARABOLICA 4(x-0.5)^2 non viene perchè non ho trattato bene la condizione di salto della derivata (credo) e qui non è nulla
-                %bulkLoad = -8  %forzante
-                %u_BC = 4*(x-0.5)*(x-0.5)  %condizione dirichlet (valore della soluzione)
-		%du_BC = 0  %valore neumann
-		
+
 		% soluzione PARABOLICA IN Y 4y(y-1) : così le condizioni di salto sono nulle sia per u che per du
 		bulkload = -8
-		u_BC = 4*y*(y-1)*(x<0.1) %metto così perchè il salto è 0 ed e il salto è la condizione di Dirichlet che dovremmo avere sul lato di interfaccia
+		u_BC = 4*y*(y-1)*(x<0.49)
 		du_BC = 0
 
-		% soluzione LINEARE
-		%bulkload = 0 % forzante
-		%u_BC = y %condizione Dirichlet (soluzione)
-		%du_BC = 0 % valore neumann
-		
-		% Soluzione COSTANTE ma diversa
-		%bulkload = 0
-		%u_BC = 3 
-		%du_BC = 0
-
-
-                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
+	              FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
                 FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti
 
                 integrationMethod = IM_TRIANGLE(6)

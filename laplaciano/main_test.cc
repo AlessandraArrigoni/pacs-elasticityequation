@@ -85,8 +85,8 @@ int main(int argc, char *argv[]) {
 
     myProblem.assembleRHS(&mySys);
 
-    myProblem.enforceStrongBC(true, 1);   // impongo le condizioni essenziali lavorando sulle righe della matrice
-    myProblem.enforceStrongBC(true, 2);
+    myProblem.enforceStrongBC(1);   // impongo le condizioni essenziali lavorando sulle righe della matrice
+    myProblem.enforceStrongBC(2);
     std::cout << "Dirichlet boundary conditions      [OK]" << std::endl;
 
     myProblem.enforceInterfaceJump(); // Impongo le condizioni di interfaccia (solo di DIRICHLET per adesso, il salto sulla derivata dovrebbe essere già assegnato da assembleRHS nel caso)
@@ -99,4 +99,6 @@ int main(int argc, char *argv[]) {
 
     myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
     myProblem.exportVtk(vtkFolder,"u2");
+
+    myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
 }

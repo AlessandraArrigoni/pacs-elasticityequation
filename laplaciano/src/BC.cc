@@ -9,11 +9,11 @@ BC::BC ( const GetPot& dataFile,
  	    M_BCNeum( dataFile ( ( M_section1 + "du_BC" ).data (), "1") ),
  	    M_BCDiri( dataFile ( ( M_section1 + "u_BC" ).data (), "1") )
 {
-	/*
+
 	std::cout << "stringa section: " << M_section1 << std::endl;
 	std::cout << "stringa BC: " << M_BCstring << std::endl;
 	std::cout << "soluzione esatta: "<< M_BCDiri << std::endl;
-  */
+
     M_BC.resize(M_nBoundaries,0);
 
     M_parser.setString ( M_BCstring );

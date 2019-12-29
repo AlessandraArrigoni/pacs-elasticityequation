@@ -39,8 +39,9 @@ public:
 
          size_type getNDOF(std::string variable="all");
 
-         void enforceStrongBC(bool firstTime, size_type const domainIdx);
+         void enforceStrongBC(size_type const domainIdx);
 				 void enforceInterfaceJump();
+				 void printInterfaceValues();
 
  private:
 
@@ -58,6 +59,7 @@ public:
 
 		// Il valore M_nbDOFIFace è quello relativo alle funzioni che vanno raddoppiate, quindi in questo caso M_nbTotDOF è dato dalla somma M_nbDOF1 + M_nbDOF2 per le trial functions visto che suppongo che siano 2 domini separati; poi per le test il numero di dofs sarà M_nbTotDOF - M_nbDOFIFace.
     size_type M_nbTotDOF, M_nbDOF1, M_nbDOF2, M_nbDOFIFace;
+		std::vector<size_type> dof_IFace1, dof_IFace2;
 
     getfem::mesh_im M_intMethod1, M_intMethod2;
 
