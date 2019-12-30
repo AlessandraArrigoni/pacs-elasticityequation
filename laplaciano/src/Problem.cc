@@ -18,6 +18,7 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
    M_nbDOF1 = M_uFEM1.nb_dof();
 	 M_nbDOF2 = M_uFEM2.nb_dof();
 	 M_nbTotDOF = M_nbDOF1 + M_nbDOF2;
+	 std::cout<<"Il numero totale di dofs è "<<M_nbTotDOF<<std::endl;
 
 	 // Per ora faccio tutto sdoppiato, anche se poi probabilmente il metodo di integrazione sarà lo stesso sui 2 domini. Per ora ho solo copiato e incollato.
    std::string intMethod1(dataFile1 ( std::string("bulkData1/laplacian1/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
@@ -34,32 +35,45 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 	 M_BC2.setBoundaries(M_Bulk2->getMesh());
 
 	 // Dato che per ipotesi le mesh sono conformi, il numero di dof sull'interfaccia è uguale per entrambi i domini, quindi per recuperarlo basta considerare solo uno dei due (a sinistra)
-	 size_type idxIFaceInDiriBD;
-	 for (size_type j=0; j<M_BC1.getDiriBD().size(); j++){
-		 if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
-	 }
 
-	 dal::bit_vector dal_dof_IFace1 = M_uFEM1.getFEM()->dof_on_region(M_BC1.getDiriBD()[idxIFaceInDiriBD]);
-	 M_nbDOFIFace = 0;
-	 for(dal::bv_visitor i(dal_dof_IFace1); !i.finished(); ++i)
-	 {		 M_nbDOFIFace++;	 }
-	 std::cout<< "the number of interface dofs is : "<<M_nbDOFIFace<<std::endl;
+	 //Interface indices Omega1
+ 	size_type idxIFaceInDiriBD;
+ 	for (size_type j=0; j<M_BC1.getDiriBD().size(); j++){
+ 		if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
+ 	}
 
-	 /* Stampo i dofs sull'interfaccia del domain 1 e anche 2 per capire i loro indici */
+ 	dal::bit_vector dal_dof_IFace1 = M_uFEM1.getFEM()->dof_on_region(M_BC1.getDiriBD()[idxIFaceInDiriBD]);
+ 	for(dal::bv_visitor i(dal_dof_IFace1); !i.finished(); ++i)
+ 	{		 M_rowsIFace1.push_back(i);
+			 M_nbDOFIFace++;
+  }
 
-	 fromBitVectorToStdVector ( dal_dof_IFace1, dof_IFace1);
-	 std::cout<<"Gli indici sull'interfaccia di SINISTRA sono: "<<std::endl;
-	 for (size_type j=0; j<dof_IFace1.size(); j++){
-		 std::cout<< dof_IFace1[j]<<"  ";
-	 }
+	fromBitVectorToStdVector ( dal_dof_IFace1, dof_IFace1);
+	std::cout<<"Gli indici sull'interfaccia di SINISTRA sono: "<<std::endl;
+	for (size_type j=0; j<dof_IFace1.size(); j++){
+	 std::cout<< dof_IFace1[j]<<"  ";
+	}
 
-	 // Per il dominio 2 parto dall'ipotesi che la sola frontiera con Neumann sia l'interfaccia
-	 dal::bit_vector dal_dof_IFace2 = M_uFEM2.getFEM()->dof_on_region(M_BC2.getNeumBD()[0]);
-	 fromBitVectorToStdVector ( dal_dof_IFace2, dof_IFace2 );
-	 std::cout<<"Gli indici sull'interfaccia di DESTRA sono: "<<std::endl;
-	 for (size_type j=0; j<dof_IFace2.size(); j++){
-		 std::cout<< dof_IFace2[j]<<"  ";
-	 }
+	std::cout<< "\nThe number of interface dofs is : "<<M_nbDOFIFace<<std::endl;
+ 	std::cout << "Interface Omega1      [OK]" << std::endl;
+
+ 	//Interface indices Omega2
+ 	size_type idxIFaceInNeumBD;
+ 	for (size_type j=0; j<M_BC2.getNeumBD().size(); j++){
+ 			if (M_BC2.getNeumBD()[j] == interfaceIdx2) {idxIFaceInNeumBD = j;}
+ 	}
+
+ 	dal::bit_vector dal_dof_IFace2 = M_uFEM2.getFEM()->dof_on_region(M_BC2.getNeumBD()[idxIFaceInNeumBD]);
+ 	for(dal::bv_visitor i(dal_dof_IFace2); !i.finished(); ++i)
+ 	{		M_rowsIFace2.push_back(i);	 }
+
+	fromBitVectorToStdVector ( dal_dof_IFace2, dof_IFace2 );
+	std::cout<<"Gli indici sull'interfaccia di DESTRA sono: "<<std::endl;
+	for (size_type j=0; j<dof_IFace2.size(); j++){
+	 std::cout<< dof_IFace2[j]<<"  ";
+	}
+
+ 	std::cout << "Interface Omega2      [OK]" << std::endl;
 }
 
 void Problem::initialize()
@@ -112,7 +126,7 @@ size_type Problem::getNDOF(std::string variable)
 	{		return M_nbTotDOF; }
 }
 
-// assembla la matrice: decido di mettere prima tutti i dof relativi a Omega1 e poi quelli relativi a Omega2
+// assembla la matrice: decido di mettere prima tutti i dof relativi a Omega1 e poi quelli relativi a Omega2. Tra l'uno e l'altro (prima di imporre le condizioni di interfaccia) recupero le righe di Omega1 relative alle funzioni associate all'interfaccia perchè andranno spostate negli indici "globali" e sommate alle righe associate a Omega2.
 void Problem::assembleMatrix(LinearSystem* sys)
 {
 	sparseMatrixPtr_Type A1, A2;
@@ -127,6 +141,32 @@ void Problem::assembleMatrix(LinearSystem* sys)
 
 	M_Sys->addSubMatrix(A1, 0, 0);
 	M_Sys->addSubMatrix(A2, M_nbDOF1, M_nbDOF1);
+
+	// Get all the rows associated to the dofs on the interface;
+	for (size_type k=0; k<dof_IFace1.size(); k++){
+		sparseMatrixPtr_Type curRow(new sparseMatrix_Type(1,M_nbTotDOF));
+
+		M_Sys->extractSubMatrix( dof_IFace1[k], 1, 0, M_nbTotDOF, curRow );
+		std::cout<<"ho estratto la riga "<<std::endl;
+		M_Sys->addSubMatrix(curRow, dof_IFace2[k] + M_nbDOF1, 0);
+		std::cout<<"ho aggiunto la riga numero "<<dof_IFace2[k] + M_nbDOF1<<std::endl;
+
+		/*
+		if(k==3){
+			// DEBUG : stampa la 4 (a caso) riga estratta e controllo che poi sia sommata a quella corrispondente nel sistema globale
+			std::cout<<"La quarta riga estratta dalla matrice di sx è "<<std::endl;
+			for(size_type j=0; j<M_nbTotDOF; j++){
+				std::cout<< (*curRow)(0,j)<<"  ";
+			}
+			std::cout<< "\nLa quarta riga cambiata della matrice globale è "<<std::endl;
+			for(size_type j=0; j<M_nbTotDOF; j++){
+				std::cout<<(*(M_Sys->getMatrix()))(dof_IFace2[3] + M_nbDOF1,j)<<"  ";
+			}
+		}*/
+
+
+	}
+
 
 }
 
@@ -146,6 +186,15 @@ void Problem::assembleRHS(LinearSystem* sys)
 
 	M_Sys->addSubVector(source1,0);
 	M_Sys->addSubVector(source2,M_nbDOF1);
+
+	// Come per la matrice, "sposto" (sommandoli) anche i valori del rhs relativi alle funzioni definite sull'interfaccia di Omega1, perchè poi questi valori vengono persi quando impongo la condizione q0 con enforceInterfaceJump.
+	for (size_type k=0; k<dof_IFace1.size(); k++){
+		scalar_type newVal = (M_Sys->getRHS())->at(dof_IFace1[k]) + (M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1);
+		//std::cout<< "RHS riga : "<< dof_IFace2[k] + M_nbDOF1 <<" old val: "<<(M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1);
+		M_Sys->setRHSValue(dof_IFace2[k] + M_nbDOF1, newVal);
+		//std::cout<<" new val: "<<(M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1)<<std::endl;
+	}
+
 
   // To include the Neumann boundary conditions (maybe then we will need to change this part adding the jump too - or defining it in the dataFile in a proper way)
 	scalarVectorPtr_Type  BCvec1;
@@ -261,25 +310,6 @@ void Problem::exportVtk(std::string folder, std::string what)
 	exp.write_point_data( *(M_uFEM.getFEM()), disp, "u");*/
 }
 
-/* DEBUG : print the values of the two solutions on the interface, associating the ones with the same coordinates */
-void Problem::printInterfaceValues(){
-
-	std::vector<base_node> coordsSx = M_uFEM1.getDOFpoints();
-	std::vector<base_node> coordsDx = M_uFEM2.getDOFpoints();
-	std::cout<< " I valori della soluzione sull'interfaccia di SINISTRA e di DESTRA sono:" <<std::endl;
-
-	for (size_type k=0; k<dof_IFace1.size(); k++){
-		for (size_type h=0; h<dof_IFace2.size(); h++){
-
-			if (gmm::vect_norm2(coordsSx[dof_IFace1[k]] - coordsDx[dof_IFace2[h]])<1.0e-7){
-				std::cout<<"Sx: "<< M_uSol1->at(dof_IFace1[k])<<" Dx: "<<M_uSol2->at(dof_IFace2[h])<<std::endl;
-			}
-		}
-	}
-
-}
-
-
 
 
 // Sets the DIRICHLET boundary conditions for the two domains in the global matrix contained in Sys. Actually it sets the rows of 0 and 1 also for the interface in the left (1) domain, since we defined the boundary condition in the Datafile as a Dirichlet one. Then we must modify these lines by adding the -1 in the columns that correspond to the basis functions on the right (2) domain.
@@ -329,14 +359,17 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 			bgeot::base_node where;
 			where=M_uFEMcur->getFEM()->point_of_basic_dof(ii);
 
-			// Cambia la matrice direttamente! Qui abbiamo bisogno di usare l'indice "globale" del dof : se consideriamo il secondo dominio, assumendo che la matrice in Sys sia ordinata con tutti i dof del primo dominio all'inizio e tutti gli altri alla fine, per recuperare gli indici globali delle funzioni interessate dalle BC devo aggiungere il numero di righe occupate dal primo blocco relativo al dominio1.
-			M_Sys->setNullRow(ii + (domainIdx==1 ? 0 : M_nbDOF1 ));
-			M_Sys->setMatrixValue(ii + (domainIdx==1 ? 0 : M_nbDOF1 ), ii + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
 
-			scalar_type value= M_BCcur->BCDiri(where, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
-			M_Sys->setRHSValue(ii + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
+		// Cambia la matrice direttamente! Qui abbiamo bisogno di usare l'indice "globale" del dof : se consideriamo il secondo dominio, assumendo che la matrice in Sys sia ordinata con tutti i dof del primo dominio all'inizio e tutti gli altri alla fine, per recuperare gli indici globali delle funzioni interessate dalle BC devo aggiungere il numero di righe occupate dal primo blocco relativo al dominio1.
+				M_Sys->setNullRow(ii + (domainIdx==1 ? 0 : M_nbDOF1 ));
+				M_Sys->setMatrixValue(ii + (domainIdx==1 ? 0 : M_nbDOF1 ), ii + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
+
+				scalar_type value= M_BCcur->BCDiri(where, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
+				M_Sys->setRHSValue(ii + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
 
 		}
+
+
 }
 
 // To be called AFTER the enforceStrongBC since that function sets the whole row to 0 (even the one associated to the interface!)
@@ -358,38 +391,16 @@ void Problem::enforceInterfaceJump(){
 	}
 
 	std::cout << "indice Interfaccia omega1: "<< interfaceIdx1 << "; indice interfaccia omega2: " << interfaceIdx2 << std::endl;*/
-
-	//Interface indices Omega1
 	size_type idxIFaceInDiriBD;
-	for (size_type j=0; j<M_BC1.getDiriBD().size(); j++){
-		if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
-	}
-
-	dal::bit_vector dof_IFace1 = M_uFEM1.getFEM()->dof_on_region(M_BC1.getDiriBD()[idxIFaceInDiriBD]);
-	for(dal::bv_visitor i(dof_IFace1); !i.finished(); ++i)
-	{		 M_rowsIFace1.push_back(i);	 }
-
-
-	std::cout << "Interface Omega1      [OK]" << std::endl;
-
-	//Interface indices Omega2
-	size_type idxIFaceInNeumBD;
-	for (size_type j=0; j<M_BC2.getNeumBD().size(); j++){
-			if (M_BC2.getNeumBD()[j] == interfaceIdx2) {idxIFaceInNeumBD = j;}
-	}
-
-	dal::bit_vector dof_IFace2 = M_uFEM2.getFEM()->dof_on_region(M_BC2.getNeumBD()[idxIFaceInNeumBD]);
-	//std::cout << "Creato dal_bitvector2" << std::endl;
-	for(dal::bv_visitor i(dof_IFace2); !i.finished(); ++i)
-	{		M_rowsIFace2.push_back(i);	 }
-
-	std::cout << "Interface Omega2      [OK]" << std::endl;
+ 	for (size_type j=0; j<M_BC1.getDiriBD().size(); j++){
+ 		if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
+ 	}
 
 	// Loop on the interface dofs and change the matrix
 	for (size_type k = 0 ; k<M_nbDOFIFace ; k++){
 		// Global indices in the two domains
-		size_type idx1 = M_rowsIFace1[k];
-		size_type idx2 = M_rowsIFace2[k] + M_nbDOF1;
+		size_type idx1 = dof_IFace1[k];
+		size_type idx2 = dof_IFace2[k] + M_nbDOF1;
 
 		// Get the coordinates of the points
 		bgeot::base_node where;
@@ -405,4 +416,44 @@ void Problem::enforceInterfaceJump(){
 			M_Sys->setRHSValue(idx1 , value);
 
 	}
+
+	std::cout<<"Le righe che ho cambiato con la condizione di interfaccia sono : "<<std::endl;
+	for (size_type k = 0 ; k<M_nbDOFIFace ; k++){
+		std::cout<<dof_IFace1[k]<<" ";
+	}
+	std::cout<<"\n\nI valori del rhs nelle righe associate all'interfaccia di omega2 sono : "<<std::endl;
+	for (size_type k = 0 ; k<M_nbDOFIFace ; k++){
+		std::cout<<(M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1)<<" ";
+	}
+}
+
+
+// DEBUG : print the values of the two solutions on the interface, associating the ones with the same coordinates
+void Problem::printInterfaceValues(){
+
+	std::vector<base_node> coordsSx = M_uFEM1.getDOFpoints();
+	std::vector<base_node> coordsDx = M_uFEM2.getDOFpoints();
+	std::cout<< " I valori della soluzione sull'interfaccia di SINISTRA e di DESTRA sono:" <<std::endl;
+
+	for (size_type k=0; k<dof_IFace1.size(); k++){
+		for (size_type h=0; h<dof_IFace2.size(); h++){
+
+			if (gmm::vect_norm2(coordsSx[dof_IFace1[k]] - coordsDx[dof_IFace2[h]])<1.0e-7){
+				std::cout<<"Sx: "<< M_uSol1->at(dof_IFace1[k])<<" Dx: "<<M_uSol2->at(dof_IFace2[h])<<std::endl;
+			}
+		}
+	}
+
+}
+
+// DEBUG : prints the coordinates of the nodes on the interface following the order of the vectors (dof_IFace1, dof_IFace2) that contain them, to check that they are the same (so we don't need to check every time if the coordinates are the same, but just take the element in the same position)
+void Problem::printCoordinatesInterfaceNodes(){
+
+	for (size_type k=0; k<M_nbDOFIFace; k++){
+			bgeot::base_node whereSX = M_uFEM1.getFEM()->point_of_basic_dof(dof_IFace1[k]);
+			bgeot::base_node whereDX = M_uFEM2.getFEM()->point_of_basic_dof(dof_IFace2[k]);
+
+			std::cout<<" Coordinate dofs interfaccia SINISTRA: "<<whereSX[0]<<" "<<whereSX[1]<<" DESTRA: "<<whereDX[0]<< " "<<whereDX[1]<<std::endl;
+	}
+
 }

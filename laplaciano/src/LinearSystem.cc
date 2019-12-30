@@ -60,6 +60,14 @@ void LinearSystem::addSubMatrix(sparseMatrixPtr_Type M, int first_row, int first
 	}
 }
 
+void LinearSystem::extractSubMatrix( int first_row, int number_rows, int first_column, int number_cols, sparseMatrixPtr_Type destination){
+	//std::cout<<"first row: "<<first_row<<" number_rows: "<<number_rows<<std::endl;
+	//std::cout<<"first col: "<<first_column<<" number_cols: "<<number_cols<<std::endl;
+
+	gmm::copy(gmm::sub_matrix(*M_Matrix, gmm::sub_interval(first_row, number_rows), gmm::sub_interval(first_column, number_cols)), *destination);
+
+}
+
 void LinearSystem::copySubVector(scalarVectorPtr_Type M, int first_row, scalar_type scale)
 {
 

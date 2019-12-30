@@ -74,12 +74,14 @@ int main(int argc, char *argv[]) {
     myDomainRight.exportMesh(vtkFolder+"meshRight.vtk");
 
     Problem myProblem(dataFile1, dataFile2, & myDomainLeft, & myDomainRight);   //creo il problema
+//    myProblem.printCoordinatesInterfaceNodes(); // Controllo che i vettori che contengono i dof sull'interfaccia seguano lo stesso ordine-->YES
 
     LinearSystem mySys;   //il sistema lineare corrispondente
 
     myProblem.addToSys(&mySys);   // collego problema e sistema lineare
 
     myProblem.initialize();   // inizializzo il problema (azzero la soluzione, forse inutile se non è tempo dip.)
+
 
     myProblem.assembleMatrix(&mySys);   //assemblo matrice e termine noto
 
@@ -100,5 +102,5 @@ int main(int argc, char *argv[]) {
     myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
     myProblem.exportVtk(vtkFolder,"u2");
 
-    myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
+    //myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
 }

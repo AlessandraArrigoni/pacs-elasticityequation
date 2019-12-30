@@ -41,7 +41,10 @@ public:
 
          void enforceStrongBC(size_type const domainIdx);
 				 void enforceInterfaceJump();
+
+				 // DEBUG
 				 void printInterfaceValues();
+				 void printCoordinatesInterfaceNodes();
 
  private:
 
