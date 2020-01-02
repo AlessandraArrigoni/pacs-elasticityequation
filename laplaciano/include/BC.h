@@ -24,7 +24,7 @@ public:
 
 private:
 
-    std::string M_section1;
+    std::string M_section;
 
     // Attributes
     std::string M_BCstring;

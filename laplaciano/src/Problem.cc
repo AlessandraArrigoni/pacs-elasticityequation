@@ -2,14 +2,14 @@
 
 Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, Bulk* bulk2):
 			M_Bulk1(bulk1), M_Bulk2(bulk2),
-			M_BC1(dataFile1, "laplacian1/", "bulkData1/"), // change the dataFile accordingly and set it
-			M_BC2(dataFile2, "laplacian2/", "bulkData2/"), // change the dataFile accordingly and set it
+			M_BC1(dataFile1, "laplacian/", "bulkData/"), // change the dataFile accordingly and set it
+			M_BC2(dataFile2, "laplacian/", "bulkData/"), // change the dataFile accordingly and set it
 			interfaceIdx1(1),// change the dataFile accordingly and set it: devo capire come leggere il valore direttamente dal file!
 			interfaceIdx2(3), // adesso le ho messe brutali così, poi andranno lette da file o altro.
-			M_uFEM1( bulk1->getMesh(), dataFile1, "laplacian1/", "Sol", "bulkData1/"),// change the dataFile accordingly and set it
-			M_uFEM2( bulk2->getMesh(), dataFile2, "laplacian2/", "Sol", "bulkData2/"),// change the dataFile accordingly and set it
-			M_CoeffFEM1( bulk1->getMesh(), dataFile1, "laplacian1/", "Coeff", "bulkData1/"), // change the dataFile accordingly and set it
-			M_CoeffFEM2( bulk2->getMesh(), dataFile2, "laplacian2/", "Coeff", "bulkData2/"), // change the dataFile accordingly and set it
+			M_uFEM1( bulk1->getMesh(), dataFile1, "laplacian/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
+			M_uFEM2( bulk2->getMesh(), dataFile2, "laplacian/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
+			M_CoeffFEM1( bulk1->getMesh(), dataFile1, "laplacian/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
+			M_CoeffFEM2( bulk2->getMesh(), dataFile2, "laplacian/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
 			M_intMethod1(*(bulk1->getMesh()) ),
 			M_intMethod2(*(bulk2->getMesh()) ),
 		M_Sys()
@@ -21,8 +21,8 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 	 std::cout<<"Il numero totale di dofs è "<<M_nbTotDOF<<std::endl;
 
 	 // Per ora faccio tutto sdoppiato, anche se poi probabilmente il metodo di integrazione sarà lo stesso sui 2 domini. Per ora ho solo copiato e incollato.
-   std::string intMethod1(dataFile1 ( std::string("bulkData1/laplacian1/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
-	 std::string intMethod2(dataFile2 ( std::string("bulkData2/laplacian2/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
+   std::string intMethod1(dataFile1 ( std::string("bulkData/laplacian/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
+	 std::string intMethod2(dataFile2 ( std::string("bulkData/laplacian/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
 
    M_intMethod1.set_integration_method(bulk1->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod1) );
 	 M_intMethod2.set_integration_method(bulk2->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod2) );
@@ -106,6 +106,15 @@ void Problem::addToSys(LinearSystem* sys)
 
 }
 
+Bulk* Problem::getBulk(size_type const idx){
+	if (idx == 1)
+ 		{return M_Bulk1;}
+	if (idx == 2)
+		{return M_Bulk2;}
+}
+
+
+
 // CONTO DEI DOF
 // Il valore M_nbDOFIFace è quello relativo alle funzioni che vanno raddoppiate, quindi in questo caso M_nbTotDOF è dato dalla somma M_nbDOF1 + M_nbDOF2 per le trial functions visto che suppongo che siano 2 domini separati; poi per le test il numero di dofs sarà M_nbTotDOF - M_nbDOFIFace.
 size_type Problem::getNDOF(std::string variable)
@@ -147,9 +156,9 @@ void Problem::assembleMatrix(LinearSystem* sys)
 		sparseMatrixPtr_Type curRow(new sparseMatrix_Type(1,M_nbTotDOF));
 
 		M_Sys->extractSubMatrix( dof_IFace1[k], 1, 0, M_nbTotDOF, curRow );
-		std::cout<<"ho estratto la riga "<<std::endl;
+		//std::cout<<"ho estratto la riga numero "<<dof_IFace1[k] <<std::endl;
 		M_Sys->addSubMatrix(curRow, dof_IFace2[k] + M_nbDOF1, 0);
-		std::cout<<"ho aggiunto la riga numero "<<dof_IFace2[k] + M_nbDOF1<<std::endl;
+		//std::cout<<"ho aggiunto la riga numero "<<dof_IFace2[k]  + M_nbDOF1<<std::endl;
 
 		/*
 		if(k==3){
@@ -187,9 +196,16 @@ void Problem::assembleRHS(LinearSystem* sys)
 	M_Sys->addSubVector(source1,0);
 	M_Sys->addSubVector(source2,M_nbDOF1);
 
+	/*
+	std::cout<<" il rhs globale prima di ogni modifica è "<<std::endl;
+	for (int t = 0; t<M_Sys->getRHS()->size(); t++){
+		std::cout<<M_Sys->getRHS()->at(t)<<"\t";
+	}*/
+
+	
 	// Come per la matrice, "sposto" (sommandoli) anche i valori del rhs relativi alle funzioni definite sull'interfaccia di Omega1, perchè poi questi valori vengono persi quando impongo la condizione q0 con enforceInterfaceJump.
 	for (size_type k=0; k<dof_IFace1.size(); k++){
-		scalar_type newVal = (M_Sys->getRHS())->at(dof_IFace1[k]) + (M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1);
+		scalar_type newVal = (M_Sys->getRHS())->at(dof_IFace1[k]) + (M_Sys->getRHS())->at(dof_IFace2[k] + M_nbDOF1);
 		//std::cout<< "RHS riga : "<< dof_IFace2[k] + M_nbDOF1 <<" old val: "<<(M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1);
 		M_Sys->setRHSValue(dof_IFace2[k] + M_nbDOF1, newVal);
 		//std::cout<<" new val: "<<(M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1)<<std::endl;
@@ -252,10 +268,10 @@ void Problem::extractSol(scalarVectorPtr_Type destination, std::string variable)
 			//destination.reset(new scalarVector_Type (M_nbDOF1));
 			gmm::clear(*destination);
 			gmm::copy ( gmm::sub_vector (*M_uSol, gmm::sub_interval (0,  M_nbDOF1 )), *destination); //gmm::copy(source, destination)
-			std::cout << "INSIDE THE EXTRACT FUNCTION : values of M_uSol1 after "<< std::endl;
-			for (size_type i=0; i < 5; i++){
-				std::cout << M_uSol1 -> at(i)<< "\t";
-			}
+			//std::cout << "INSIDE THE EXTRACT FUNCTION : values of M_uSol1 after "<< std::endl;
+			//for (size_type i=0; i < 5; i++){
+			//	std::cout << M_uSol1 -> at(i)<< "\t";
+		// }
 	}
 	else if (variable == "u2"){
 		/*std::cout << "n DOFS omega2 = " << M_nbDOF2 << std::endl;
@@ -264,10 +280,10 @@ void Problem::extractSol(scalarVectorPtr_Type destination, std::string variable)
 		//destination.reset(new scalarVector_Type (M_nbDOF2));
 		gmm::clear(*destination);
 		gmm::copy ( gmm::sub_vector (*M_uSol, gmm::sub_interval (M_nbDOF1,  M_nbDOF2 )), *destination); //gmm::copy(source, destination)
-		std::cout << "INSIDE THE EXTRACT FUNCTION : values of M_uSol2 after "<< std::endl;
-		for (size_type i=0; i < 5; i++){
-			std::cout << M_uSol2-> at(i)<< "\t";
-		}
+		//std::cout << "INSIDE THE EXTRACT FUNCTION : values of M_uSol2 after "<< std::endl;
+		//for (size_type i=0; i < 5; i++){
+		//	std::cout << M_uSol2-> at(i)<< "\t";
+		//}
 	}
 	else {
 			destination.reset(new scalarVector_Type (M_nbTotDOF));
@@ -361,11 +377,11 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 
 
 		// Cambia la matrice direttamente! Qui abbiamo bisogno di usare l'indice "globale" del dof : se consideriamo il secondo dominio, assumendo che la matrice in Sys sia ordinata con tutti i dof del primo dominio all'inizio e tutti gli altri alla fine, per recuperare gli indici globali delle funzioni interessate dalle BC devo aggiungere il numero di righe occupate dal primo blocco relativo al dominio1.
-				M_Sys->setNullRow(ii + (domainIdx==1 ? 0 : M_nbDOF1 ));
-				M_Sys->setMatrixValue(ii + (domainIdx==1 ? 0 : M_nbDOF1 ), ii + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
+				M_Sys->setNullRow(ii  + (domainIdx==1 ? 0 : M_nbDOF1 ));
+				M_Sys->setMatrixValue(ii  + (domainIdx==1 ? 0 : M_nbDOF1 ), ii  + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
 
 				scalar_type value= M_BCcur->BCDiri(where, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
-				M_Sys->setRHSValue(ii + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
+				M_Sys->setRHSValue(ii  + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
 
 		}
 
@@ -404,19 +420,19 @@ void Problem::enforceInterfaceJump(){
 
 		// Get the coordinates of the points
 		bgeot::base_node where;
-		where=M_uFEM1.getFEM()->point_of_basic_dof(idx1);
+		where = M_uFEM1.getFEM()->point_of_basic_dof(idx1);
 
 		// Change the matrix in M_Sys
-			M_Sys->setNullRow(idx1);
+			M_Sys->setNullRow(idx1 );
 			M_Sys->setMatrixValue(idx1, idx1, 1);
 			M_Sys->setMatrixValue(idx1, idx2, -1);
 
 			// Change the RHS
 			scalar_type value= M_BC1.BCDiri(where, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
-			M_Sys->setRHSValue(idx1 , value);
+			M_Sys->setRHSValue(idx1, value);
 
 	}
-
+	/*
 	std::cout<<"Le righe che ho cambiato con la condizione di interfaccia sono : "<<std::endl;
 	for (size_type k = 0 ; k<M_nbDOFIFace ; k++){
 		std::cout<<dof_IFace1[k]<<" ";
@@ -424,7 +440,7 @@ void Problem::enforceInterfaceJump(){
 	std::cout<<"\n\nI valori del rhs nelle righe associate all'interfaccia di omega2 sono : "<<std::endl;
 	for (size_type k = 0 ; k<M_nbDOFIFace ; k++){
 		std::cout<<(M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1)<<" ";
-	}
+	}*/
 }
 
 
@@ -438,7 +454,8 @@ void Problem::printInterfaceValues(){
 	for (size_type k=0; k<dof_IFace1.size(); k++){
 		for (size_type h=0; h<dof_IFace2.size(); h++){
 
-			if (gmm::vect_norm2(coordsSx[dof_IFace1[k]] - coordsDx[dof_IFace2[h]])<1.0e-7){
+			if (gmm::vect_norm2(coordsSx[dof_IFace1[k]] - coordsDx[dof_IFace2[h]])<1.0e-9){
+				std::cout<<"Coords SX: ("<<coordsSx[dof_IFace1[k]][0]<<" , "<<coordsSx[dof_IFace1[k]][1]<<")\tCoords DX: ("<<coordsDx[dof_IFace2[h]][0]<<" , "<<coordsDx[dof_IFace2[h]][1]<<")"<<std::endl;
 				std::cout<<"Sx: "<< M_uSol1->at(dof_IFace1[k])<<" Dx: "<<M_uSol2->at(dof_IFace2[h])<<std::endl;
 			}
 		}

@@ -17,6 +17,8 @@ public:
 
 	 		 	 FEM* getFEM(size_type const idx);
 
+				 Bulk* getBulk(size_type const idx);
+
          void addToSys(LinearSystem* sys);
 
          void assembleMatrix(LinearSystem* sys);

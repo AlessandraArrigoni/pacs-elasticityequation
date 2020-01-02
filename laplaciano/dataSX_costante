@@ -1,16 +1,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program laplacian: soluzione y a sx e 3y a dx  %
+% parameters for program laplacian: soluzione costante ma diversa %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[bulkData1]
+[bulkData]
 
-        [./domain1]
+        [./domain]
 
                 meshExternal = none
                 meshFolder = ./meshes/   %per caricare mesh fatte con altri tool
 
-                spatialDiscretizationX = 10  %altrimenti, suddivisione in x e y
-                spatialDiscretizationY = 20
+                spatialDiscretizationX = 5  %altrimenti, suddivisione in x e y
+                spatialDiscretizationY = 10
                 lengthAbscissa = 0.5  %misure in x e y
                 lengthOrdinate = 1.0
                 startingAbscissa = 0 %traslazione del punto (0,0)
@@ -21,16 +21,16 @@
         [../]
 
 
-        [./laplacian1]
+        [./laplacian]
 
 		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
     		interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
 
 
-		% soluzione PARABOLICA IN Y 4y(y-1) : così le condizioni di salto sono nulle sia per u che per du
-		bulkload = -8
-		u_BC = 4*y*(y-1)*(x<0.49)
+		% soluzione costante u = 5, così il salto della soluzione è 0 = BC sugli angoli
+		bulkload = 0
+		u_BC = 5
 		du_BC = 0
 
 	              FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione

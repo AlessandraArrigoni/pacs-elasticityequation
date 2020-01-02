@@ -12,7 +12,7 @@ public:
 	 void addToMatrix(int ndof);
 	 void copySubMatrix(sparseMatrixPtr_Type M, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false);
 	 void addSubMatrix(sparseMatrixPtr_Type M, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false);
-	 void extractSubMatrix(int first_row, int last_row, int first_column, int last_column, sparseMatrixPtr_Type destination); // take the submatrix of M associated to the interval of indices specified by the ints
+	 void extractSubMatrix(int first_row, int number_rows, int first_column, int number_cols, sparseMatrixPtr_Type destination); // take the submatrix of M associated to the interval of indices specified by the ints
 
 	 void copySubVector(scalarVectorPtr_Type M, int first_row,scalar_type scale=1.0);
 	 void addSubVector(scalarVectorPtr_Type M, int first_row,scalar_type scale=1.0);

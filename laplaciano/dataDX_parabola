@@ -2,9 +2,9 @@
 % parameters for program laplacian: soluzione y a sx e 3y a dx  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[bulkData2]
+[bulkData]
 
-        [./domain2]
+        [./domain]
 
                 meshExternal = none
                 meshFolder = ./meshes/   %per caricare mesh fatte con altri tool
@@ -21,7 +21,7 @@
         [../]
 
 
-        [./laplacian2]
+        [./laplacian]
 
 		bcflag = [0,0,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
     		interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.

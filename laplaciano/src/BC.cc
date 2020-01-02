@@ -3,14 +3,14 @@
 BC::BC ( const GetPot& dataFile,
 	 const std::string& problem,
                                  const std::string& section1) :
-            M_section1 ( section1 + problem ),
-	    M_nBoundaries( dataFile ( ( M_section1 + "nBoundaries" ).data (), 4) ),
-	    M_BCstring( dataFile ( ( M_section1 + "bcflag" ).data (), "1") ),
- 	    M_BCNeum( dataFile ( ( M_section1 + "du_BC" ).data (), "1") ),
- 	    M_BCDiri( dataFile ( ( M_section1 + "u_BC" ).data (), "1") )
+            M_section ( section1 + problem ),
+	    M_nBoundaries( dataFile ( ( M_section + "nBoundaries" ).data (), 4) ),
+	    M_BCstring( dataFile ( ( M_section + "bcflag" ).data (), "1") ),
+ 	    M_BCNeum( dataFile ( ( M_section + "du_BC" ).data (), "1") ),
+ 	    M_BCDiri( dataFile ( ( M_section + "u_BC" ).data (), "1") )
 {
 
-	std::cout << "stringa section: " << M_section1 << std::endl;
+	std::cout << "stringa section: " << M_section << std::endl;
 	std::cout << "stringa BC: " << M_BCstring << std::endl;
 	std::cout << "soluzione esatta: "<< M_BCDiri << std::endl;
 
@@ -36,7 +36,7 @@ BC::BC ( const GetPot& dataFile,
 
 
     M_bdNodesX.resize(M_nBoundaries+1,0);
-    std::string xnodes(dataFile ( ( M_section1 + "boundaryNodesX" ).data (), "[0,1,1,0]"));
+    std::string xnodes(dataFile ( ( M_section + "boundaryNodesX" ).data (), "[0,1,1,0]"));
     M_parser.setString (xnodes);
 
     for ( size_type i = 0; i < M_nBoundaries; ++i )
@@ -48,7 +48,7 @@ BC::BC ( const GetPot& dataFile,
     M_bdNodesX [ M_nBoundaries ]= M_bdNodesX [ 0 ];
     M_bdNodesY.resize(M_nBoundaries+1,0);
 
-    std::string ynodes(dataFile ( ( M_section1 + "boundaryNodesY" ).data (), "[0,1,1,0]"));
+    std::string ynodes(dataFile ( ( M_section + "boundaryNodesY" ).data (), "[0,1,1,0]"));
     M_parser.setString ( ynodes );
 
     for ( size_type i = 0; i < M_nBoundaries; ++i )

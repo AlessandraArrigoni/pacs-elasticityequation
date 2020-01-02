@@ -53,9 +53,9 @@ typedef gmm::col_matrix<sparse_vector_type> col_sparse_matrix_type;
 int main(int argc, char *argv[]) {
 
     GetPot command_line(argc, argv);
-    const std::string data_file_name1 = command_line.follow("data1", 2, "-f",
-            "--file");
-    const std::string data_file_name2 = command_line.follow("data2", 2, "-f",    "--file");
+
+    const std::string data_file_name1 = command_line.follow("dataSX_lineare", 2, "-f",    "--file");
+    const std::string data_file_name2 = command_line.follow("dataDX_lineare", 2, "-f",    "--file");
 
     GetPot dataFile1(data_file_name1.data());
     std::cout<< "File name 1: "<< data_file_name1 << std::endl;
@@ -67,8 +67,8 @@ int main(int argc, char *argv[]) {
 
     const std::string vtkFolder = "output_vtk/";
 
-    Bulk myDomainLeft(dataFile1, "bulkData1/", "domain1/", "laplacian1/");    //creo i domini
-    Bulk myDomainRight(dataFile2, "bulkData2/", "domain2/", "laplacian2/");
+    Bulk myDomainLeft(dataFile1, "bulkData/", "domain/", "laplacian/");    //creo i domini
+    Bulk myDomainRight(dataFile2, "bulkData/", "domain/", "laplacian/");
 
     myDomainLeft.exportMesh(vtkFolder+"meshLeft.vtk");       //initial export
     myDomainRight.exportMesh(vtkFolder+"meshRight.vtk");
@@ -81,6 +81,22 @@ int main(int argc, char *argv[]) {
     myProblem.addToSys(&mySys);   // collego problema e sistema lineare
 
     myProblem.initialize();   // inizializzo il problema (azzero la soluzione, forse inutile se non è tempo dip.)
+
+    // Check number of total dofs: considera solo le frontiere come regioni! A me interessa sapere se la numerazione dei dof inizia da 0 o da 1, penso da 1
+    /*
+    std::cout<<"the total number of dofs in omega1 is : "<<std::endl;
+    for (int u = 0; u<40; u++){
+      if (myProblem.getBulk(1)->getMesh()->has_region(u)){
+        std::cout<<"\nla regione ha numero : "<<u<<std::endl;
+        dal::bit_vector quali = myProblem.getFEM(1)->getFEM()->dof_on_region(u);
+        for( dal::bv_visitor i(quali); !i.finished(); ++i){
+          std::cout<< i << " ";
+        }
+      }
+    }*/
+
+
+
 
 
     myProblem.assembleMatrix(&mySys);   //assemblo matrice e termine noto
@@ -102,5 +118,5 @@ int main(int argc, char *argv[]) {
     myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
     myProblem.exportVtk(vtkFolder,"u2");
 
-    //myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
+    myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
 }
