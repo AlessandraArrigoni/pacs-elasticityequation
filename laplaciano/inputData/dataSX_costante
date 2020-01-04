@@ -23,17 +23,18 @@
 
         [./laplacian]
 
-		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-    		interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+            		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+                interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
+                exact_sol = 5 % soluzione esatta
 
 
-		% soluzione costante u = 5, così il salto della soluzione è 0 = BC sugli angoli
-		bulkload = 0
-		u_BC = 5
-		du_BC = 0
+            		% soluzione costante u = 5, così il salto della soluzione è 0 = BC sugli angoli
+            		bulkload = 0
+            		u_BC = 5
+            		du_BC = 0
 
-	              FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
+            	  FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
                 FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti
 
                 integrationMethod = IM_TRIANGLE(6)

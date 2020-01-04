@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program laplacian: soluzione y a sx e 3y a dx  %
+% parameters for program laplacian: soluzione sin(2*pi*x)  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -9,8 +9,8 @@
                 meshExternal = none
                 meshFolder = ./meshes/   %per caricare mesh fatte con altri tool
 
-                spatialDiscretizationX = 40  %altrimenti, suddivisione in x e y
-                spatialDiscretizationY = 80
+                spatialDiscretizationX = 80  %altrimenti, suddivisione in x e y
+                spatialDiscretizationY = 160
                 lengthAbscissa = 0.5  %misure in x e y
                 lengthOrdinate = 1.0
                 startingAbscissa = 0 %traslazione del punto (0,0)
@@ -23,17 +23,18 @@
 
         [./laplacian]
 
-		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-    		interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+            		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+                interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
+                exact_sol = sin(2*pi*x) % soluzione esatta
 
 
-		% soluzione LINEARE IN Y 4y
-		bulkload = 0
-		u_BC = 4*y*(x<(0.5-1e-5))
-		du_BC = 0
+            		% soluzione SENO in x
+            		bulkload = 4*pi*pi*sin(2*pi*x)
+            		u_BC = sin(2*pi*x)*(x<(0.5-1e-5))
+            		du_BC = 0
 
-	              FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
+            	  FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
                 FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti
 
                 integrationMethod = IM_TRIANGLE(6)

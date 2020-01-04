@@ -70,3 +70,11 @@ void bulkLoad( scalarVectorPtr_Type V,
     assem.assembly(-1);
 
 }
+
+
+void exactSolution(scalarVectorPtr_Type V, Bulk* medium, FEM& FemD)
+{
+  for (size_type i=0; i<FemD.nb_dof(); i++){
+    V->at(i) = medium->getData()->exactSolution(FemD.point_of_basic_dof(i))[0];
+  }
+}

@@ -12,7 +12,7 @@ BC::BC ( const GetPot& dataFile,
 
 	std::cout << "stringa section: " << M_section << std::endl;
 	std::cout << "stringa BC: " << M_BCstring << std::endl;
-	std::cout << "soluzione esatta: "<< M_BCDiri << std::endl;
+	std::cout << "condizione Dirichlet: "<< M_BCDiri << std::endl;
 
     M_BC.resize(M_nBoundaries,0);
 

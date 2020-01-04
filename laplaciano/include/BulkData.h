@@ -26,8 +26,9 @@ public:
 	{
 		return (*M_DiffVector); //restituisce la diffusività in tutti i DOF
 	}
-	
+
 	bgeot::base_node bulkLoad(bgeot::base_node x);   // la forzante
+	bgeot::base_node exactSolution(const base_node & x); // la soluzione esatta
 
 
 private:
@@ -39,6 +40,7 @@ private:
     std::string M_diff;
     std::string M_load;
     std::string M_fluidP;
+		std::string M_solExact;
 
     scalarVectorPtr_Type M_DiffVector;
 

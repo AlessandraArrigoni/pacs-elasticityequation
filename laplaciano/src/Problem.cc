@@ -42,17 +42,16 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
  		if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
  	}
 
- 	dal::bit_vector dal_dof_IFace1 = M_uFEM1.getFEM()->dof_on_region(M_BC1.getDiriBD()[idxIFaceInDiriBD]);
+	dal::bit_vector dal_dof_IFace1 = M_uFEM1.getFEM()->dof_on_region(M_BC1.getDiriBD()[idxIFaceInDiriBD]);
  	for(dal::bv_visitor i(dal_dof_IFace1); !i.finished(); ++i)
- 	{		 M_rowsIFace1.push_back(i);
-			 M_nbDOFIFace++;
-  }
+ 	{		 M_rowsIFace1.push_back(i);  }
 
 	fromBitVectorToStdVector ( dal_dof_IFace1, dof_IFace1);
 	std::cout<<"Gli indici sull'interfaccia di SINISTRA sono: "<<std::endl;
 	for (size_type j=0; j<dof_IFace1.size(); j++){
 	 std::cout<< dof_IFace1[j]<<"  ";
 	}
+	M_nbDOFIFace = dof_IFace1.size();
 
 	std::cout<< "\nThe number of interface dofs is : "<<M_nbDOFIFace<<std::endl;
  	std::cout << "Interface Omega1      [OK]" << std::endl;
@@ -202,7 +201,7 @@ void Problem::assembleRHS(LinearSystem* sys)
 		std::cout<<M_Sys->getRHS()->at(t)<<"\t";
 	}*/
 
-	
+
 	// Come per la matrice, "sposto" (sommandoli) anche i valori del rhs relativi alle funzioni definite sull'interfaccia di Omega1, perchè poi questi valori vengono persi quando impongo la condizione q0 con enforceInterfaceJump.
 	for (size_type k=0; k<dof_IFace1.size(); k++){
 		scalar_type newVal = (M_Sys->getRHS())->at(dof_IFace1[k]) + (M_Sys->getRHS())->at(dof_IFace2[k] + M_nbDOF1);
@@ -442,6 +441,38 @@ void Problem::enforceInterfaceJump(){
 		std::cout<<(M_Sys->getRHS())->at(dof_IFace2[k]+M_nbDOF1)<<" ";
 	}*/
 }
+
+// Computes the L2 and H1 errors with respect to the exact solution and saves them in the associated variables.
+// NB: per prima cosa estraggo le due sottosoluzioni, anche se magari è già stato fatto dall'exportVtk.
+void Problem::computeErrors(){
+
+	extractSol(M_uSol1, "u1");
+	extractSol(M_uSol2, "u2");
+
+	scalarVectorPtr_Type DIFF1(new scalarVector_Type(M_uFEM1.nb_dof()));
+	scalarVectorPtr_Type DIFF2(new scalarVector_Type(M_uFEM2.nb_dof()));
+
+	exactSolution(DIFF1, M_Bulk1, M_uFEM1); // calcolo la soluzione esatta
+	exactSolution(DIFF2, M_Bulk2, M_uFEM2);
+
+	// Compute difference with the numerical sol
+	for (size_type i=0; i<M_uFEM1.nb_dof(); i++){
+		 DIFF1->at(i) -= M_uSol1->at(i);
+	}
+
+	for (size_type i=0; i<M_uFEM2.nb_dof(); i++){
+		 DIFF2->at(i) -= M_uSol2->at(i);
+	}
+
+	errL2sx = getfem::asm_L2_norm(M_intMethod1, *(M_uFEM1.getFEM()), *DIFF1);
+	errH1sx = getfem::asm_H1_norm(M_intMethod1, *(M_uFEM1.getFEM()), *DIFF1);
+	errL2dx = getfem::asm_L2_norm(M_intMethod2, *(M_uFEM2.getFEM()), *DIFF2);
+	errH1dx = getfem::asm_H1_norm(M_intMethod2, *(M_uFEM2.getFEM()), *DIFF2);
+
+	errL2 = errL2sx + errL2dx;
+	errH1 = errH1sx + errH1dx;
+}
+
 
 
 // DEBUG : print the values of the two solutions on the interface, associating the ones with the same coordinates

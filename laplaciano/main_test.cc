@@ -54,8 +54,8 @@ int main(int argc, char *argv[]) {
 
     GetPot command_line(argc, argv);
 
-    const std::string data_file_name1 = command_line.follow("dataSX_lineare", 2, "-f",    "--file");
-    const std::string data_file_name2 = command_line.follow("dataDX_lineare", 2, "-f",    "--file");
+    const std::string data_file_name1 = command_line.follow("inputData/dataSX_seno", 2, "-f",    "--file");
+    const std::string data_file_name2 = command_line.follow("inputData/dataDX_seno", 2, "-f",    "--file");
 
     GetPot dataFile1(data_file_name1.data());
     std::cout<< "File name 1: "<< data_file_name1 << std::endl;
@@ -82,23 +82,6 @@ int main(int argc, char *argv[]) {
 
     myProblem.initialize();   // inizializzo il problema (azzero la soluzione, forse inutile se non è tempo dip.)
 
-    // Check number of total dofs: considera solo le frontiere come regioni! A me interessa sapere se la numerazione dei dof inizia da 0 o da 1, penso da 1
-    /*
-    std::cout<<"the total number of dofs in omega1 is : "<<std::endl;
-    for (int u = 0; u<40; u++){
-      if (myProblem.getBulk(1)->getMesh()->has_region(u)){
-        std::cout<<"\nla regione ha numero : "<<u<<std::endl;
-        dal::bit_vector quali = myProblem.getFEM(1)->getFEM()->dof_on_region(u);
-        for( dal::bv_visitor i(quali); !i.finished(); ++i){
-          std::cout<< i << " ";
-        }
-      }
-    }*/
-
-
-
-
-
     myProblem.assembleMatrix(&mySys);   //assemblo matrice e termine noto
 
     myProblem.assembleRHS(&mySys);
@@ -118,5 +101,25 @@ int main(int argc, char *argv[]) {
     myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
     myProblem.exportVtk(vtkFolder,"u2");
 
-    myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
+    // Compute and print errors
+    myProblem.computeErrors();
+
+    std::cout<<"L2 error LEFT : "<< myProblem.errL2sx<< "\tL2 error RIGHT : "<<myProblem.errL2dx<<"\tL2 error TOTAL : "<<myProblem.getL2Err()<<std::endl;
+    std::cout<<"H1 error LEFT : "<< myProblem.errH1sx<< "\tH1 error RIGHT : "<<myProblem.errH1dx<<"\tH1 error TOTAL : "<<myProblem.getH1Err()<<std::endl;
+
+    //myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
 }
+
+
+// Check number of total dofs: considera solo le frontiere come regioni! A me interessa sapere se la numerazione dei dof inizia da 0 o da 1, penso da 1
+/*
+std::cout<<"the total number of dofs in omega1 is : "<<std::endl;
+for (int u = 0; u<40; u++){
+  if (myProblem.getBulk(1)->getMesh()->has_region(u)){
+    std::cout<<"\nla regione ha numero : "<<u<<std::endl;
+    dal::bit_vector quali = myProblem.getFEM(1)->getFEM()->dof_on_region(u);
+    for( dal::bv_visitor i(quali); !i.finished(); ++i){
+      std::cout<< i << " ";
+    }
+  }
+}*/

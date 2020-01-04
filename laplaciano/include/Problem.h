@@ -25,10 +25,10 @@ public:
 
          void assembleRHS(LinearSystem* sys);
 
-	 inline LinearSystem* getSys()
-	 {
-		return M_Sys;
-	 }
+	 		 	 inline LinearSystem* getSys()
+	 			 {
+					return M_Sys;
+	 		   }
 
          void solve();
 
@@ -43,6 +43,22 @@ public:
 
          void enforceStrongBC(size_type const domainIdx);
 				 void enforceInterfaceJump();
+
+				 // ERRORS
+				 // solo per adesso li metto pubblici
+				 scalar_type errL2dx, errL2sx, errH1dx, errH1sx;
+
+				 void computeErrors();
+
+				 inline scalar_type const getL2Err(){
+					 return errL2;
+				 }
+
+				 inline scalar_type const getH1Err(){
+					 return errH1;
+				 }
+
+
 
 				 // DEBUG
 				 void printInterfaceValues();
@@ -71,6 +87,8 @@ public:
 		// Anche qui consideriamo di trattare l'interfaccia come una BC di Dirichlet per uno dei 2 domini mentre per l'altro viene lasciata "libera", nel senso che il valore di u si trova risolvendo il sistema; ciò equivale ad assegnare BC di Neumann.
     std::vector<size_type> M_rowsStrongBC1, M_rowsStrongBC2, M_rowsIFace1, M_rowsIFace2;
     std::vector<size_type> M_rowsStrongBCFlags1, M_rowsStrongBCFlags2, M_rowsIFace;
+
+		scalar_type errL2, errH1; //, errL2sx, errL2dx, errH1sx, errH1dx;
 
    // mutable LifeV::Parser M_parser;
 };
