@@ -47,10 +47,10 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
  	{		 M_rowsIFace1.push_back(i);  }
 
 	fromBitVectorToStdVector ( dal_dof_IFace1, dof_IFace1);
-	std::cout<<"Gli indici sull'interfaccia di SINISTRA sono: "<<std::endl;
+	/*std::cout<<"Gli indici sull'interfaccia di SINISTRA sono: "<<std::endl;
 	for (size_type j=0; j<dof_IFace1.size(); j++){
 	 std::cout<< dof_IFace1[j]<<"  ";
-	}
+ }*/
 	M_nbDOFIFace = dof_IFace1.size();
 
 	std::cout<< "\nThe number of interface dofs is : "<<M_nbDOFIFace<<std::endl;
@@ -67,10 +67,10 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
  	{		M_rowsIFace2.push_back(i);	 }
 
 	fromBitVectorToStdVector ( dal_dof_IFace2, dof_IFace2 );
-	std::cout<<"Gli indici sull'interfaccia di DESTRA sono: "<<std::endl;
+	/*std::cout<<"Gli indici sull'interfaccia di DESTRA sono: "<<std::endl;
 	for (size_type j=0; j<dof_IFace2.size(); j++){
 	 std::cout<< dof_IFace2[j]<<"  ";
-	}
+ }*/
 
  	std::cout << "Interface Omega2      [OK]" << std::endl;
 }
@@ -364,6 +364,7 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 	}
 
 		// Loop sui dofs
+		//std::cout<<"Il valore delle BC sul dominio "<<domainIdx<<" è: "<<std::endl;
 		for (int i=0;i<M_rowsStrongBCcur.size(); ++i)
 		{
 			size_type ii;
@@ -381,6 +382,8 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 
 				scalar_type value= M_BCcur->BCDiri(where, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
 				M_Sys->setRHSValue(ii  + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
+
+				//std::cout<<"punto: ("<<where[0]<<", "<<where[1]<<")\tvalore: "<<value<<std::endl;
 
 		}
 
@@ -412,6 +415,7 @@ void Problem::enforceInterfaceJump(){
  	}
 
 	// Loop on the interface dofs and change the matrix
+	//std::cout<<"I valori sull'INTERFACCIA sono: "<<std::endl;
 	for (size_type k = 0 ; k<M_nbDOFIFace ; k++){
 		// Global indices in the two domains
 		size_type idx1 = dof_IFace1[k];
@@ -430,6 +434,7 @@ void Problem::enforceInterfaceJump(){
 			scalar_type value= M_BC1.BCDiri(where, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
 			M_Sys->setRHSValue(idx1, value);
 
+			//std::cout<<"punto: ("<<where[0]<<", "<<where[1]<<")\tvalore: "<<value<<std::endl;
 	}
 	/*
 	std::cout<<"Le righe che ho cambiato con la condizione di interfaccia sono : "<<std::endl;

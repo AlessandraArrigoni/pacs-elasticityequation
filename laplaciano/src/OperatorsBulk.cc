@@ -21,6 +21,7 @@ void stiffness( sparseMatrixPtr_Type M,
 
     std::vector<scalar_type> mu(femC.nb_dof(),0.0);
 
+    // Compute non costant diffusion coefficient
     for (int i=0; i<femC.nb_dof();++i)
     {
     	mu[i]=medium->getData()->getDiff(i);

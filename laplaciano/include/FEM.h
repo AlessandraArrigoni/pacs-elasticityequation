@@ -8,14 +8,14 @@
 
 class FEM
 {
-public: 
+public:
 	 FEM (const getfem::mesh* mesh,
 	      const GetPot& dataFile,
 	      const std::string& problem,
 	      const std::string& variable,
               const std::string& section = "bulkData/"
               );
-              
+
  	FEM (const getfem::mesh* mesh,
 	         std::string femType,
    		 size_type spaceDim
@@ -23,28 +23,26 @@ public:
 
          size_type nb_dof(std::string which="all");    //numero gradi di libertà
 
-	 inline std::string type()
-	 {
-		return M_femType;
-	 }  
-         
+	 		   inline std::string type()
+	 		 	 {
+					 return M_femType;
+	 		 	 }
+
          inline getfem::mesh_fem* getFEM()   //puntatore al mesh_fem
          {
          	return &M_FEM;
          }
          inline std::vector<base_node> getDOFpoints()  //punti corrispondenti ai dof
-         {	
+         {
          	return M_DOFpoints;
          }
-         
-        
-      
-         
+
+
          inline base_node point_of_basic_dof(size_type i)
          {
          	return M_FEM.point_of_basic_dof(i);
          }
-          
+
 private:
 
     std::string M_section;

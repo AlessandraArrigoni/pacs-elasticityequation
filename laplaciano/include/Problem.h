@@ -45,7 +45,7 @@ public:
 				 void enforceInterfaceJump();
 
 				 // ERRORS
-				 // solo per adesso li metto pubblici
+				 // solo per adesso li metto pubblici, poi eventualmente definisco i getter
 				 scalar_type errL2dx, errL2sx, errH1dx, errH1sx;
 
 				 void computeErrors();
