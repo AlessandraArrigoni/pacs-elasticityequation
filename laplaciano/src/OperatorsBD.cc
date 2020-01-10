@@ -30,10 +30,11 @@ void stressRHS( scalarVectorPtr_Type V,
 
 	    scalarVector_Type datax(femC.nb_dof());
 
-	    for (size_type i=0; i<femC.nb_dof();++i)
+      for (size_type i=0; i<femC.nb_dof();++i)
 	    {
 	    	datax [ i ] = bcPtr->BCNeum(femC.point_of_basic_dof(i), bcPtr->getNeumBD()[bndID]);
 	    }
+
 
     	    // Assign the coefficients
    	    assem_surf.push_data(datax);

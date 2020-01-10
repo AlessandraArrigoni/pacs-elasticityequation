@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program laplacian: soluzione y a sx e 3y a dx  %
+% parameters for program laplacian: soluzione parabola a sx e sen/cos a dx  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -26,11 +26,11 @@
             		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
                 interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
-                exact_sol = y % soluzione esatta
+                exact_sol = 4*y*(y-1) % soluzione esatta
 
-            		% soluzione LINEARE IN Y : y
-            		bulkload = 0
-            		u_BC = y*(x<(0.5-1e-5))-2*y*(x>(0.5-1e-5)) % uso questo modo per definire q0: non funziona!
+            		% soluzione PARABOLICA IN Y : 4*y*(y-1)
+            		bulkload = -8
+            		u_BC = 4*y*(y-1)+sin(2*pi*y)*(x>(0.5-1e-5)) % uso questo modo per definire q0: non funziona!
             		du_BC = 0
 
             	  FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione

@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program laplacian: soluzione y a sx e 3y a dx  %
+% parameters for program laplacian: soluzione 4y(y-1) a sx e y^2 a dx  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -9,8 +9,8 @@
                 meshExternal = none
                 meshFolder = ./meshes/   %per caricare mesh fatte con altri tool
 
-                spatialDiscretizationX = 10  %altrimenti, suddivisione in x e y
-                spatialDiscretizationY = 20
+                spatialDiscretizationX = 80  %altrimenti, suddivisione in x e y
+                spatialDiscretizationY = 160
                 lengthAbscissa = 0.5  %misure in x e y
                 lengthOrdinate = 1.0
                 startingAbscissa = 0 %traslazione del punto (0,0)
@@ -26,11 +26,11 @@
             		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
                 interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
-                exact_sol = y % soluzione esatta
+                exact_sol = 4*y*(y-1) % soluzione esatta
 
-            		% soluzione LINEARE IN Y : y
-            		bulkload = 0
-            		u_BC = y*(x<(0.5-1e-5))-2*y*(x>(0.5-1e-5)) % uso questo modo per definire q0: non funziona!
+            		% soluzione PARABOLICA IN Y : 4*y*(y-1)
+            		bulkload = -8
+            		u_BC = 4*y*(y-1)-y*y*(x>(0.5-1e-5)) % uso questo modo per definire q0: non funziona!
             		du_BC = 0
 
             	  FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione

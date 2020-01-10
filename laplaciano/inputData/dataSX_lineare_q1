@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program laplacian: soluzione y a sx e 3y a dx  %
+% parameters for program laplacian: soluzione 6x+6y a sx e -x-y a dx  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -26,11 +26,11 @@
             		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
                 interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
-                exact_sol = y % soluzione esatta
+                exact_sol = 6*x+6*y % soluzione esatta
 
-            		% soluzione LINEARE IN Y : y
+            		% soluzione LINEARE IN Y e X : 6*x+6*y
             		bulkload = 0
-            		u_BC = y*(x<(0.5-1e-5))-2*y*(x>(0.5-1e-5)) % uso questo modo per definire q0: non funziona!
+            		u_BC = (6*y+6*x)+y*(x>(0.5-1e-5)) % uso questo modo per definire q0
             		du_BC = 0
 
             	  FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
