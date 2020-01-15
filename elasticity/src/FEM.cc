@@ -8,7 +8,7 @@ FEM::FEM ( const getfem::mesh* mesh,
            M_section ( section + problem ),
            M_femType ( ),
            M_SpaceDim( ),
-           M_FEM(*mesh, 2), // the 2 means that we want a vectorial FEM space on this mesh with 2 components
+           M_FEM(*mesh),
            M_meshPtr(mesh)
 {
 
@@ -36,7 +36,7 @@ FEM::FEM (const getfem::mesh* mesh,
               ):
 		M_femType ( ),
           	 M_SpaceDim( ),
-         	  M_FEM(*mesh, 2),
+         	  M_FEM(*mesh),
          	  M_meshPtr(mesh)
 {
    getfem::pfem pf_v;

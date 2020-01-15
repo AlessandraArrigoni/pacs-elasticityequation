@@ -143,11 +143,11 @@ void Problem::assembleMatrix(LinearSystem* sys)
 
 	A1.reset(new sparseMatrix_Type (M_nbDOF1, M_nbDOF1));
 	gmm::clear(*A1);
-	stiffness( A1, M_Bulk1, M_uFEM1, M_CoeffFEM1, M_intMethod1);
+	linearElasticity(A1, M_Bulk1, M_uFEM1, M_CoeffFEM1, M_intMethod1);
 
 	A2.reset(new sparseMatrix_Type (M_nbDOF2, M_nbDOF2));
 	gmm::clear(*A2);
-	stiffness( A2, M_Bulk2, M_uFEM2, M_CoeffFEM2, M_intMethod2);
+	linearElasticity(A1, M_Bulk1, M_uFEM1, M_CoeffFEM1, M_intMethod1);
 
 	M_Sys->addSubMatrix(A1, 0, 0);
 	M_Sys->addSubMatrix(A2, M_nbDOF1, M_nbDOF1);
@@ -332,60 +332,71 @@ void Problem::exportVtk(std::string folder, std::string what)
 // Sets the DIRICHLET boundary conditions for the two domains in the global matrix contained in Sys. Actually it sets the rows of 0 and 1 also for the interface in the left (1) domain, since we defined the boundary condition in the Datafile as a Dirichlet one. Then we must modify these lines by adding the -1 in the columns that correspond to the basis functions on the right (2) domain.
 void Problem::enforceStrongBC(size_type const domainIdx)
 {
-	// Set local variables according to the current domain
-	//(vorrei fare delle references per non sprecare memoria, ma non posso perchè dovrei inizializzarle e non so come, quindi uso dei pointers
-	FEM * M_uFEMcur;
-	BC * M_BCcur;
-	sizeVector_Type  M_rowsStrongBCcur;
-	sizeVector_Type  M_rowsStrongBCFlagscur;
+		// Set local variables according to the current domain
+		//(vorrei fare delle references per non sprecare memoria, ma non posso perchè dovrei inizializzarle e non so come, quindi uso dei pointers
+		FEM * M_uFEMcur;
+		BC * M_BCcur;
+		sizeVector_Type  M_rowsStrongBCcur;
+		sizeVector_Type  M_rowsStrongBCFlagscur;
 
-	if (domainIdx == 1){
-		M_uFEMcur = &M_uFEM1;
-		M_BCcur = &M_BC1;
-		M_rowsStrongBCcur = M_rowsStrongBC1;
-		M_rowsStrongBCFlagscur = M_rowsStrongBCFlags1;
-	}
-	else if (domainIdx == 2){
-		M_uFEMcur = &M_uFEM2;
-		M_BCcur = &M_BC2;
-		M_rowsStrongBCcur = M_rowsStrongBC2;
-		M_rowsStrongBCFlagscur = M_rowsStrongBCFlags2;
-	}
-
-	for ( size_type bndID = 0; bndID < M_BCcur->getDiriBD().size(); bndID++ )
-	{
-		dal::bit_vector quali = M_uFEMcur->getFEM()->dof_on_region( M_BCcur->getDiriBD()[bndID]); // QUESTO PUÒ ESSERE UTILE PER OTTENERE I DOFS SULL'INTERFACCIA SE RIESCO A CAPIRE COME! getDiriBD restituisce un vettore che contiene gli indici (1,2,3,4) dei lati interessati da una BC di Dirichlet.
-		size_type counter=0;
-		for(dal::bv_visitor i(quali); !i.finished(); ++i)
-		{
-			// Sono vettori di size_type cioè di indici: contengono gli indici dei dof interessati dalle BC e gli indici delle frontiere con Dirichlet, credo
-			M_rowsStrongBCcur.push_back(i); // aggiungo gli indici dei dofs, che però non sono necessariamente in ordine!
-			M_rowsStrongBCFlagscur.push_back(bndID);
-			counter++;
+		if (domainIdx == 1){
+			M_uFEMcur = &M_uFEM1;
+			M_BCcur = &M_BC1;
+			M_rowsStrongBCcur = M_rowsStrongBC1;
+			M_rowsStrongBCFlagscur = M_rowsStrongBCFlags1;
 		}
-	}
+		else if (domainIdx == 2){
+			M_uFEMcur = &M_uFEM2;
+			M_BCcur = &M_BC2;
+			M_rowsStrongBCcur = M_rowsStrongBC2;
+			M_rowsStrongBCFlagscur = M_rowsStrongBCFlags2;
+		}
 
-		// Loop sui dofs
-		//std::cout<<"Il valore delle BC sul dominio "<<domainIdx<<" è: "<<std::endl;
-		for (int i=0;i<M_rowsStrongBCcur.size(); ++i)
+		for ( size_type bndID = 0; bndID < M_BCcur->getDiriBD().size(); bndID++ )
 		{
-			size_type ii;
+			dal::bit_vector quali = M_uFEMcur->getFEM()->dof_on_region( M_BCcur->getDiriBD()[bndID]); // QUESTO PUÒ ESSERE UTILE PER OTTENERE I DOFS SULL'INTERFACCIA SE RIESCO A CAPIRE COME! getDiriBD restituisce un vettore che contiene gli indici (1,2,3,4) dei lati interessati da una BC di Dirichlet.
+			size_type counter=0;
+			for(dal::bv_visitor i(quali); !i.finished(); ++i)
+			{
+				// Sono vettori di size_type cioè di indici: contengono gli indici dei dof interessati dalle BC e gli indici delle frontiere con Dirichlet, credo
+				M_rowsStrongBCcur.push_back(i); // aggiungo gli indici dei dofs, che però non sono necessariamente in ordine!
+				M_rowsStrongBCFlagscur.push_back(bndID);
+				counter++;
+			}
+		}
 
-			// Indice "locale" del dof
+		// Loop sui dofs: ora questo mi serve solo per creare il vettore con i dati da passare alla funzione assembling_Dirichlet_condition: l'idea è che il vettore sia nullo ovunque, tranne nei dof sulle frontiere. NON SONO SICURA! FORSE DEVO GIÀ PASSARE QUESTO SOMMATO AL RHS CHE GIÀ HO. In realtà penso di no perchè, guardando il codice, nei dofs di rhs che non sono sulle frontiere toglie A*ug, ma se definisco ug come nulla su quei dof, dovrei essere a posto e non avere nessuna modifica al rhs.
+
+		//IPOTESI MOLTO FORTE DA CONTROLLARE, altrimenti devo trovare il modo di fare il loop sui nodi fisici che ci sono sulle frontiere e recuperare poi i dofs (sperando che il primo sia relativo alla componente x e il secondo alla y): quando recupero i dof_on_region, mi restituisce accoppiati i due relativi a ogni nodo fisico, quindi poi anche qui quando faccio il loop su quelli sono sicura che avrò le stesse coordinate del where in due step consecutivi.
+
+		//std::cout<<"Il valore delle BC sul dominio "<<domainIdx<<" è: "<<std::endl;
+		for (size_type i = 0; i < M_rowsStrongBCcur.size(); i + Qdim)
+		{
+			size_type ii; // é l'indice "locale" del primo dof associato a un punto fisico (spero!)
 			ii = M_rowsStrongBCcur[i] ;
 
-			bgeot::base_node where;
-			where=M_uFEMcur->getFEM()->point_of_basic_dof(ii);
+			for(size_type j = 0; j < Qdim; j++)
+			{
+				bgeot::base_node where;
+				where = M_uFEMcur->getFEM()->point_of_basic_dof(ii + j);
+				scalar_type value = M_BCcur->BCDiri(where, j, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
+
+										// DEBUG
+										bgeot::base_node whereX, whereY;
+										whereX = M_uFEMcur->getFEM()->point_of_basic_dof(iiX);
+										whereY = M_uFEMcur->getFEM()->point_of_basic_dof(iiY);
+
+										std::cout<<"Nuova coppia di dofs"<<std::endl;
+										std::cout<<"punto dal dof X : ("<<whereX[0]<<", "<<whereX[1]<<")"<<std::endl;
+										std::cout<<"punto dal dof Y : ("<<whereY[0]<<", "<<whereY[1]<<")"<<std::endl;
 
 
-		// Cambia la matrice direttamente! Qui abbiamo bisogno di usare l'indice "globale" del dof : se consideriamo il secondo dominio, assumendo che la matrice in Sys sia ordinata con tutti i dof del primo dominio all'inizio e tutti gli altri alla fine, per recuperare gli indici globali delle funzioni interessate dalle BC devo aggiungere il numero di righe occupate dal primo blocco relativo al dominio1.
-				M_Sys->setNullRow(ii  + (domainIdx==1 ? 0 : M_nbDOF1 ));
-				M_Sys->setMatrixValue(ii  + (domainIdx==1 ? 0 : M_nbDOF1 ), ii  + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
+				M_Sys->setNullRow(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ));
+				M_Sys->setMatrixValue(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
 
-				scalar_type value= M_BCcur->BCDiri(where, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
-				M_Sys->setRHSValue(ii  + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
+				M_Sys->setRHSValue(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
 
-				//std::cout<<"punto: ("<<where[0]<<", "<<where[1]<<")\tvalore: "<<value<<std::endl;
+			} //fine loop su j (dofs associati a un punto fisico)
 
 		}
 
@@ -396,21 +407,6 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 // devo recuperare gli indici relativi all'interfaccia di entrambi i domini e poi modificare le righe della matrice relative a omega1: in realtà potrei solo aggiungere i -1 in corrispondenza delle colonne di omega2, visto che enforceStrongBC modifica già le righe corrispondenti, ma meglio rifare tutto.
 void Problem::enforceInterfaceJump(){
 
-	/*// Stampo indici delle frontiere Dirichlet e neumann
-	for (size_type k=0; k < M_BC1.getDiriBD().size(); k++){
-		std::cout << "Indici Dirichlet omega1: " << M_BC1.getDiriBD()[k] << std::endl;
-	}
-	for (size_type k=0; k < M_BC1.getNeumBD().size(); k++){
-		std::cout << "Indici Neumann omega1: " << M_BC1.getNeumBD()[k] << std::endl;
-	}
-	for (size_type k=0; k < M_BC2.getDiriBD().size(); k++){
-		std::cout << "Indici Dirichlet omega2: " << M_BC2.getDiriBD()[k] << std::endl;
-	}
-	for (size_type k=0; k < M_BC2.getNeumBD().size(); k++){
-		std::cout << "Indici Neumann omega2: "<< M_BC2.getNeumBD()[k] << std::endl;
-	}
-
-	std::cout << "indice Interfaccia omega1: "<< interfaceIdx1 << "; indice interfaccia omega2: " << interfaceIdx2 << std::endl;*/
 	size_type idxIFaceInDiriBD;
  	for (size_type j=0; j<M_BC1.getDiriBD().size(); j++){
  		if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
@@ -418,25 +414,29 @@ void Problem::enforceInterfaceJump(){
 
 	// Loop on the interface dofs and change the matrix
 	//std::cout<<"I valori sull'INTERFACCIA sono: "<<std::endl;
-	for (size_type k = 0 ; k<M_nbDOFIFace ; k++){
-		// Global indices in the two domains
+	for (size_type k = 0 ; k < M_nbDOFIFace ; k + Qdim){
+
+		// Global indices in the two domains: vectors dof_IFace1 and dof_IFace2 are initialized by the constructor. I hope, once again, that the 2 dofs associated to the same physical node occupy two consecutive places in the vector!
 		size_type idx1 = dof_IFace1[k];
 		size_type idx2 = dof_IFace2[k] + M_nbDOF1;
 
-		// Get the coordinates of the points
-		bgeot::base_node where;
-		where = M_uFEM1.getFEM()->point_of_basic_dof(idx1);
+		for (size_type j = 0; j < Qdim; j++)
+		{
+			// Get the coordinates of the points
+			bgeot::base_node where;
+			where = M_uFEM1.getFEM()->point_of_basic_dof(idx1 + j);
 
-		// Change the matrix in M_Sys
-			M_Sys->setNullRow(idx1 );
-			M_Sys->setMatrixValue(idx1, idx1, 1);
-			M_Sys->setMatrixValue(idx1, idx2, -1);
+			// Change the matrix in M_Sys
+			M_Sys->setNullRow(idx1 + j);
+			M_Sys->setMatrixValue(idx1 + j, idx1 + j, 1);
+			M_Sys->setMatrixValue(idx1 + j, idx2 + j, -1);
 
 			// Change the RHS
-			scalar_type value= M_BC1.BCDiri(where, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
-			M_Sys->setRHSValue(idx1, value);
+			scalar_type value= M_BC1.BCDiri(where, j, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
+			M_Sys->setRHSValue(idx1 + j, value);
+		}
 
-			//std::cout<<"punto: ("<<where[0]<<", "<<where[1]<<")\tvalore: "<<value<<std::endl;
+				//std::cout<<"punto: ("<<where[0]<<", "<<where[1]<<")\tvalore: "<<value<<std::endl;
 	}
 	/*
 	std::cout<<"Le righe che ho cambiato con la condizione di interfaccia sono : "<<std::endl;
