@@ -15,7 +15,7 @@ EXESRCS = *.cc
 EXEOBJS = $(EXESRCS:.cc = .o)
 
 # Executable name
-EXEC = laplacianIFace
+EXEC = linElasticityIFace
 
 # Sources folder
 FOLDER = src/

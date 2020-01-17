@@ -55,7 +55,7 @@ private:
 		std::string M_solExact;
 
     scalarVectorPtr_Type M_LambdaVector;
-		scalarVectorPtr_Type M_MuVector
+		scalarVectorPtr_Type M_MuVector;
 
     LifeV::Parser M_parser;
 };

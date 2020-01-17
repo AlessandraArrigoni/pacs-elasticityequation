@@ -54,18 +54,19 @@ void BulkData::setLambda(std::vector<base_node> nodes)
 
 bgeot::base_node BulkData::bulkLoad(bgeot::base_node x)
 	{
+    std::cout<<"Calcolo il termine sorgente nel punto ("<<x[0]<<" , "<<x[1]<<")"<<std::endl;
 
-		bgeot::base_node sol(1,0);
+		bgeot::base_node sol(1,0); // crea un vettore 2d con valori 1 e 0
 
-	        for ( size_type i = 0; i < 1; ++i )
-    		{
- 	 		M_parser.setString ( M_load);
-   		        M_parser.setVariable ( "x", x [ 0 ] );
-    	 		M_parser.setVariable ( "y", x [ 1 ] );
-     	 		sol[i]=M_parser.evaluate (i) ;
-   		 }
+	  for ( size_type i = 0; i < 2; ++i )
+    {
+ 	 		M_parser.setString ( M_load );
+   	  M_parser.setVariable ( "x", x [ 0 ] );
+    	M_parser.setVariable ( "y", x [ 1 ] );
+    	sol[i] = M_parser.evaluate (i) ;
+   	}
 
-	        return sol;
+	  return sol;
 	}
 
   // Faccio un base_node perchè mi aspetto che poi per l'elasticità avrò due valori in x e y, anche se devo capire come definire la stringa della soluzione esatta in quel caso (potrei fare un vettore di stringhe e accedere alla prima per la soluzione in x e alla seconda per la soluzione in y ma vediamo). Nel caso del laplaciano invece devo poi prendere solo il primo elemento perchè è l'unico che sto modificando!

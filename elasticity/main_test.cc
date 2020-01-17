@@ -54,8 +54,8 @@ int main(int argc, char *argv[]) {
 
     GetPot command_line(argc, argv);
 
-    const std::string data_file_name1 = command_line.follow("inputData/dataSX_parabola_seno_q1", 2, "-f",    "--file");
-    const std::string data_file_name2 = command_line.follow("inputData/dataDX_parabola_seno_q1", 2, "-f",    "--file");
+    const std::string data_file_name1 = command_line.follow("inputData/dataSX_lineare", 2, "-f",    "--file");
+    const std::string data_file_name2 = command_line.follow("inputData/dataDX_lineare", 2, "-f",    "--file");
 
     GetPot dataFile1(data_file_name1.data());
     std::cout<< "File name 1: "<< data_file_name1 << std::endl;
@@ -67,8 +67,8 @@ int main(int argc, char *argv[]) {
 
     const std::string vtkFolder = "output_vtk/";
 
-    Bulk myDomainLeft(dataFile1, "bulkData/", "domain/", "laplacian/");    //creo i domini
-    Bulk myDomainRight(dataFile2, "bulkData/", "domain/", "laplacian/");
+    Bulk myDomainLeft(dataFile1, "bulkData/", "domain/", "elasticity/");    //creo i domini
+    Bulk myDomainRight(dataFile2, "bulkData/", "domain/", "elasticity/");
 
     myDomainLeft.exportMesh(vtkFolder+"meshLeft.vtk");       //initial export
     myDomainRight.exportMesh(vtkFolder+"meshRight.vtk");
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
     myProblem.enforceStrongBC(2);
     std::cout << "Dirichlet boundary conditions      [OK]" << std::endl;
 
-    myProblem.enforceInterfaceJump(); // Impongo le condizioni di interfaccia (solo di DIRICHLET per adesso, il salto sulla derivata dovrebbe essere già assegnato da assembleRHS nel caso)
+    myProblem.enforceInterfaceJump(); // Impongo le condizioni di interfaccia (solo di DIRICHLET, il salto sulla derivata dovrebbe essere già assegnato da assembleRHS nel caso)
     std::cout << "Dirichlet interface conditions      [OK]" << std::endl;
 
     mySys.saveMatrix();   //esporto la matrice per guardarla in matlab, se serve
@@ -101,11 +101,13 @@ int main(int argc, char *argv[]) {
     myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
     myProblem.exportVtk(vtkFolder,"u2");
 
+    /*
     // Compute and print errors
     myProblem.computeErrors();
 
     std::cout<<"L2 error LEFT : "<< myProblem.errL2sx<< "\tL2 error RIGHT : "<<myProblem.errL2dx<<"\tL2 error TOTAL : "<<myProblem.getL2Err()<<std::endl;
     std::cout<<"H1 error LEFT : "<< myProblem.errH1sx<< "\tH1 error RIGHT : "<<myProblem.errH1dx<<"\tH1 error TOTAL : "<<myProblem.getH1Err()<<std::endl;
+    */
 
     //myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
 }

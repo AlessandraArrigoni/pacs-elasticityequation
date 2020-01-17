@@ -8,7 +8,7 @@ FEM::FEM ( const getfem::mesh* mesh,
            M_section ( section + problem ),
            M_femType ( ),
            M_SpaceDim( ),
-           M_FEM(*mesh),
+           M_FEM(*mesh,2),
            M_meshPtr(mesh)
 {
 

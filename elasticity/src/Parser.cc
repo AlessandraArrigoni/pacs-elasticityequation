@@ -186,6 +186,8 @@ Parser::setString( const std::string& string, const std::string& stringSeparator
     M_results.reserve( countSubstring( "," ) + 1 );
 
     M_evaluate = true;
+
+    std::cout<<" La lunghezza di Mstrings nel parser è "<<M_strings.size()<<std::endl;
 }
 
 void

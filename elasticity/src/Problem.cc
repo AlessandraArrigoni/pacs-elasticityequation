@@ -29,8 +29,10 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
    M_intMethod1.set_integration_method(bulk1->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod1) );
 	 M_intMethod2.set_integration_method(bulk2->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod2) );
 
-   M_Bulk1->getData()->setDiff(M_CoeffFEM1.getDOFpoints());  //valuta i coefficienti negli elementi della mesh
-	 M_Bulk2->getData()->setDiff(M_CoeffFEM2.getDOFpoints());  //valuta i coefficienti negli elementi della mesh
+   M_Bulk1->getData()->setLambda(M_CoeffFEM1.getDOFpoints());  //valuta i coefficienti di Lamè negli elementi della mesh
+	 M_Bulk1->getData()->setMu(M_CoeffFEM1.getDOFpoints());
+	 M_Bulk2->getData()->setLambda(M_CoeffFEM2.getDOFpoints());  //valuta i coefficienti di Lamè negli elementi della mesh
+	 M_Bulk2->getData()->setMu(M_CoeffFEM2.getDOFpoints());
 
 	 // Con questa funzione sto assegnando le facce della frontiera e dell'interfaccia a M_bulk1, M_bulk2 e alle sue regions quindi potrei cercare di recuperare il numero di dofs associati alla region che so essere l'interfaccia. Per adesso posso dire di sapere che è quella a destra per 1 e a sinistra per 2, poi magari posso scrivere una funzione che la determini in base alla valutazione dell'insieme di livello sui nodi.
    M_BC1.setBoundaries(M_Bulk1->getMesh());
@@ -219,8 +221,8 @@ void Problem::assembleRHS(LinearSystem* sys)
 	scalarVectorPtr_Type  BCvec2;
 	BCvec2.reset(new scalarVector_Type (M_nbDOF2));
 
-	stressRHS( BCvec1, M_Bulk1,  0 , &M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
-	stressRHS( BCvec2, M_Bulk2,  0 , &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
+	stressRHS( BCvec1, M_Bulk1, &M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
+	stressRHS( BCvec2, M_Bulk2, &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
 
 
 	/* DEBUG: print values of the "fake" rhs stressRHS to check they are 0 -->	YES
@@ -383,8 +385,8 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 
 										// DEBUG
 										bgeot::base_node whereX, whereY;
-										whereX = M_uFEMcur->getFEM()->point_of_basic_dof(iiX);
-										whereY = M_uFEMcur->getFEM()->point_of_basic_dof(iiY);
+										if (j==0){whereX = where;}
+										if (j==1){whereY = where;}
 
 										std::cout<<"Nuova coppia di dofs"<<std::endl;
 										std::cout<<"punto dal dof X : ("<<whereX[0]<<", "<<whereX[1]<<")"<<std::endl;
@@ -396,7 +398,7 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 
 				M_Sys->setRHSValue(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
 
-			} //fine loop su j (dofs associati a un punto fisico)
+			} // fine loop su j (2 dofs associati a un punto fisico)
 
 		}
 
@@ -434,7 +436,8 @@ void Problem::enforceInterfaceJump(){
 			// Change the RHS
 			scalar_type value= M_BC1.BCDiri(where, j, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
 			M_Sys->setRHSValue(idx1 + j, value);
-		}
+
+		} // fine loop su j (2 dofs associati a un punto fisico)
 
 				//std::cout<<"punto: ("<<where[0]<<", "<<where[1]<<")\tvalore: "<<value<<std::endl;
 	}
