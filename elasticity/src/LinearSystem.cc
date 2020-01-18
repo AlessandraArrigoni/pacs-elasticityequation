@@ -146,13 +146,13 @@ void LinearSystem::solve()
    if (M_gotInverse)
    {
         gmm::clear(*M_Sol);
-	gmm::mult(*M_InverseMatrix, *M_RHS, *M_Sol);
+				gmm::mult(*M_InverseMatrix, *M_RHS, *M_Sol);
    }
    else
    {
    	scalar_type rcond;
   	gmm::clear(*M_Sol);
-	SuperLU_solve(*M_Matrix, *M_Sol, *M_RHS, rcond);
+	  SuperLU_solve(*M_Matrix, *M_Sol, *M_RHS, rcond);
    }
 }
 

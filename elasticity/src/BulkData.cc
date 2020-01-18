@@ -54,7 +54,7 @@ void BulkData::setLambda(std::vector<base_node> nodes)
 
 bgeot::base_node BulkData::bulkLoad(bgeot::base_node x)
 	{
-    std::cout<<"Calcolo il termine sorgente nel punto ("<<x[0]<<" , "<<x[1]<<")"<<std::endl;
+    //std::cout<<"Calcolo il termine sorgente nel punto ("<<x[0]<<" , "<<x[1]<<")"<<std::endl;
 
 		bgeot::base_node sol(1,0); // crea un vettore 2d con valori 1 e 0
 

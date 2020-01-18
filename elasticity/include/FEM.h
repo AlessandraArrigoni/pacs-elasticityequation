@@ -13,13 +13,13 @@ public:
 	      const GetPot& dataFile,
 	      const std::string& problem,
 	      const std::string& variable,
-              const std::string& section = "bulkData/"
-              );
+        const std::string& section = "bulkData/",
+        const size_type qdim = 1);
 
  	FEM (const getfem::mesh* mesh,
-	         std::string femType,
+	     std::string femType,
    		 size_type spaceDim
-              );
+             );
 
          size_type nb_dof(std::string which="all");    //numero gradi di libertà
 

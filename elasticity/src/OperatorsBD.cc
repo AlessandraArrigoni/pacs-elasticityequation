@@ -19,7 +19,7 @@ void stressRHS( scalarVectorPtr_Type V,
       scalarVector_Type neumVett(femDatum.nb_dof(), 0.0);
 
       // Compute datum vector in each dof: spero che non sia un problema, altrimenti provo poi a distinguere i nodi interni (li lascio a 0) da quelli sulla frontiera che davvero modifico. In questo caso però le BC vanno scritte separatamente nel file di dati perchè ho già definito il metodo che distingue X e Y e il parser non mi restituisce un vettore ma già degli scalari.
-      for (size_type i = 0; i < femDatum.nb_dof(); i + Qdim)
+      for (size_type i = 0; i < femDatum.nb_dof(); i += Qdim)
       {
         for (size_type j = 0; j < Qdim; j++){
           neumVett[i + j] = bcPtr->BCNeum(femDatum.point_of_basic_dof(i), j, bcPtr->getNeumBD()[bndID]);

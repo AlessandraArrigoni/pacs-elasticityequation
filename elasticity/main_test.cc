@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     myDomainRight.exportMesh(vtkFolder+"meshRight.vtk");
 
     Problem myProblem(dataFile1, dataFile2, & myDomainLeft, & myDomainRight);   //creo il problema
-    myProblem.printCoordinatesInterfaceNodes(); // Controllo che i vettori che contengono i dof sull'interfaccia seguano lo stesso ordine-->YES!
+    //myProblem.printCoordinatesInterfaceNodes(); // Controllo che i vettori che contengono i dof sull'interfaccia seguano lo stesso ordine-->YES!
 
     LinearSystem mySys;   //il sistema lineare corrispondente
 
@@ -98,6 +98,15 @@ int main(int argc, char *argv[]) {
     myProblem.solve();   // risolvo
     std::cout << "Solved system      [OK]" << std::endl;
 
+        //DEBUG:
+        std::cout<<"IN MAIN the solution is "<<std::endl;
+        scalarVectorPtr_Type solution;
+      	solution.reset(new scalarVector_Type (myProblem.getNDOF()));
+      	gmm::clear(*solution);
+        myProblem.extractSol(solution);
+        for (size_type i = 0; i<myProblem.getNDOF(); i++)
+        {std::cout<< solution->at(i)<<std::endl;}
+
     myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
     myProblem.exportVtk(vtkFolder,"u2");
 
@@ -111,17 +120,3 @@ int main(int argc, char *argv[]) {
 
     //myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
 }
-
-
-// Check number of total dofs: considera solo le frontiere come regioni! A me interessa sapere se la numerazione dei dof inizia da 0 o da 1, penso da 1
-/*
-std::cout<<"the total number of dofs in omega1 is : "<<std::endl;
-for (int u = 0; u<40; u++){
-  if (myProblem.getBulk(1)->getMesh()->has_region(u)){
-    std::cout<<"\nla regione ha numero : "<<u<<std::endl;
-    dal::bit_vector quali = myProblem.getFEM(1)->getFEM()->dof_on_region(u);
-    for( dal::bv_visitor i(quali); !i.finished(); ++i){
-      std::cout<< i << " ";
-    }
-  }
-}*/

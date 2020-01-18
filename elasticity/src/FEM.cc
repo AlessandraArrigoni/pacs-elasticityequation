@@ -4,11 +4,12 @@ FEM::FEM ( const getfem::mesh* mesh,
 	   const GetPot& dataFile,
 	   const std::string& problem,
 	   const std::string& variable,
-	   const std::string& section) :
+	   const std::string& section,
+	 	 const size_type qdim) :
            M_section ( section + problem ),
            M_femType ( ),
            M_SpaceDim( ),
-           M_FEM(*mesh,2),
+           M_FEM(*mesh),
            M_meshPtr(mesh)
 {
 
@@ -18,6 +19,7 @@ FEM::FEM ( const getfem::mesh* mesh,
    getfem::pfem pf_v;
    pf_v = getfem::fem_descriptor(M_femType);
 
+	 M_FEM.set_qdim(qdim);
    M_FEM.set_finite_element(mesh->convex_index(), pf_v);
 	 // convex_index returns the list of all the valid convex elements on the mesh
 

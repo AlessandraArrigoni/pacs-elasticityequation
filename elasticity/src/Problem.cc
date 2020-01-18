@@ -6,8 +6,8 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 			M_BC2(dataFile2, "elasticity/", "bulkData/"), // change the dataFile accordingly and set it
 			interfaceIdx1(1),// change the dataFile accordingly and set it: devo capire come leggere il valore direttamente dal file!
 			interfaceIdx2(3), // adesso le ho messe brutali così, poi andranno lette da file o altro.
-			M_uFEM1( bulk1->getMesh(), dataFile1, "elasticity/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
-			M_uFEM2( bulk2->getMesh(), dataFile2, "elasticity/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
+			M_uFEM1( bulk1->getMesh(), dataFile1, "elasticity/", "Sol", "bulkData/", 2),// the last parameter is the dimesion of the space (2 = vector)
+			M_uFEM2( bulk2->getMesh(), dataFile2, "elasticity/", "Sol", "bulkData/", 2),// the last parameter is the dimesion of the space (2 = vector)
 			M_CoeffFEM1( bulk1->getMesh(), dataFile1, "elasticity/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
 			M_CoeffFEM2( bulk2->getMesh(), dataFile2, "elasticity/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
 			M_intMethod1(*(bulk1->getMesh()) ),
@@ -21,7 +21,7 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 	 std::cout<<"Il numero totale di dofs è "<<M_nbTotDOF<<std::endl;
 
 	 Qdim = M_uFEM1.getFEM()->get_qdim(); // Dimensione dello spazio FEM (1 = scalare, 2 = vettoriale)
-	 std::cout<<"Le dimensioni degli spazi FEM sono: "<<Qdim<<" per Omega1 e "<< M_uFEM2.getFEM()->get_qdim()<<" per Omega2"<<std::endl;
+	 std::cout<<"Le dimensioni degli spazi FEM sono: "<<Qdim<<" per Omega1 e "<< M_uFEM2.getFEM()->get_qdim()<<" per Omega2 e "<<M_CoeffFEM1.getFEM()->get_qdim()<<" per i coefficienti"<<std::endl;
 
 	 // Per ora faccio tutto sdoppiato, anche se poi probabilmente il metodo di integrazione sarà lo stesso sui 2 domini. Per ora ho solo copiato e incollato.
    std::string intMethod1(dataFile1 ( std::string("bulkData/elasticity/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
@@ -190,12 +190,12 @@ void Problem::assembleRHS(LinearSystem* sys)
 	scalarVectorPtr_Type  source1;
 	source1.reset(new scalarVector_Type (M_nbDOF1));
 	gmm::clear(*source1);
-	bulkLoad(source1, M_Bulk1, M_uFEM1, M_CoeffFEM1, M_intMethod1);
+	bulkLoad(source1, M_Bulk1, M_uFEM1, M_uFEM1, M_intMethod1);
 
 	scalarVectorPtr_Type  source2;
 	source2.reset(new scalarVector_Type (M_nbDOF2));
 	gmm::clear(*source2);
-	bulkLoad(source2, M_Bulk2, M_uFEM2, M_CoeffFEM2, M_intMethod2);
+	bulkLoad(source2, M_Bulk2, M_uFEM2, M_uFEM2, M_intMethod2);
 
 	M_Sys->addSubVector(source1,0);
 	M_Sys->addSubVector(source2,M_nbDOF1);
@@ -373,11 +373,13 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 		//IPOTESI MOLTO FORTE DA CONTROLLARE, altrimenti devo trovare il modo di fare il loop sui nodi fisici che ci sono sulle frontiere e recuperare poi i dofs (sperando che il primo sia relativo alla componente x e il secondo alla y): quando recupero i dof_on_region, mi restituisce accoppiati i due relativi a ogni nodo fisico, quindi poi anche qui quando faccio il loop su quelli sono sicura che avrò le stesse coordinate del where in due step consecutivi.
 
 		//std::cout<<"Il valore delle BC sul dominio "<<domainIdx<<" è: "<<std::endl;
-		for (size_type i = 0; i < M_rowsStrongBCcur.size(); i + Qdim)
+		for (size_type i = 0; i < M_rowsStrongBCcur.size(); i += Qdim)
 		{
 			size_type ii; // é l'indice "locale" del primo dof associato a un punto fisico (spero!)
 			ii = M_rowsStrongBCcur[i] ;
 
+										// DEBUG
+										//bgeot::base_node whereX, whereY;
 			for(size_type j = 0; j < Qdim; j++)
 			{
 				bgeot::base_node where;
@@ -385,14 +387,8 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 				scalar_type value = M_BCcur->BCDiri(where, j, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
 
 										// DEBUG
-										bgeot::base_node whereX, whereY;
-										if (j==0){whereX = where;}
-										if (j==1){whereY = where;}
-
-										std::cout<<"Nuova coppia di dofs"<<std::endl;
-										std::cout<<"punto dal dof X : ("<<whereX[0]<<", "<<whereX[1]<<")"<<std::endl;
-										std::cout<<"punto dal dof Y : ("<<whereY[0]<<", "<<whereY[1]<<")"<<std::endl;
-
+										//if (j==0){whereX = where;}
+										//if (j==1){whereY = where;}
 
 				M_Sys->setNullRow(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ));
 				M_Sys->setMatrixValue(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
@@ -401,6 +397,10 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 
 			} // fine loop su j (2 dofs associati a un punto fisico)
 
+										//DEBUG
+										//std::cout<<"Nuova coppia di dofs"<<std::endl;
+										//std::cout<<"punto dal dof X : ("<<whereX[0]<<", "<<whereX[1]<<")"<<std::endl;
+										//std::cout<<"punto dal dof Y : ("<<whereY[0]<<", "<<whereY[1]<<")"<<std::endl;
 		}
 
 
@@ -417,7 +417,7 @@ void Problem::enforceInterfaceJump(){
 
 	// Loop on the interface dofs and change the matrix
 	//std::cout<<"I valori sull'INTERFACCIA sono: "<<std::endl;
-	for (size_type k = 0 ; k < M_nbDOFIFace ; k + Qdim){
+	for (size_type k = 0 ; k < M_nbDOFIFace ; k += Qdim){
 
 		// Global indices in the two domains: vectors dof_IFace1 and dof_IFace2 are initialized by the constructor. I hope, once again, that the 2 dofs associated to the same physical node occupy two consecutive places in the vector!
 		size_type idx1 = dof_IFace1[k];
