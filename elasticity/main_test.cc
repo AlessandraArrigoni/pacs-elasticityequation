@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     myDomainRight.exportMesh(vtkFolder+"meshRight.vtk");
 
     Problem myProblem(dataFile1, dataFile2, & myDomainLeft, & myDomainRight);   //creo il problema
-    myProblem.printCoordinatesInterfaceNodes(); // Controllo che i vettori che contengono i dof sull'interfaccia seguano lo stesso ordine
+    myProblem.printCoordinatesInterfaceNodes(); // Controllo che i vettori che contengono i dof sull'interfaccia seguano lo stesso ordine-->YES!
 
     LinearSystem mySys;   //il sistema lineare corrispondente
 

@@ -2,14 +2,14 @@
 
 Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, Bulk* bulk2):
 			M_Bulk1(bulk1), M_Bulk2(bulk2),
-			M_BC1(dataFile1, "laplacian/", "bulkData/"), // change the dataFile accordingly and set it
-			M_BC2(dataFile2, "laplacian/", "bulkData/"), // change the dataFile accordingly and set it
+			M_BC1(dataFile1, "elasticity/", "bulkData/"), // change the dataFile accordingly and set it
+			M_BC2(dataFile2, "elasticity/", "bulkData/"), // change the dataFile accordingly and set it
 			interfaceIdx1(1),// change the dataFile accordingly and set it: devo capire come leggere il valore direttamente dal file!
 			interfaceIdx2(3), // adesso le ho messe brutali così, poi andranno lette da file o altro.
-			M_uFEM1( bulk1->getMesh(), dataFile1, "laplacian/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
-			M_uFEM2( bulk2->getMesh(), dataFile2, "laplacian/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
-			M_CoeffFEM1( bulk1->getMesh(), dataFile1, "laplacian/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
-			M_CoeffFEM2( bulk2->getMesh(), dataFile2, "laplacian/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
+			M_uFEM1( bulk1->getMesh(), dataFile1, "elasticity/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
+			M_uFEM2( bulk2->getMesh(), dataFile2, "elasticity/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
+			M_CoeffFEM1( bulk1->getMesh(), dataFile1, "elasticity/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
+			M_CoeffFEM2( bulk2->getMesh(), dataFile2, "elasticity/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
 			M_intMethod1(*(bulk1->getMesh()) ),
 			M_intMethod2(*(bulk2->getMesh()) ),
 		M_Sys()
@@ -21,10 +21,11 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 	 std::cout<<"Il numero totale di dofs è "<<M_nbTotDOF<<std::endl;
 
 	 Qdim = M_uFEM1.getFEM()->get_qdim(); // Dimensione dello spazio FEM (1 = scalare, 2 = vettoriale)
+	 std::cout<<"Le dimensioni degli spazi FEM sono: "<<Qdim<<" per Omega1 e "<< M_uFEM2.getFEM()->get_qdim()<<" per Omega2"<<std::endl;
 
 	 // Per ora faccio tutto sdoppiato, anche se poi probabilmente il metodo di integrazione sarà lo stesso sui 2 domini. Per ora ho solo copiato e incollato.
-   std::string intMethod1(dataFile1 ( std::string("bulkData/laplacian/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
-	 std::string intMethod2(dataFile2 ( std::string("bulkData/laplacian/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
+   std::string intMethod1(dataFile1 ( std::string("bulkData/elasticity/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
+	 std::string intMethod2(dataFile2 ( std::string("bulkData/elasticity/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
 
    M_intMethod1.set_integration_method(bulk1->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod1) );
 	 M_intMethod2.set_integration_method(bulk2->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod2) );

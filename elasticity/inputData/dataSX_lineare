@@ -37,7 +37,7 @@
                 du_BC_Y = 0
 
             	  FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti
+                FEMTypeCoeff = FEM_PK(2,1)  %tipo fem per l'approssimazione dei coefficienti
 
                 integrationMethod = IM_TRIANGLE(6)
 

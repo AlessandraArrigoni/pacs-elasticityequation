@@ -17,6 +17,10 @@ void linearElasticity(sparseMatrixPtr_Type M, Bulk* medium, FEM& FemSol, FEM& Fe
     mu[i] = medium->getData()->getMu(i);
   }
 
+            // DEBUG:
+            std::cout<<"The dimension of the mesh is "<<medium->getMesh()->dim()<<std::endl;
+            std::cout<<"The dimension of the space is "<<FemSol.getFEM()->get_qdim()<<std::endl;
+
   getfem::asm_stiffness_matrix_for_linear_elasticity(*M, im, femSol, femCoef, lambda, mu);
 
   std::cout << "operator linearElasticity(volume)      [OK]" << std::endl;

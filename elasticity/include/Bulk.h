@@ -15,7 +15,7 @@ public:
                    const std::string& section = "bulkData/",
                    const std::string& sectionDomain = "domain/",
 
-									 const std::string& sectionProblem = "laplacian/");
+									 const std::string& sectionProblem = "elasticity/");
   void exportMesh(std::string nomefile);
 
   inline getfem::mesh* getMesh()

@@ -25,19 +25,19 @@
 
             		bcflag = [0,0,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
             		interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
-                diff = 1  %coefficiente di diffusione
+                lambda = 1  %coefficiente di Lamè
+                mu = 1 %coefficiente di Lamè
                 exact_sol = y;2*y % soluzione esatta
 
-
-            		% soluzione LINEARE IN Y : [y,2y]
+            		% soluzione LINEARE IN Y : [y, 2y]
             		bulkload = 0;0
-            		u_BC_X = y
+                u_BC_X = y
                 u_BC_Y = 2*y
             		du_BC_X = 0
                 du_BC_Y = 0
 
-                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti
+            	  FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione
+                FEMTypeCoeff = FEM_PK(2,1)  %tipo fem per l'approssimazione dei coefficienti
 
                 integrationMethod = IM_TRIANGLE(6)
 
