@@ -56,15 +56,20 @@ void bulkLoad(scalarVectorPtr_Type V,
 
 
 
-void exactSolution(scalarVectorPtr_Type V, Bulk* medium, FEM& FemD)
+void exactSolution(scalarVectorPtr_Type V, Bulk* medium, FEM& FemSol)
 {
-  for (size_type i=0; i<FemD.nb_dof(); i++){
-    V->at(i) = medium->getData()->exactSolution(FemD.point_of_basic_dof(i))[0];
+  size_type Qdim = FemSol.getFEM()->get_qdim(); // I need it here since the Qdim property is defined in the Problem class, not here!
+
+  for (size_type i=0; i<FemSol.nb_dof(); i+= Qdim)
+  {
+    for (size_type j = 0; j < Qdim; j++){
+      V->at(i+j) = medium->getData()->exactSolution(FemSol.point_of_basic_dof(i))[j];
+
+          //DEBUG
+          //std::cout<<"punto: ("<<FemSol.point_of_basic_dof(i)[0]<<" , "<<FemSol.point_of_basic_dof(i)[1]<<") e valore della componente "<<j<<": "<< V->at(i+j)<<std::endl;
+    }
   }
 }
-
-
-
 
 
 

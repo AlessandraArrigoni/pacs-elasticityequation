@@ -100,6 +100,7 @@ int main(int argc, char *argv[]) {
 
 
         //DEBUG:
+        /*
         std::cout<<"IN MAIN the solution is "<<std::endl;
         scalarVectorPtr_Type solution;
       	solution.reset(new scalarVector_Type (myProblem.getNDOF()));
@@ -107,17 +108,17 @@ int main(int argc, char *argv[]) {
         myProblem.extractSol(solution,"all");
         for (size_type i = 0; i<myProblem.getNDOF(); i++)
         {std::cout<< solution->at(i)<<std::endl;}
+        */
 
-    myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview
+    myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview separando i due domini
     myProblem.exportVtk(vtkFolder,"u2");
 
-    /*
+
     // Compute and print errors
     myProblem.computeErrors();
 
     std::cout<<"L2 error LEFT : "<< myProblem.errL2sx<< "\tL2 error RIGHT : "<<myProblem.errL2dx<<"\tL2 error TOTAL : "<<myProblem.getL2Err()<<std::endl;
     std::cout<<"H1 error LEFT : "<< myProblem.errH1sx<< "\tH1 error RIGHT : "<<myProblem.errH1dx<<"\tH1 error TOTAL : "<<myProblem.getH1Err()<<std::endl;
-    */
 
     //myProblem.printInterfaceValues(); // per stampare i valori sull'interfaccia (associando quelli sullo stesso nodo fisico)
 }

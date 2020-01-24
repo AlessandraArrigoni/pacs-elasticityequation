@@ -9,8 +9,8 @@
                 meshExternal = none
                 meshFolder = ./meshes/   %per caricare mesh fatte con altri tool
 
-                spatialDiscretizationX = 5  %altrimenti, suddivisione in x e y
-                spatialDiscretizationY = 10
+                spatialDiscretizationX = 20  %altrimenti, suddivisione in x e y
+                spatialDiscretizationY = 40
                 lengthAbscissa = 0.5  %misure in x e y
                 lengthOrdinate = 1.0
                 startingAbscissa = 0 %traslazione del punto (0,0)
@@ -27,7 +27,7 @@
                 interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 lambda = 1  %coefficiente di Lamè
                 mu = 1 %coefficiente di Lamè
-                exact_sol = y;2*y % soluzione esatta
+                exact_sol = y;2*y % soluzione esatta: la componente x e y sono separate da ";"
 
             		% soluzione LINEARE IN Y : [y, 2y]
             		bulkload = 0;0

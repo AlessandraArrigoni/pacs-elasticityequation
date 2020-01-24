@@ -201,12 +201,6 @@ void Problem::assembleRHS(LinearSystem* sys)
 	M_Sys->addSubVector(source2,M_nbDOF1);
 
 
-	std::cout<<" il rhs globale prima di ogni modifica è "<<std::endl;
-	for (int t = 0; t<M_Sys->getRHS()->size(); t++){
-		std::cout<<M_Sys->getRHS()->at(t)<<"\t";
-	}
-
-
 	// Come per la matrice, "sposto" (sommandoli) anche i valori del rhs relativi alle funzioni definite sull'interfaccia di Omega1, perchè poi questi valori vengono persi quando impongo la condizione q0 con enforceInterfaceJump.
 	for (size_type k=0; k<dof_IFace1.size(); k++){
 		scalar_type newVal = (M_Sys->getRHS())->at(dof_IFace1[k]) + (M_Sys->getRHS())->at(dof_IFace2[k] + M_nbDOF1);
@@ -225,25 +219,15 @@ void Problem::assembleRHS(LinearSystem* sys)
 	stressRHS( BCvec1, M_Bulk1, &M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
 	stressRHS( BCvec2, M_Bulk2, &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
 
-
-	//DEBUG: print values of the "fake" rhs stressRHS to check they are 0 -->	YES
-	std::cout<<"Valori neumann rhs SINISTRA "<<std::endl;
-	for (size_type i=0; i<BCvec1->size(); i++){
-		std::cout<< BCvec1->at(i)<<"  ";
-	}
-	std::cout<<"\nValori neumann rhs DESTRA "<<std::endl;
-	for (size_type i=0; i<BCvec2->size(); i++){
-		std::cout<< BCvec2->at(i)<<"  ";
-	}
-
 	// trovo i nodi sull'unica frontiera di Neumann che metto
 	M_Sys->addSubVector(BCvec1, 0);
 	M_Sys->addSubVector(BCvec2, M_nbDOF1);
 
+	/*
 	std::cout<<"\nIl rhs globale dopo l'imposizione della BC di Neumann è "<<std::endl;
 	for (int t = 0; t<M_Sys->getRHS()->size(); t++){
 		std::cout<<M_Sys->getRHS()->at(t)<<"\t";
-	}
+	}*/
 }
 
 
@@ -306,9 +290,6 @@ void Problem::exportVtk(std::string folder, std::string what)
 	getfem::vtk_export exp(folder + "Solution_" + what + ".vtk" );
 	if (what == "u1"){
 		exp.exporting( *(M_uFEM1.getFEM()));
-		/* // provo a utilizzare la funzione extract che ho definito per ottenere la soluzione u1 qui direttamente; altrimenti dovrei chiamarla prima per "riempire" la variabile M_uSol1 e poi fare la copy
-		std::vector<scalar_type> disp(M_nbDOF1,0.0);
-		gmm::copy(*M_uSol1, disp); */
 		extractSol(M_uSol1, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
@@ -316,21 +297,12 @@ void Problem::exportVtk(std::string folder, std::string what)
 	}
 	if (what == "u2"){
 		exp.exporting( *(M_uFEM2.getFEM()));
-		/* // provo a utilizzare la funzione extract che ho definito per ottenere la soluzione u1 qui direttamente; altrimenti dovrei chiamarla prima per "riempire" la variabile M_uSol2 e poi fare la copy
-		std::vector<scalar_type> disp(M_nbDOF2,0.0);
-		gmm::copy(*M_uSol2, disp); */
 		extractSol(M_uSol2, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
 		exp.write_point_data( *(M_uFEM2.getFEM()), *M_uSol2, what);
 	}
 
-	/* ORIGINAL VERSION
-	exp.exporting( *(M_uFEM.getFEM()));
-	std::vector<scalar_type> disp(M_uFEM.getFEM()->nb_dof(),0.0);
-	gmm::copy(*M_uSol, disp);
-	exp.write_mesh();
-	exp.write_point_data( *(M_uFEM.getFEM()), disp, "u");*/
 }
 
 
@@ -406,11 +378,13 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 										//std::cout<<"punto dal dof Y : ("<<whereY[0]<<", "<<whereY[1]<<")"<<std::endl;
 		}
 
+		/*
 		std::cout<<"\nIl rhs globale dopo l'imposizione della BC di Dirichlet sul dominio "<<domainIdx<<" è "<<std::endl;
 		for (int t = 0; t<M_Sys->getRHS()->size(); t++){
 			std::cout<<M_Sys->getRHS()->at(t)<<"\t";
 		}
 		std::cout<<std::endl;
+		*/
 }
 
 // To be called AFTER the enforceStrongBC since that function sets the whole row to 0 (even the one associated to the interface!)
@@ -473,14 +447,24 @@ void Problem::computeErrors(){
 	exactSolution(DIFF1, M_Bulk1, M_uFEM1); // calcolo la soluzione esatta
 	exactSolution(DIFF2, M_Bulk2, M_uFEM2);
 
-	// Compute difference with the numerical sol
+	// Compute difference with the numerical solution
 	for (size_type i=0; i<M_uFEM1.nb_dof(); i++){
 		 DIFF1->at(i) -= M_uSol1->at(i);
 	}
 
+		// DEBUG
+		/*std::cout<<"\nla soluzione NUMERICA su omega 1 vale : "<<std::endl;
+		for (size_type i=0; i<M_uFEM1.nb_dof(); i++){
+			std::cout<<M_uSol1->at(i)<<"\t";
+		}*/
+
+
 	for (size_type i=0; i<M_uFEM2.nb_dof(); i++){
 		 DIFF2->at(i) -= M_uSol2->at(i);
 	}
+
+	//DEBUG
+	std::cout<< "\nvalore variabili errore prima di calcolarlo: L2 "<<errL2<<" e H1 "<<errH1<<std::endl;
 
 	errL2sx = getfem::asm_L2_norm(M_intMethod1, *(M_uFEM1.getFEM()), *DIFF1);
 	errH1sx = getfem::asm_H1_norm(M_intMethod1, *(M_uFEM1.getFEM()), *DIFF1);

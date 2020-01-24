@@ -69,16 +69,16 @@ bgeot::base_node BulkData::bulkLoad(bgeot::base_node x)
 	  return sol;
 	}
 
-  // Faccio un base_node perchè mi aspetto che poi per l'elasticità avrò due valori in x e y, anche se devo capire come definire la stringa della soluzione esatta in quel caso (potrei fare un vettore di stringhe e accedere alla prima per la soluzione in x e alla seconda per la soluzione in y ma vediamo). Nel caso del laplaciano invece devo poi prendere solo il primo elemento perchè è l'unico che sto modificando!
+  // Faccio un base_node perchè per l'elasticità ho due valori in x e y; per definire la stringa della soluzione provo a fare come con il bulkload passando le due componenti separate da un punto e virgola.
   bgeot::base_node BulkData::exactSolution(const base_node & x)
   {
     bgeot::base_node sol(0,0);
 
-    for (size_type i = 0; i < 1; ++i ){
+    for (size_type i = 0; i < 2; ++i ){
       M_parser.setString(M_solExact);
       M_parser.setVariable ( "x", x [ 0 ] );
       M_parser.setVariable ( "y", x [ 1 ] );
-      sol[i]= M_parser.evaluate ();
+      sol[i]= M_parser.evaluate (i);
     }
     return sol;
   }

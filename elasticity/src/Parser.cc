@@ -110,6 +110,7 @@ Parser::evaluate( const ID& id )
 
         for ( UInt i(0); i < M_strings.size(); ++i )
         {
+            //std::cout<<" La stringa nel parser è "<<M_strings[i]<<std::endl;
             start = M_strings[i].begin();
             end   = M_strings[i].end();
 //#ifdef HAVE_BOOST_SPIRIT_QI
@@ -188,6 +189,7 @@ Parser::setString( const std::string& string, const std::string& stringSeparator
     M_evaluate = true;
 
     //std::cout<<" La lunghezza di Mstrings nel parser è "<<M_strings.size()<<std::endl;
+
 }
 
 void
