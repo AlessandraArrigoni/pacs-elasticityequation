@@ -39,10 +39,10 @@ void bulkLoad(scalarVectorPtr_Type V,
 
   scalarVector_Type sourceVett(femSource.nb_dof(), 0.0);
       //DEBUG
-      std::cout << "in PROBLEM::ASSEMBLERHS::BULKLOAD, dimensione vettore source: "<<femSource.nb_dof()<<" dimensione spazio soluzione: "<<femSol.nb_dof()<<" QDIM = "<<Qdim<<std::endl;
+      //std::cout << "in PROBLEM::ASSEMBLERHS::BULKLOAD, dimensione vettore source: "<<femSource.nb_dof()<<" dimensione spazio soluzione: "<<femSol.nb_dof()<<" QDIM = "<<Qdim<<std::endl;
 
   // Compute source term in each dof
-  for (int i = 0; i < femSource.nb_dof(); i += Qdim)
+  for (size_type i = 0; i < femSource.nb_dof(); i += Qdim)
   {
     for (size_type j = 0; j < Qdim; j++){
       sourceVett[i + j] = medium->getData()->bulkLoad(femSource.point_of_basic_dof(i))[j]; // chiama il metodo bulkLoad contenuto nella classe getData che è un membro della classe Bulk: restituisce un vettore con i due valori, se il parser fa quello che dico io.

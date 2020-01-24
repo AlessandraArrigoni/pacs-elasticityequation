@@ -150,7 +150,7 @@ void Problem::assembleMatrix(LinearSystem* sys)
 
 	A2.reset(new sparseMatrix_Type (M_nbDOF2, M_nbDOF2));
 	gmm::clear(*A2);
-	linearElasticity(A1, M_Bulk1, M_uFEM1, M_CoeffFEM1, M_intMethod1);
+	linearElasticity(A2, M_Bulk2, M_uFEM2, M_CoeffFEM2, M_intMethod2);
 
 	M_Sys->addSubMatrix(A1, 0, 0);
 	M_Sys->addSubMatrix(A2, M_nbDOF1, M_nbDOF1);
@@ -200,11 +200,11 @@ void Problem::assembleRHS(LinearSystem* sys)
 	M_Sys->addSubVector(source1,0);
 	M_Sys->addSubVector(source2,M_nbDOF1);
 
-	/*
+
 	std::cout<<" il rhs globale prima di ogni modifica è "<<std::endl;
 	for (int t = 0; t<M_Sys->getRHS()->size(); t++){
 		std::cout<<M_Sys->getRHS()->at(t)<<"\t";
-	}*/
+	}
 
 
 	// Come per la matrice, "sposto" (sommandoli) anche i valori del rhs relativi alle funzioni definite sull'interfaccia di Omega1, perchè poi questi valori vengono persi quando impongo la condizione q0 con enforceInterfaceJump.
@@ -226,20 +226,24 @@ void Problem::assembleRHS(LinearSystem* sys)
 	stressRHS( BCvec2, M_Bulk2, &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
 
 
-	/* DEBUG: print values of the "fake" rhs stressRHS to check they are 0 -->	YES
-	std::cout<<"Valori fake rhs SINISTRA "<<std::endl;
+	//DEBUG: print values of the "fake" rhs stressRHS to check they are 0 -->	YES
+	std::cout<<"Valori neumann rhs SINISTRA "<<std::endl;
 	for (size_type i=0; i<BCvec1->size(); i++){
 		std::cout<< BCvec1->at(i)<<"  ";
 	}
-	std::cout<<"Valori fake rhs DESTRA "<<std::endl;
+	std::cout<<"\nValori neumann rhs DESTRA "<<std::endl;
 	for (size_type i=0; i<BCvec2->size(); i++){
 		std::cout<< BCvec2->at(i)<<"  ";
-	}*/
+	}
 
 	// trovo i nodi sull'unica frontiera di Neumann che metto
 	M_Sys->addSubVector(BCvec1, 0);
 	M_Sys->addSubVector(BCvec2, M_nbDOF1);
 
+	std::cout<<"\nIl rhs globale dopo l'imposizione della BC di Neumann è "<<std::endl;
+	for (int t = 0; t<M_Sys->getRHS()->size(); t++){
+		std::cout<<M_Sys->getRHS()->at(t)<<"\t";
+	}
 }
 
 
@@ -290,7 +294,6 @@ void Problem::extractSol(scalarVectorPtr_Type destination, std::string variable)
 		//}
 	}
 	else {
-			destination.reset(new scalarVector_Type (M_nbTotDOF));
 			gmm::clear(*destination);
 			gmm::copy ( gmm::sub_vector (*M_uSol, gmm::sub_interval (0,  M_nbTotDOF )), *destination);
 	}
@@ -403,7 +406,11 @@ void Problem::enforceStrongBC(size_type const domainIdx)
 										//std::cout<<"punto dal dof Y : ("<<whereY[0]<<", "<<whereY[1]<<")"<<std::endl;
 		}
 
-
+		std::cout<<"\nIl rhs globale dopo l'imposizione della BC di Dirichlet sul dominio "<<domainIdx<<" è "<<std::endl;
+		for (int t = 0; t<M_Sys->getRHS()->size(); t++){
+			std::cout<<M_Sys->getRHS()->at(t)<<"\t";
+		}
+		std::cout<<std::endl;
 }
 
 // To be called AFTER the enforceStrongBC since that function sets the whole row to 0 (even the one associated to the interface!)

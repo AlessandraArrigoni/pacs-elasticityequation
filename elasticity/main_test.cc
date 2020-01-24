@@ -98,12 +98,13 @@ int main(int argc, char *argv[]) {
     myProblem.solve();   // risolvo
     std::cout << "Solved system      [OK]" << std::endl;
 
+
         //DEBUG:
         std::cout<<"IN MAIN the solution is "<<std::endl;
         scalarVectorPtr_Type solution;
       	solution.reset(new scalarVector_Type (myProblem.getNDOF()));
       	gmm::clear(*solution);
-        myProblem.extractSol(solution);
+        myProblem.extractSol(solution,"all");
         for (size_type i = 0; i<myProblem.getNDOF(); i++)
         {std::cout<< solution->at(i)<<std::endl;}
 

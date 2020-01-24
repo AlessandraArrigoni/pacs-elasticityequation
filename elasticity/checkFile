@@ -1,0 +1,53 @@
+File name 1: inputData/dataSX_lineare
+File name 2: inputData/dataDX_lineare
+la forzante è 0;0
+La soluzione esatta è y;2*y
+bulkData/domain/
+la forzante è 0;0
+La soluzione esatta è y;2*y
+bulkData/domain/
+stringa section: bulkData/elasticity/
+stringa BC: [0,0,0,0]
+condizione Dirichlet x: (1+y)*(x<(0.5-1e-5))
+condizione Dirichlet y: (1+2*y)*(x<(0.5-1e-5))
+stringa section: bulkData/elasticity/
+stringa BC: [0,0,0,1]
+condizione Dirichlet x: y
+condizione Dirichlet y: 2*y
+Il numero totale di dofs è 264
+Le dimensioni degli spazi FEM sono: 2 per Omega1 e 2 per Omega2 e 1 per i coefficienti
+
+The number of interface dofs is : 22
+Interface Omega1      [OK]
+Interface Omega2      [OK]
+The dimension of the mesh is 2
+The dimension of the space is 2
+operator linearElasticity(volume)      [OK]
+The dimension of the mesh is 2
+The dimension of the space is 2
+operator linearElasticity(volume)      [OK]
+in PROBLEM::ASSEMBLERHS::BULKLOAD, dimensione vettore source: 132 dimensione spazio soluzione: 132 QDIM = 2
+operator bulkLoad(volume)      [OK]
+in PROBLEM::ASSEMBLERHS::BULKLOAD, dimensione vettore source: 132 dimensione spazio soluzione: 132 QDIM = 2
+operator bulkLoad(volume)      [OK]
+ il rhs globale prima di ogni modifica è 
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	operator NeumannBC on boundary 3      [OK]
+Valori neumann rhs SINISTRA 
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+Valori neumann rhs DESTRA 
+-2.53409e-17  -1.81007e-17  0.35  0.25  0.7  0.5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0.7  0.5  0  0  0  0  0  0  0  0  0  0  -2.53409e-17  -1.81007e-17  0.7  0.5  0  0  0  0  0  0  0  0  0.7  0.5  0  0  0  0  0  0  0  0  0  0  -2.53409e-17  -1.81007e-17  0.7  0.5  0  0  0  0  0  0  0  0  0.7  0.5  0  0  0  0  0  0  0  0  0  0  -2.53409e-17  -1.81007e-17  0.7  0.5  0  0  0  0  0  0  0  0  0.7  0.5  0  0  0  0  0  0  0  0  0  0  -2.53409e-17  -1.81007e-17  0.7  0.5  0  0  0  0  0  0  0  0  0.35  0.25  0  0  0  0  0  0  0  0  0  0  
+Il rhs globale dopo l'imposizione della BC di Neumann è 
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.35	0.25	0.7	0.5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.35	0.25	0	0	0	0	0	0	0	0	0	0	
+Il rhs globale dopo l'imposizione della BC di Dirichlet sul dominio 1 è 
+0	0	1	1	1.1	1.2	1	1	1	1	0	0	0	0	1	1	1	1	0	0	0	0	0	0	1.2	1.4	0	0	0	0	0	0	0	0	0	0	0	0	1.3	1.6	0	0	0	0	0	0	0	0	1.4	1.8	0	0	0	0	0	0	0	0	0	0	0	0	1.5	2	0	0	0	0	0	0	0	0	1.6	2.2	0	0	0	0	0	0	0	0	0	0	0	0	1.7	2.4	0	0	0	0	0	0	0	0	1.8	2.6	0	0	0	0	0	0	0	0	0	0	0	0	1.9	2.8	0	0	0	0	0	0	0	0	2	3	2	3	2	3	2	3	2	3	0	0	-2.53409e-17	-1.81007e-17	0.35	0.25	0.7	0.5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0	0	0.35	0.25	0	0	0	0	0	0	0	0	0	0	
+
+Il rhs globale dopo l'imposizione della BC di Dirichlet sul dominio 2 è 
+0	0	1	1	1.1	1.2	1	1	1	1	0	0	0	0	1	1	1	1	0	0	0	0	0	0	1.2	1.4	0	0	0	0	0	0	0	0	0	0	0	0	1.3	1.6	0	0	0	0	0	0	0	0	1.4	1.8	0	0	0	0	0	0	0	0	0	0	0	0	1.5	2	0	0	0	0	0	0	0	0	1.6	2.2	0	0	0	0	0	0	0	0	0	0	0	0	1.7	2.4	0	0	0	0	0	0	0	0	1.8	2.6	0	0	0	0	0	0	0	0	0	0	0	0	1.9	2.8	0	0	0	0	0	0	0	0	2	3	2	3	2	3	2	3	2	3	0	0	-2.53409e-17	-1.81007e-17	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0.1	0.2	0	0	0.7	0.5	0	0	0	0	0	0	0	0	0.2	0.4	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0.3	0.6	0.7	0.5	0	0	0	0	0	0	0	0	0.4	0.8	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0.5	1	0.7	0.5	0	0	0	0	0	0	0	0	0.6	1.2	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0.7	1.4	0.7	0.5	0	0	0	0	0	0	0	0	0.8	1.6	-2.53409e-17	-1.81007e-17	0.7	0.5	0	0	0	0	0	0	0.9	1.8	1	2	1	2	1	2	1	2	1	2	1	2	
+Dirichlet boundary conditions      [OK]
+Dirichlet interface conditions      [OK]
+Size of the solution in Problem: 264
+Solved system      [OK]
+export u1
+Solution extracted! 
+export u2
+Solution extracted! 

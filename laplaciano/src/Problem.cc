@@ -219,8 +219,8 @@ void Problem::assembleRHS(LinearSystem* sys)
 	scalarVectorPtr_Type  BCvec2;
 	BCvec2.reset(new scalarVector_Type (M_nbDOF2));
 
-	stressRHS( BCvec1, M_Bulk1,  0 , &M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
-	stressRHS( BCvec2, M_Bulk2,  0 , &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
+	stressRHS( BCvec1, M_Bulk1, &M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
+	stressRHS( BCvec2, M_Bulk2, &M_BC2, M_uFEM2, M_uFEM2, M_intMethod2);
 
 
 	/* DEBUG: print values of the "fake" rhs stressRHS to check they are 0 -->	YES
