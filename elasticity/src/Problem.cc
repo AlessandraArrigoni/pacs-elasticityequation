@@ -463,9 +463,6 @@ void Problem::computeErrors(){
 		 DIFF2->at(i) -= M_uSol2->at(i);
 	}
 
-	//DEBUG
-	std::cout<< "\nvalore variabili errore prima di calcolarlo: L2 "<<errL2<<" e H1 "<<errH1<<std::endl;
-
 	errL2sx = getfem::asm_L2_norm(M_intMethod1, *(M_uFEM1.getFEM()), *DIFF1);
 	errH1sx = getfem::asm_H1_norm(M_intMethod1, *(M_uFEM1.getFEM()), *DIFF1);
 	errL2dx = getfem::asm_L2_norm(M_intMethod2, *(M_uFEM2.getFEM()), *DIFF2);
