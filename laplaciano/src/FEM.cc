@@ -2,18 +2,17 @@
 
 FEM::FEM ( const getfem::mesh* mesh,
 	   const GetPot& dataFile,
-	   const std::string& problem,
+	   const std::string& femspaces,
 	   const std::string& variable,
 	   const std::string& section) :
-           M_section ( section + problem ),
+           M_section ( section + femspaces ),
            M_femType ( ),
            M_SpaceDim( ),
            M_FEM(*mesh), // the 2 means that we want a vectorial FEM space on this mesh with 2 components
            M_meshPtr(mesh)
 {
-
-   M_femType = dataFile ( ( M_section+ "FEMType"+variable ).data (), "FEM_PK(2,1)" );
-   M_SpaceDim= dataFile ( ( M_section+ "spaceDimension" ).data (), 2 );
+	 M_femType = dataFile((M_section+ "FEMType"+variable ).data(),"FEM_PK(2,1)");
+   M_SpaceDim= dataFile((M_section+ "spaceDimension" ).data (), 2 ); // qui credo che prenda il valore di default, ma va bene comunque
 
    getfem::pfem pf_v;
    pf_v = getfem::fem_descriptor(M_femType);

@@ -1,9 +1,9 @@
 #include "../include/BC.h"
 
 BC::BC ( const GetPot& dataFile,
-	 const std::string& problem,
-                                 const std::string& section1) :
-            M_section ( section1 + problem ),
+	 			const std::string& problem,
+        const std::string& section) :
+      M_section ( section + problem ),
 	    M_nBoundaries( dataFile ( ( M_section + "nBoundaries" ).data (), 4) ),
 	    M_BCstring( dataFile ( ( M_section + "bcflag" ).data (), "1") ),
  	    M_BCNeum( dataFile ( ( M_section + "du_BC" ).data (), "1") ),
@@ -34,7 +34,7 @@ BC::BC ( const GetPot& dataFile,
 
     }
 
-
+		/*
     M_bdNodesX.resize(M_nBoundaries+1,0);
     std::string xnodes(dataFile ( ( M_section + "boundaryNodesX" ).data (), "[0,1,1,0]"));
     M_parser.setString (xnodes);
@@ -56,7 +56,7 @@ BC::BC ( const GetPot& dataFile,
         M_bdNodesY [ i ] = M_parser.evaluate ( i );
 
     }
-    M_bdNodesY [ M_nBoundaries ]= M_bdNodesY [ 0 ];
+    M_bdNodesY [ M_nBoundaries ]= M_bdNodesY [ 0 ];*/
 
 }
 
@@ -98,7 +98,7 @@ void BC::setBoundaries(getfem::mesh* meshPtr)
 {
     getfem::mesh_region border_faces;
     getfem::outer_faces_of_mesh(*meshPtr, border_faces);
-    std::vector<int> verticalBDs;
+    /*std::vector<int> verticalBDs;
     std::vector<int> horizontalBDs;
 
     for (int j=0; j<M_nBoundaries;++j)
@@ -107,7 +107,7 @@ void BC::setBoundaries(getfem::mesh* meshPtr)
 			verticalBDs.push_back(j);
 		if (M_bdNodesY[j]==M_bdNodesY[j+1])
 			horizontalBDs.push_back(j);
-    }
+    }*/
 
     for (getfem::mr_visitor i(border_faces); !i.finished(); ++i)
     {

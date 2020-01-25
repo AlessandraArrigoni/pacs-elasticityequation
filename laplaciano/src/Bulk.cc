@@ -3,13 +3,14 @@
 Bulk::Bulk ( const GetPot& dataFile,
                              const std::string& section,
                              const std::string& sectionDomain,
-                             const std::string& sectionProblem
+                             const std::string& sectionProblem,
+                             const std::string& domainNumber
                              ) :
             M_datafile(dataFile),
             M_section ( section ),
-            M_sectionDomain ( M_section + sectionDomain ),
-            M_sectionProblem ( M_section + sectionProblem ),
-	    M_Data( dataFile),
+            M_sectionDomain ( section + sectionDomain ),
+            M_sectionProblem ( section + sectionProblem + domainNumber + "/"),
+	          M_Data( dataFile, section, sectionProblem, domainNumber),
             // domain
 	    M_meshType( dataFile ( ( M_sectionDomain + "meshType" ).data (), "GT_PK(2,1)" ) ),
 	    M_meshFile( dataFile ( ( M_sectionDomain + "meshExternal" ).data (), "none" )   ),
@@ -17,11 +18,9 @@ Bulk::Bulk ( const GetPot& dataFile,
       M_Nx ( dataFile ( ( M_sectionDomain + "spatialDiscretizationX" ).data (), 10 ) ),
       M_Ny ( dataFile ( ( M_sectionDomain + "spatialDiscretizationY" ).data (), 10 ) ),
 	    M_Lx ( dataFile ( ( M_sectionDomain + "lengthAbscissa" ).data (), 1. ) ),
-      M_Ly ( dataFile ( ( M_sectionDomain + "lengthOrdinate" ).data (), 1. ) ),
-      M_origx( dataFile ( ( M_sectionDomain + "startingAbscissa" ).data(), 0. ) ),
-      M_origy( dataFile ( ( M_sectionDomain + "startingOrdinate" ).data(), 0. ) )
+      M_Ly ( dataFile ( ( M_sectionDomain + "lengthOrdinate" ).data (), 1. ) )
 {
-   std::cout <<  M_sectionDomain <<std::endl;
+   std::cout <<  "in Bulk.cc il problema è "<<M_sectionProblem <<std::endl;
     bgeot::pgeometric_trans pgt;
 
     pgt =  bgeot::geometric_trans_descriptor(M_meshType);
@@ -41,8 +40,9 @@ Bulk::Bulk ( const GetPot& dataFile,
     M(1,1)=M_Ly;
 
     bgeot::base_small_vector trasl(N);
-    trasl[0]= M_origx;
-    trasl[1]= M_origy;
+
+    trasl[0]= dataFile(( M_sectionDomain + "startingAbscissa" + domainNumber ).data(), 0.);
+    trasl[1]= dataFile(( M_sectionDomain + "startingOrdinate" + domainNumber ).data(), 0.);
 
     M_mesh.transformation(M);
     M_mesh.translation(trasl);

@@ -11,7 +11,7 @@ class BC
 public:
 	 BC ( const GetPot& dataFile,
 	      const std::string& problem,
-                          const std::string& section1 );
+        const std::string& section );
 
 	scalar_type BCNeum(const base_node& x, const size_type& flag);  //valuta la funzione che restituisce il valore delle BC
 	scalar_type BCDiri(const base_node& x, const size_type& flag);

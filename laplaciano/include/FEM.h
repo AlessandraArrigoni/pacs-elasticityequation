@@ -11,13 +11,13 @@ class FEM
 public:
 	 FEM (const getfem::mesh* mesh,
 	      const GetPot& dataFile,
-	      const std::string& problem,
+	      const std::string& femspaces,
 	      const std::string& variable,
-              const std::string& section = "bulkData/"
-              );
+        const std::string& section = "bulkData/"
+        );
 
  	FEM (const getfem::mesh* mesh,
-	         std::string femType,
+	     std::string femType,
    		 size_type spaceDim
               );
 

@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% parameters for program laplacian: soluzione parabola a sx e sen/cos a dx
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[bulkData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/   % per caricare mesh fatte con altri tool
+
+                spatialDiscretizationX = 80  % la mesh è conforme: suddivisione uguale in omega1 e omega2
+                spatialDiscretizationY = 160
+                lengthAbscissa = 0.5  % misure in x e y per entrambi
+                lengthOrdinate = 1.0
+                startingAbscissa1 = 0 % punto in basso a sx per omega1
+                startingOrdinate1 = 0
+                startingAbscissa2 = 0.5 % punto in basso a sx per omega2
+                startingOrdinate2 = 0
+                meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
+                spaceDimension = 2   % bidimensionale
+
+        [../]
+
+
+        [./laplacian1]
+
+            		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+                interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+                diff = 1  %coefficiente di diffusione
+                exact_sol = 4*y*(y-1) % soluzione esatta
+
+
+            		% soluzione PARABOLICA in Y : 4y(y-1)
+                bulkload = -8
+            		u_BC = 4*y*(y-1)+sin(2*pi*y)*(x>(0.5-1e-5))
+            		du_BC = 0
+
+        [../]
+
+
+        [./laplacian2]
+
+                bcflag = [0,0,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+                interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+                diff = 1  %coefficiente di diffusione
+                exact_sol = cos(2*pi*x)*sin(2*pi*y) % soluzione esatta
+
+
+                % soluzione SENO e COSENO
+            		bulkload = 8*pi*pi*cos(2*pi*x)*sin(2*pi*y)
+            		u_BC = cos(2*pi*x)*sin(2*pi*y)
+            		du_BC = 2*pi*sin(2*pi*x)*sin(2*pi*y) % è il q1 = salto della derivata conormale sull'interfaccia
+
+        [../]
+
+
+        [./femspaces]
+
+                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
+                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti: FEM costanti su triangoli
+                integrationMethod = IM_TRIANGLE(6)
+
+        [../]
+
+
+[../]

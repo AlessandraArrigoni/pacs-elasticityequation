@@ -54,26 +54,24 @@ int main(int argc, char *argv[]) {
 
     GetPot command_line(argc, argv);
 
-    const std::string data_file_name1 = command_line.follow("inputData/dataSX_parabola_seno_q1", 2, "-f",    "--file");
-    const std::string data_file_name2 = command_line.follow("inputData/dataDX_parabola_seno_q1", 2, "-f",    "--file");
+    // Il nome del file di input devo leggerlo da terminale
+    const std::string data_file_name = command_line.follow("inputData/periodicq1", 2, "-f",    "--file");
 
-    GetPot dataFile1(data_file_name1.data());
-    std::cout<< "File name 1: "<< data_file_name1 << std::endl;
-
-    GetPot dataFile2(data_file_name2.data());
-    std::cout<< "File name 2: " << data_file_name2 << std::endl;
+    GetPot dataFile(data_file_name.data());
+    std::cout<< "File name : "<< data_file_name << std::endl;
 
     const std::string section = "";
 
     const std::string vtkFolder = "output_vtk/";
 
-    Bulk myDomainLeft(dataFile1, "bulkData/", "domain/", "laplacian/");    //creo i domini
-    Bulk myDomainRight(dataFile2, "bulkData/", "domain/", "laplacian/");
+    // Anche qui i nomi del problema potrei leggerli da terminale per avere lo stesso main per entrambi i problemi.
+    Bulk myDomainLeft(dataFile, "bulkData/", "domain/", "laplacian","1");    //creo i domini
+    Bulk myDomainRight(dataFile, "bulkData/", "domain/", "laplacian","2");
 
     myDomainLeft.exportMesh(vtkFolder+"meshLeft.vtk");       //initial export
     myDomainRight.exportMesh(vtkFolder+"meshRight.vtk");
 
-    Problem myProblem(dataFile1, dataFile2, & myDomainLeft, & myDomainRight);   //creo il problema
+    Problem myProblem(dataFile, & myDomainLeft, & myDomainRight);   //creo il problema
 //    myProblem.printCoordinatesInterfaceNodes(); // Controllo che i vettori che contengono i dof sull'interfaccia seguano lo stesso ordine-->YES
 
     LinearSystem mySys;   //il sistema lineare corrispondente

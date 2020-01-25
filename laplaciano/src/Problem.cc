@@ -1,19 +1,20 @@
 #include "../include/Problem.h"
 
-Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, Bulk* bulk2):
-			M_Bulk1(bulk1), M_Bulk2(bulk2),
-			M_BC1(dataFile1, "laplacian/", "bulkData/"), // change the dataFile accordingly and set it
-			M_BC2(dataFile2, "laplacian/", "bulkData/"), // change the dataFile accordingly and set it
-			interfaceIdx1(1),// change the dataFile accordingly and set it: devo capire come leggere il valore direttamente dal file!
-			interfaceIdx2(3), // adesso le ho messe brutali così, poi andranno lette da file o altro.
-			M_uFEM1( bulk1->getMesh(), dataFile1, "laplacian/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
-			M_uFEM2( bulk2->getMesh(), dataFile2, "laplacian/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
-			M_CoeffFEM1( bulk1->getMesh(), dataFile1, "laplacian/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
-			M_CoeffFEM2( bulk2->getMesh(), dataFile2, "laplacian/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
+Problem::Problem (const GetPot& dataFile, Bulk* bulk1, Bulk* bulk2):
+			M_Bulk1(bulk1),	M_Bulk2(bulk2),
+			M_BC1(dataFile, "laplacian1/", "bulkData/"), // change the dataFile accordingly and set it
+			M_BC2(dataFile, "laplacian2/", "bulkData/"), // change the dataFile accordingly and set it
+			interfaceIdx1( dataFile(std::string("bulkData/laplacian1/interfaceIdx").data(),1) ),// change the dataFile accordingly and set it: devo capire come leggere il valore direttamente dal file!
+			interfaceIdx2( dataFile(std::string("bulkData/laplacian2/interfaceIdx").data(),3)), // adesso le ho messe brutali così, poi andranno lette da file o altro.
+			M_uFEM1( bulk1->getMesh(), dataFile, "femspaces/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
+			M_uFEM2( bulk2->getMesh(), dataFile, "femspaces/", "Sol", "bulkData/"),// change the dataFile accordingly and set it
+			M_CoeffFEM1( bulk1->getMesh(), dataFile, "femspaces/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
+			M_CoeffFEM2( bulk2->getMesh(), dataFile, "femspaces/", "Coeff", "bulkData/"), // change the dataFile accordingly and set it
 			M_intMethod1(*(bulk1->getMesh()) ),
 			M_intMethod2(*(bulk2->getMesh()) ),
 		M_Sys()
 {
+	std::cout<<"l'indice dell'interfaccia su omega1 è "<<interfaceIdx1<<", quello su omega2 è "<<interfaceIdx2<<std::endl;
 
    M_nbDOF1 = M_uFEM1.nb_dof();
 	 M_nbDOF2 = M_uFEM2.nb_dof();
@@ -22,12 +23,11 @@ Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, 
 
 	 Qdim = M_uFEM1.getFEM()->get_qdim(); // Dimensione dello spazio FEM (1 = scalare, 2 = vettoriale)
 
-	 // Per ora faccio tutto sdoppiato, anche se poi probabilmente il metodo di integrazione sarà lo stesso sui 2 domini. Per ora ho solo copiato e incollato.
-   std::string intMethod1(dataFile1 ( std::string("bulkData/laplacian/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
-	 std::string intMethod2(dataFile2 ( std::string("bulkData/laplacian/integrationMethod" ).data (), "IM_TRIANGLE(6)" ) );
+	 // Per ora faccio tutto sdoppiato, anche se poi probabilmente il metodo di integrazione sarà lo stesso sui 2 domini. Per ora ho solo copiato e incollato: in realtà la stringa non viene letta dal file di input ma prende il valore di default che comunque è lo stesso
+   std::string intMethod(dataFile(std::string("bulkData/femspaces/integrationMethod").data(), "IM_TRIANGLE(6)" ) );
 
-   M_intMethod1.set_integration_method(bulk1->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod1) );
-	 M_intMethod2.set_integration_method(bulk2->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod2) );
+   M_intMethod1.set_integration_method(bulk1->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod) );
+	 M_intMethod2.set_integration_method(bulk2->getMesh()->convex_index(),getfem::int_method_descriptor(intMethod) );
 
    M_Bulk1->getData()->setDiff(M_CoeffFEM1.getDOFpoints());  //valuta i coefficienti negli elementi della mesh
 	 M_Bulk2->getData()->setDiff(M_CoeffFEM2.getDOFpoints());  //valuta i coefficienti negli elementi della mesh
@@ -293,6 +293,7 @@ void Problem::extractSol(scalarVectorPtr_Type destination, std::string variable)
 	}
 }
 
+
 // We keep the two solutions always separated since we don't have the global FEM space for the whole solution (I guess)
 void Problem::exportVtk(std::string folder, std::string what)
 {
@@ -300,9 +301,6 @@ void Problem::exportVtk(std::string folder, std::string what)
 	getfem::vtk_export exp(folder + "Solution_" + what + ".vtk" );
 	if (what == "u1"){
 		exp.exporting( *(M_uFEM1.getFEM()));
-		/* // provo a utilizzare la funzione extract che ho definito per ottenere la soluzione u1 qui direttamente; altrimenti dovrei chiamarla prima per "riempire" la variabile M_uSol1 e poi fare la copy
-		std::vector<scalar_type> disp(M_nbDOF1,0.0);
-		gmm::copy(*M_uSol1, disp); */
 		extractSol(M_uSol1, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
@@ -310,21 +308,12 @@ void Problem::exportVtk(std::string folder, std::string what)
 	}
 	if (what == "u2"){
 		exp.exporting( *(M_uFEM2.getFEM()));
-		/* // provo a utilizzare la funzione extract che ho definito per ottenere la soluzione u1 qui direttamente; altrimenti dovrei chiamarla prima per "riempire" la variabile M_uSol2 e poi fare la copy
-		std::vector<scalar_type> disp(M_nbDOF2,0.0);
-		gmm::copy(*M_uSol2, disp); */
 		extractSol(M_uSol2, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
 		exp.write_point_data( *(M_uFEM2.getFEM()), *M_uSol2, what);
 	}
 
-	/* ORIGINAL VERSION
-	exp.exporting( *(M_uFEM.getFEM()));
-	std::vector<scalar_type> disp(M_uFEM.getFEM()->nb_dof(),0.0);
-	gmm::copy(*M_uSol, disp);
-	exp.write_mesh();
-	exp.write_point_data( *(M_uFEM.getFEM()), disp, "u");*/
 }
 
 

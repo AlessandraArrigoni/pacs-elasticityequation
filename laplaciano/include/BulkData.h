@@ -10,19 +10,20 @@ class BulkData
 {
 public:
 	 BulkData ( const GetPot& dataFile,
-                          const std::string& section = "bulkData/",
-                          const std::string& sectionProblem = "laplacian/");
+              const std::string& section = "bulkData/",
+              const std::string& sectionProblem = "nothing",
+							const std::string& domainNumber = "nothing");
 
 	scalar_type Diff(const base_node& x );
 
-        void setDiff(std::vector<base_node> nodes);
+  void setDiff(std::vector<base_node> nodes);
 
 	inline scalar_type getDiff(size_type i)
 	{
 		return (*M_DiffVector)[i];  //restituisce la diffusività in uno specifico DOF
 	}
 
-        inline std::vector<scalar_type> getDiff()
+  inline std::vector<scalar_type> getDiff()
 	{
 		return (*M_DiffVector); //restituisce la diffusività in tutti i DOF
 	}
@@ -39,7 +40,6 @@ private:
 
     std::string M_diff;
     std::string M_load;
-    std::string M_fluidP;
 		std::string M_solExact;
 
     scalarVectorPtr_Type M_DiffVector;

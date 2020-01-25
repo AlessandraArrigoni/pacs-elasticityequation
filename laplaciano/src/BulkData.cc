@@ -1,10 +1,11 @@
 #include "../include/BulkData.h"
 
 BulkData::BulkData ( const GetPot& dataFile,
-                                 const std::string& section,
-                                 const std::string& sectionPb) :
-            M_section ( section ),
-            M_sectionProblem ( M_section + sectionPb ),
+                     const std::string& section,
+                     const std::string& sectionPb,
+                     const std::string& domainNumber) :
+      M_section ( section ),
+      M_sectionProblem ( section + sectionPb + domainNumber + "/"),
 	    M_diff( dataFile ( ( M_sectionProblem + "diff" ).data (), "1." ) ),
 	    M_load( dataFile ( ( M_sectionProblem + "bulkload" ).data (), "1." ) ),
       M_solExact(dataFile( ( M_sectionProblem + "exact_sol" ).data (), "1." ) )

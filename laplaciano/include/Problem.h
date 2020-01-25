@@ -11,7 +11,7 @@
 class Problem
 {
 public:
-	 Problem ( const GetPot& dataFile1, const GetPot& dataFile2, Bulk* bulk1=NULL , Bulk* bulk2=NULL);
+	 Problem ( const GetPot& dataFile, Bulk* bulk1=NULL , Bulk* bulk2=NULL);
 
          void initialize();
 
@@ -83,7 +83,7 @@ public:
 		std::vector<size_type> dof_IFace1, dof_IFace2;
 
 		size_type Qdim;
-		
+
     getfem::mesh_im M_intMethod1, M_intMethod2;
 
 		// Anche qui consideriamo di trattare l'interfaccia come una BC di Dirichlet per uno dei 2 domini mentre per l'altro viene lasciata "libera", nel senso che il valore di u si trova risolvendo il sistema; ciò equivale ad assegnare BC di Neumann.

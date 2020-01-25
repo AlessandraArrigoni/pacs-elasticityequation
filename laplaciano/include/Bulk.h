@@ -14,8 +14,8 @@ public:
 	 Bulk ( const GetPot& dataFile,
                    const std::string& section = "bulkData/",
                    const std::string& sectionDomain = "domain/",
-
-									 const std::string& sectionProblem = "laplacian/");
+									 const std::string& sectionProblem = "nothing",
+								   const std::string& domainNumber = "nothing");
   void exportMesh(std::string nomefile);
 
   inline getfem::mesh* getMesh()
@@ -62,8 +62,6 @@ private:
     size_type M_Ny;
     scalar_type M_Lx;
     scalar_type M_Ly;
-		scalar_type M_origx;
-		scalar_type M_origy;
 
     std::string M_meshType;
     getfem::mesh M_mesh;          // the mesh
