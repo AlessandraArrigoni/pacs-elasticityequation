@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 
     const std::string data_file_name1 = command_line.follow("inputData/dataSX_lineare", 2, "-f",    "--file");
     const std::string data_file_name2 = command_line.follow("inputData/dataDX_lineare", 2, "-f",    "--file");
-    const std::string data_file_name3("ciaociaociao");
+    
 
     GetPot dataFile1(data_file_name1.data());
     std::cout<< "File name 1: "<< data_file_name1 << std::endl;
