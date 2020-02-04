@@ -19,13 +19,14 @@
 
 #include "GetPot"
 #include <string>
+#include <memory>
+#include <iostream>
+#include <iomanip>
 
 //#include <getfem/getfem_mesh_fem_product.h>
 //#include <getfem/getfem_mesh_fem_global_function.h>
 
-#include <iostream>
-#include <boost/shared_ptr.hpp>
-#include <iomanip>
+
 
 /* some Getfem++ types that we will be using */
 using bgeot::base_small_vector;
@@ -41,24 +42,23 @@ using std::string;
 /* definition of some matrix/vector types. These ones are built
  using the predefined types in Gmm++ */
 
-typedef gmm::rsvector<scalar_type> sparseVector_Type;
+using sparseVector_Type = gmm::rsvector<scalar_type>;
 
-typedef gmm::row_matrix<sparseVector_Type> sparseMatrix_Type;
-typedef boost::shared_ptr<sparseMatrix_Type> sparseMatrixPtr_Type;
+using sparseMatrix_Type = gmm::row_matrix<sparseVector_Type> ;
+using sparseMatrixPtr_Type = std::shared_ptr<sparseMatrix_Type> ;
 
-typedef std::vector<scalar_type> scalarVector_Type;
-typedef boost::shared_ptr<scalarVector_Type> scalarVectorPtr_Type; // pointer a un vettore di double
+using scalarVector_Type = std::vector<scalar_type> ;
+using scalarVectorPtr_Type = std::shared_ptr<scalarVector_Type> ; // pointer a un vettore di double
 
-typedef std::vector<size_type> sizeVector_Type;
-typedef boost::shared_ptr<sizeVector_Type> sizeVectorPtr_Type;
+using sizeVector_Type = std::vector<size_type> ;
+using sizeVectorPtr_Type = std::shared_ptr<sizeVector_Type> ;
 
-typedef std::vector < std::string > stringContainer_Type;
 
 namespace LifeV{
-typedef scalar_type Double;
-typedef size_type UInt;
-typedef size_type ID;
-typedef int Int;
+using Double = scalar_type ;
+using UInt = size_type ;
+using ID = size_type ;
+using Int = int;
 }
 
 

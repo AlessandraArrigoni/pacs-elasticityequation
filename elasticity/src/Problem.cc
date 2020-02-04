@@ -1,6 +1,6 @@
 #include "../include/Problem.h"
 
-Problem::Problem (const GetPot& dataFile1,const GetPot& dataFile2, Bulk* bulk1, Bulk* bulk2):
+Problem::Problem (const GetPot& dataFile1, const GetPot& dataFile2, Bulk* bulk1, Bulk* bulk2):
 			M_Bulk1(bulk1), M_Bulk2(bulk2),
 			M_BC1(dataFile1, "elasticity/", "bulkData/"), // change the dataFile accordingly and set it
 			M_BC2(dataFile2, "elasticity/", "bulkData/"), // change the dataFile accordingly and set it

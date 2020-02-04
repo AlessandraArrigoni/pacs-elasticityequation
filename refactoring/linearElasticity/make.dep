@@ -118,12 +118,15 @@ main_test.o: main_test.cc \
  /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_inoutput.h \
  /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_MUMPS_interface.h \
  /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_superlu_interface.h \
- include/UsefulFunctions.h include/Core.h \
+ ../include/UsefulFunctions.h ../include/Core.h \
  /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_derivatives.h \
  /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_dense_qr.h \
  /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_mesh.h \
- include/GetPot include/FEM.h include/Problem.h include/LinearSystem.h \
- include/Operators.h include/Bulk.h include/Parser.h \
- include/ParserDefinitions.h include/ParserSpiritGrammar.h \
- include/BulkData.h include/BC.h include/OperatorsBulk.h \
- include/OperatorsBD.h include/UsefulFunctions.h include/StringUtility.h
+ ../include/GetPot ../include/FEM.h ../include/Problem.h \
+ ../include/LinearSystem.h ../include/Operators.h ../include/Bulk.h \
+ ../include/Parser.h ../include/ParserDefinitions.h \
+ ../include/ParserSpiritGrammar.h ../include/BC.h \
+ ../include/OperatorsBulk.h ../include/BulkDatum.h \
+ ../include/OperatorsBD.h ../include/UsefulFunctions.h \
+ ../include/StringUtility.h ../include/LinearElasticityPb.h \
+ ../include/Problem.h
