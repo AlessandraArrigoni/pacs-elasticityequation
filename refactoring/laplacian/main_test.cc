@@ -83,7 +83,9 @@ int main(int argc, char *argv[]) {
     myProblem.enforceInterfaceJump();
     std::cout << "Interface conditions      [OK]" << std::endl;
 
-    mySys.saveMatrix();   //esporto la matrice per guardarla in matlab, se serve
+    std::string outputMatrixName = "matrixLaplacian_Nref" + std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+    std::cout<<"Stringa nome matrice output "<<outputMatrixName<<std::endl;
+    mySys.saveMatrix(outputMatrixName.c_str());   //esporto la matrice per guardarla in matlab, se serve
 
     // Solve the problem
     myProblem.solve();
