@@ -33,12 +33,20 @@ public:
   	return M_Lx;
   }
 
-   inline scalar_type Ly() const
+  inline scalar_type Ly() const
   {
   	return M_Ly;
   }
 
+	inline scalar_type nSubX() const
+	{
+		return M_Nx;
+	}
 
+	inline scalar_type nSubY() const
+	{
+		return M_Ny;
+	}
 
 private:
 

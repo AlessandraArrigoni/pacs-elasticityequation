@@ -9,7 +9,7 @@
 #include <getfem/getfem_config.h>
 #include <getfem/getfem_assembling.h> // import assembly methods (and comp. of
 #include <getfem/getfem_import.h>
-#include <getfem/getfem_export.h>     // export functions (save the solution in a file)
+#include <getfem/getfem_export.h>  // export functions (save the solution in a file)
 #include <gmm/gmm.h>
 #include <gmm/gmm_inoutput.h>
 #include <gmm/gmm_MUMPS_interface.h>
