@@ -152,6 +152,7 @@ void Problem::solve()
   M_Sys.extractSubVector(M_uSol, 0, "sol"); // Passo il vettore per indirizzo perchè la funzione vuole un pointer: in realtà è uno shared pointer: funziona lo stesso?
 	std::cout << "Size of the solution in Problem: "<< M_uSol.size() << std::endl;
 	// The content of the variable M_sol contained in the LinearSystem M_Sys (actually it is all a matter of pointers...) is copied into the variable M_uSol of our class Problem.
+
 }
 
 void Problem::extractSol(scalarVector_Type & destination, std::string const variable)
@@ -181,6 +182,14 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
 		exp.write_point_data( M_uFEM1.getFEM(), M_uSol1, what);
+
+    // Export variables and open them in matlab
+    std::fstream f("solution.U1",std::ios::out);
+    for (size_type i=0; i < gmm::vect_size(M_uSol1); ++i)
+      f << M_uSol1[i] << "\n";
+
+    // when the 2nd arg is true, the mesh is saved with the |mf|
+    //M_uFEM1.getFEM().write_to_file("solution.mf", true);
 	}
 	if (what == "u2"){
 		exp.exporting( M_uFEM2.getFEM());
@@ -188,6 +197,14 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 		std::cout<< "Solution extracted! "<< std::endl;
 		exp.write_mesh();
 		exp.write_point_data( M_uFEM2.getFEM(), M_uSol2, what);
+
+    // Export variables and open them in matlab
+    std::fstream f("solution.U2",std::ios::out);
+    for (size_type i=0; i < gmm::vect_size(M_uSol2); ++i)
+      f << M_uSol2[i] << "\n";
+
+    // when the 2nd arg is true, the mesh is saved with the |mf|
+    //M_uFEM2.getFEM().write_to_file("solution.mf", true);
 	}
 
 }
