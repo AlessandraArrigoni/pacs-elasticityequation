@@ -9,8 +9,8 @@
                 meshExternal = none
                 meshFolder = ./meshes/   % per caricare mesh fatte con altri tool
 
-                spatialDiscretizationX = 80  % la mesh è conforme: suddivisione uguale in omega1 e omega2
-                spatialDiscretizationY = 160
+                spatialDiscretizationX = 20  % la mesh è conforme: suddivisione uguale in omega1 e omega2
+                spatialDiscretizationY = 40
                 lengthAbscissa = 0.5  % misure in x e y per entrambi
                 lengthOrdinate = 1.0
                 startingAbscissa1 = 0 % punto in basso a sx per omega1
@@ -50,7 +50,7 @@
                 % soluzione PARABOLICA in Y : y^2
                 bulkload = -2
             		u_BC = y*y
-            		du_BC = 0 % è il q1 = salto della derivata conormale sull'interfaccia
+            		du_BC = 0 % è il q1 = salto della derivata conormale sull interfaccia
 
         [../]
 
@@ -58,7 +58,7 @@
         [./femspaces]
 
                 FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti: FEM costanti su triangoli
+                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per approssimazione dei coefficienti: FEM costanti su triangoli
                 integrationMethod = IM_TRIANGLE(6)
 
         [../]
