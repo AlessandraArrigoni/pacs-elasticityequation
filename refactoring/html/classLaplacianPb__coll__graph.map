@@ -1,8 +1,0 @@
-<map id="LaplacianPb" name="LaplacianPb">
-<area shape="rect" id="node2" href="$classProblem.html" title="Problem" alt="" coords="404,168,475,195"/>
-<area shape="rect" id="node3" href="$classBC.html" title="BC" alt="" coords="456,5,497,32"/>
-<area shape="rect" id="node4" href="$classLinearSystem.html" title="LinearSystem" alt="" coords="5,5,108,32"/>
-<area shape="rect" id="node5" href="$classBulkDatum.html" title="BulkDatum" alt="" coords="132,5,219,32"/>
-<area shape="rect" id="node6" href="$classFEM.html" title="FEM" alt="" coords="262,5,313,32"/>
-<area shape="rect" id="node9" href="$classBulk.html" title="Bulk" alt="" coords="527,5,575,32"/>
-</map>

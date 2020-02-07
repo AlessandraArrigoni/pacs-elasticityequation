@@ -67,7 +67,14 @@ public:
 	 inline void setNullRow(size_type which)
 	 {
 		for (size_type j=0; j<M_ndof;++j)  (*M_Matrix)(which,j)=0;
+	}
+
+	 inline void setNullColumn(size_type which)
+	 {
+		 for (size_type j = 0; j<M_ndof; ++j) (*M_Matrix)(j, which) = 0;
 	 }
+
+	 
 
 	 inline void setMatrixValue(size_type i, size_type j, scalar_type value)
 	 {

@@ -1,7 +1,0 @@
-<map id="Problem" name="Problem">
-<area shape="rect" id="node2" href="$classBC.html" title="BC" alt="" coords="5,5,47,32"/>
-<area shape="rect" id="node3" href="$classLinearSystem.html" title="LinearSystem" alt="" coords="71,5,173,32"/>
-<area shape="rect" id="node4" href="$classBulkDatum.html" title="BulkDatum" alt="" coords="197,5,284,32"/>
-<area shape="rect" id="node5" href="$classFEM.html" title="FEM" alt="" coords="318,5,369,32"/>
-<area shape="rect" id="node8" href="$classBulk.html" title="Bulk" alt="" coords="635,5,683,32"/>
-</map>
