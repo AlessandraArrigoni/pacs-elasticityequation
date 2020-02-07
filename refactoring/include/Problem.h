@@ -55,7 +55,7 @@ public:
 
   void computeErrors();
 
-  //virtual ~Problem();
+  virtual ~Problem(){};
 
 
 

@@ -1,0 +1,79 @@
+\hypertarget{classLinearSystem}{}\section{Linear\+System Class Reference}
+\label{classLinearSystem}\index{Linear\+System@{Linear\+System}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLinearSystem_a9f1a7a6a3d1dc009fb8650d5ca3a0077}\label{classLinearSystem_a9f1a7a6a3d1dc009fb8650d5ca3a0077}} 
+void {\bfseries add\+To\+Matrix} (int ndof)
+\item 
+\mbox{\Hypertarget{classLinearSystem_acf577d804361e6841a7710b706978417}\label{classLinearSystem_acf577d804361e6841a7710b706978417}} 
+void {\bfseries copy\+Sub\+Matrix} (sparse\+Matrix\+Ptr\+\_\+\+Type source, int first\+\_\+row, int first\+\_\+column, scalar\+\_\+type scale=1.\+0, bool transpose=false)
+\item 
+\mbox{\Hypertarget{classLinearSystem_ad5025705b523e61b058f44a8a39d203d}\label{classLinearSystem_ad5025705b523e61b058f44a8a39d203d}} 
+void {\bfseries add\+Sub\+Matrix} (sparse\+Matrix\+Ptr\+\_\+\+Type source, int first\+\_\+row, int first\+\_\+column, scalar\+\_\+type scale=1.\+0, bool transpose=false)
+\item 
+\mbox{\Hypertarget{classLinearSystem_a4f671c00a0c5a50965524cd9f28a3a30}\label{classLinearSystem_a4f671c00a0c5a50965524cd9f28a3a30}} 
+void {\bfseries extract\+Sub\+Matrix} (sparse\+Matrix\+Ptr\+\_\+\+Type destination, int first\+\_\+row, int number\+\_\+rows, int first\+\_\+column, int number\+\_\+cols) const
+\item 
+\mbox{\Hypertarget{classLinearSystem_a2509c46a5c1f88fe68227f606a4b85ca}\label{classLinearSystem_a2509c46a5c1f88fe68227f606a4b85ca}} 
+void {\bfseries copy\+Sub\+Vector} (scalar\+Vector\+Ptr\+\_\+\+Type source, int first\+\_\+row, scalar\+\_\+type scale=1.\+0)
+\item 
+\mbox{\Hypertarget{classLinearSystem_a2bc3f8fae6a408d159b1e66b5896d0e1}\label{classLinearSystem_a2bc3f8fae6a408d159b1e66b5896d0e1}} 
+void {\bfseries add\+Sub\+Vector} (scalar\+Vector\+Ptr\+\_\+\+Type source, int first\+\_\+row, scalar\+\_\+type scale=1.\+0)
+\item 
+\mbox{\Hypertarget{classLinearSystem_ab4050b7fdf4b9dca260dabb27f82fb2d}\label{classLinearSystem_ab4050b7fdf4b9dca260dabb27f82fb2d}} 
+void {\bfseries extract\+Sub\+Vector} (scalar\+Vector\+Ptr\+\_\+\+Type destination, int first\+\_\+row, std\+::string where=\char`\"{}sol\char`\"{}) const
+\item 
+\mbox{\Hypertarget{classLinearSystem_a5296d829ff117f6c70e17f277f7c0f43}\label{classLinearSystem_a5296d829ff117f6c70e17f277f7c0f43}} 
+void {\bfseries extract\+Sub\+Vector} (scalar\+Vector\+\_\+\+Type \&destination, int first\+\_\+row, std\+::string where=\char`\"{}sol\char`\"{}) const
+\item 
+\mbox{\Hypertarget{classLinearSystem_a0e0a75162a3c1ebd08e5f49e43e05d6e}\label{classLinearSystem_a0e0a75162a3c1ebd08e5f49e43e05d6e}} 
+sparse\+Matrix\+Ptr\+\_\+\+Type {\bfseries get\+Matrix} () const
+\item 
+\mbox{\Hypertarget{classLinearSystem_a83abf03b51dee2aac566f87fa3473bc0}\label{classLinearSystem_a83abf03b51dee2aac566f87fa3473bc0}} 
+scalar\+Vector\+Ptr\+\_\+\+Type {\bfseries get\+R\+HS} () const
+\item 
+\mbox{\Hypertarget{classLinearSystem_a3ef7e07ffe4a2eeac49dbd8d48792df4}\label{classLinearSystem_a3ef7e07ffe4a2eeac49dbd8d48792df4}} 
+scalar\+Vector\+Ptr\+\_\+\+Type {\bfseries get\+Sol} () const
+\item 
+\mbox{\Hypertarget{classLinearSystem_a07e9e5d259c3b3d3ddf71e4de1410bc9}\label{classLinearSystem_a07e9e5d259c3b3d3ddf71e4de1410bc9}} 
+void {\bfseries add\+Sub\+System} (\hyperlink{classLinearSystem}{Linear\+System} $\ast$small, size\+\_\+type shift\+Rows, size\+\_\+type shift\+Columns)
+\item 
+\mbox{\Hypertarget{classLinearSystem_a477274ae086a3c851ae9b01e4dc4f327}\label{classLinearSystem_a477274ae086a3c851ae9b01e4dc4f327}} 
+void {\bfseries solve} ()
+\item 
+\mbox{\Hypertarget{classLinearSystem_ae840d279eec2092a822f3f2e4f5bd091}\label{classLinearSystem_ae840d279eec2092a822f3f2e4f5bd091}} 
+void {\bfseries compute\+Inverse} ()
+\item 
+\mbox{\Hypertarget{classLinearSystem_a1f17216367dfbc35e631fca351a4e71c}\label{classLinearSystem_a1f17216367dfbc35e631fca351a4e71c}} 
+void {\bfseries save\+Matrix} (const char $\ast$nomefile=\char`\"{}Matrix.\+mm\char`\"{}) const
+\item 
+\mbox{\Hypertarget{classLinearSystem_afdff2fbf87f2428ade63a702eb6ef77f}\label{classLinearSystem_afdff2fbf87f2428ade63a702eb6ef77f}} 
+void {\bfseries mult\+Add\+To\+R\+HS} (scalar\+Vector\+Ptr\+\_\+\+Type V, int first\+\_\+row, int first\+\_\+column, int nrows, int ncols)
+\item 
+\mbox{\Hypertarget{classLinearSystem_aa2a59e6468778d3c655299065876f769}\label{classLinearSystem_aa2a59e6468778d3c655299065876f769}} 
+void {\bfseries mult\+Add\+To\+R\+HS} (sparse\+Matrix\+Ptr\+\_\+\+Type M, scalar\+Vector\+Ptr\+\_\+\+Type V, int first\+\_\+row\+Vector, int first\+\_\+row\+R\+HS, scalar\+\_\+type scale=1.\+0, bool transposed=false)
+\item 
+\mbox{\Hypertarget{classLinearSystem_a13451139fc04cc34d025fcb5b053ae01}\label{classLinearSystem_a13451139fc04cc34d025fcb5b053ae01}} 
+void {\bfseries mult\+Add\+To\+R\+HS} (sparse\+Matrix\+Ptr\+\_\+\+Type M, scalar\+Vector\+\_\+\+Type \&V, int first\+\_\+row\+Vector, int first\+\_\+row\+R\+HS, scalar\+\_\+type scale=1.\+0, bool transposed=false)
+\item 
+\mbox{\Hypertarget{classLinearSystem_ad0577e81afa8dcc07db6806cb081192d}\label{classLinearSystem_ad0577e81afa8dcc07db6806cb081192d}} 
+void {\bfseries clean\+R\+HS} ()
+\item 
+\mbox{\Hypertarget{classLinearSystem_a47007e77f2380ea08f0cb79377d06733}\label{classLinearSystem_a47007e77f2380ea08f0cb79377d06733}} 
+void {\bfseries clean\+M\+AT} ()
+\item 
+\mbox{\Hypertarget{classLinearSystem_ae72aaec2e50c88fc5fabf9de8b4890ca}\label{classLinearSystem_ae72aaec2e50c88fc5fabf9de8b4890ca}} 
+void {\bfseries set\+Null\+Row} (size\+\_\+type which)
+\item 
+\mbox{\Hypertarget{classLinearSystem_a2397eabd867ff7912e373757956d6beb}\label{classLinearSystem_a2397eabd867ff7912e373757956d6beb}} 
+void {\bfseries set\+Matrix\+Value} (size\+\_\+type i, size\+\_\+type j, scalar\+\_\+type value)
+\item 
+\mbox{\Hypertarget{classLinearSystem_ad3688699408a10cbd533af5b0560881a}\label{classLinearSystem_ad3688699408a10cbd533af5b0560881a}} 
+void {\bfseries set\+R\+H\+S\+Value} (size\+\_\+type i, scalar\+\_\+type value)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/Linear\+System.\+h\end{DoxyCompactItemize}

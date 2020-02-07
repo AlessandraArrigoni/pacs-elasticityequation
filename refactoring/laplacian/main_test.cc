@@ -99,6 +99,6 @@ int main(int argc, char *argv[]) {
     myProblem.computeErrors();
 
     std::cout<<"L2 error TOTAL : " << myProblem.getL2ERR() << std::endl;
-    std::cout<<"H1 error TOTAL : " << myProblem.getH1ERR() << std::endl;
+    std::cout<<"H1 error TOTAL : " << myProblem.getH1ERR() <<"\n\n###############################################################################################################\n"<< std::endl;
 
 }

@@ -9,8 +9,8 @@
                 meshExternal = none
                 meshFolder = ./meshes/   % per caricare mesh fatte con altri tool
 
-                spatialDiscretizationX = 10  % la mesh è conforme: suddivisione uguale in omega1 e omega2
-                spatialDiscretizationY = 20
+                spatialDiscretizationX = 80  % la mesh è conforme: suddivisione uguale in omega1 e omega2
+                spatialDiscretizationY = 160
                 lengthAbscissa = 0.5  % misure in x e y per entrambi
                 lengthOrdinate = 1.0
                 startingAbscissa1 = 0 % punto in basso a sx per omega1
