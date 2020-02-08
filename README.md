@@ -1,6 +1,8 @@
 # pacs-elasticityequation
 PACS PROJECT : ELASTICITY EQUATION by Alessandra Arrigoni and Sara Francesca Pichierri.
 
+Penso che potremmo mettere la funzione index_inside nel file useful_functions e non nella classe problem, visto che è un'operazione abbastanza generale; poi fare in modo che restituisca un bool e che prenda un sizeVectorType dato che è già definito nel Core come tipo.
+
 TODO (in base ai commenti di Formaggia)
 1) Cambiare typedef con using in Core.h
 2) usare smart pointers e inizializzarli con make_unique
