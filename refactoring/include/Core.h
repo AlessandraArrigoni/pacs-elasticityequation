@@ -23,10 +23,6 @@
 #include <iostream>
 #include <iomanip>
 
-//#include <getfem/getfem_mesh_fem_product.h>
-//#include <getfem/getfem_mesh_fem_global_function.h>
-
-
 
 /* some Getfem++ types that we will be using */
 using bgeot::base_small_vector;

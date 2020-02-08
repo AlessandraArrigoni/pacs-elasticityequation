@@ -49,19 +49,6 @@ DEPEND = make.dep
 all : $(DEPEND) $(OBJS) $(EXEOBJS)
 	$(CXX) $(OPTFLAGS) -o $(EXEC) $(EXEOBJS) $(OBJS) $(LDLIBS) $(DEF_TAGS) $(INCLUDE)
 
-#decoupled  :  $(DEPEND) $(OBJS) main_decoupled.o
-#	$(CXX) $(OPTFLAGS) -o $(EXEC) main_decoupled.o $(OBJS) $(LDLIBS) $(DEF_TAGS) $(INCLUDE)
-
-#coupled  :  $(DEPEND) $(OBJS) main_coupled.o
-#	$(CXX) $(OPTFLAGS) -o $(EXEC) main_coupled.o $(OBJS) $(LDLIBS) $(DEF_TAGS) $(INCLUDE)
-
-#iterative  :  $(DEPEND) $(OBJS) main_iterative.o
-#	$(CXX) $(OPTFLAGS) -o $(EXEC) main_iterative.o $(OBJS) $(LDLIBS) $(DEF_TAGS) $(INCLUDE)
-
-#test  :  $(DEPEND) $(OBJS) main_test.o
-#	$(CXX) $(OPTFLAGS) -o $(EXEC) main_test.o $(OBJS) $(LDLIBS) $(DEF_TAGS) $(INCLUDE)
-
-
 $(DEPEND) : $(SRCS) $(EXESRCS)
 	$(CXX) -MM $(SRCS) $(EXESRCS) -MF $(DEPEND)  $(INCLUDE)
 

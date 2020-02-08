@@ -183,13 +183,7 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 		exp.write_mesh();
 		exp.write_point_data( M_uFEM1.getFEM(), M_uSol1, what);
 
-    // Export variables and open them in matlab
-    std::fstream f("solution.U1",std::ios::out);
-    for (size_type i=0; i < gmm::vect_size(M_uSol1); ++i)
-      f << M_uSol1[i] << "\n";
 
-    // when the 2nd arg is true, the mesh is saved with the |mf|
-    //M_uFEM1.getFEM().write_to_file("solution.mf", true);
 	}
 	if (what == "u2"){
 		exp.exporting( M_uFEM2.getFEM());
@@ -198,13 +192,7 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 		exp.write_mesh();
 		exp.write_point_data( M_uFEM2.getFEM(), M_uSol2, what);
 
-    // Export variables and open them in matlab
-    std::fstream f("solution.U2",std::ios::out);
-    for (size_type i=0; i < gmm::vect_size(M_uSol2); ++i)
-      f << M_uSol2[i] << "\n";
-
-    // when the 2nd arg is true, the mesh is saved with the |mf|
-    //M_uFEM2.getFEM().write_to_file("solution.mf", true);
+    
 	}
 
 }

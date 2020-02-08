@@ -1,6 +1,8 @@
 #ifndef USEFULFUNCTIONS_H
 #define USEFULFUNCTIONS_H
 
+// AGGIUNGEREI QUA LA FUNZIONE INDEX_INSIDE facendole restituire un booleano e ricevendo in input un sizeVector_Type
+
 #include "Core.h"
 #include "FEM.h"
 
@@ -22,10 +24,6 @@ void fromBitVectorToStdVector ( dal::bit_vector& bitVector,
                                 std::vector < size_type >& stdVector );
 
 char intToChar ( const size_type& integer );
-
-/*scalar_type getScalarValue(const std::string function, const base_node& x) const;
-
-base_node getVectorValue(const std::string function, const base_node& x) const;*/
 
 scalar_type pointDistance ( const scalar_type& x0,
                             const scalar_type& x1,

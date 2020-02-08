@@ -63,33 +63,6 @@ scalar_type BC::BCDiri(const base_node& x, const size_type what, const size_type
     return M_parser.evaluate (what);
 }
 
-// Se decido di fare le due classi separate per scalare e vettoriale
-/*
-scalar_type BC::getScalarValue(const std::string function, const base_node& x, const size_type flag) const
-{
-	M_parser.setString ( function );
-	M_parser.setVariable ( "x", x [ 0 ] );
-	M_parser.setVariable ( "y", x [ 1 ] );
-	M_parser.setVariable ( "n", flag );
-	return M_parser.evaluate ();
-};
-
-
-base_node BC::getVectorValue(const std::string function, const base_node& x, const size_type flag) const
-{
-	base_node value(0,0);
-
-  for (size_type i = 0; i < 2; ++i ){
-    M_parser.setString( function );
-    M_parser.setVariable ( "x", x [ 0 ] );
-    M_parser.setVariable ( "y", x [ 1 ] );
-		M_parser.setVariable ( "n", flag );
-    value[i]= M_parser.evaluate (i);
-  }
-
-  return value;
-};*/
-
 
 void BC::setBoundaries( getfem::mesh &  meshRef)
 {

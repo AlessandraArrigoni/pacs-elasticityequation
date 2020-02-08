@@ -58,7 +58,7 @@
         [./femspaces]
 
                 FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti: FEM costanti su triangoli
+                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l approssimazione dei coefficienti: FEM costanti su triangoli
                 integrationMethod = IM_TRIANGLE(6)
 
         [../]

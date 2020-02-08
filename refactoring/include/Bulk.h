@@ -3,7 +3,7 @@
 
 #include "Core.h"
 #include "Parser.h"
-#include "BC.h"
+//#include "BC.h"
 
 //gestione del dominio 2D "bulk": non contiene i dati (coefficienti, soluzione e fornzante)
 

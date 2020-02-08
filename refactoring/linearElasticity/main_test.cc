@@ -17,7 +17,6 @@
 #include "gmm/gmm_superlu_interface.h"
 
 #include "../include/UsefulFunctions.h"
-#include "../include/Problem.h"
 #include "../include/LinearElasticityPb.h"
 
 /* try to enable the SIGFPE if something evaluates to a Not-a-number
@@ -26,21 +25,6 @@
 #ifdef GETFEM_HAVE_FEENABLEEXCEPT
 #  include <fenv.h>
 #endif
-
-/* some Getfem++ types that we will be using */
-using bgeot::base_small_vector;  /* special class for small (dim < 16) vectors */
-using bgeot::base_node;          /* geometrical nodes (derived from base_small_vector)*/
-using bgeot::scalar_type;        /* = double */
-using bgeot::size_type;          /* = unsigned long */
-
-/* definition of some matrix/vector types. These ones are built
- * using the predefined types in Gmm++
- */
- /*
-typedef gmm::rsvector<scalar_type> sparse_vector_type;
-typedef gmm::row_matrix<sparse_vector_type> sparse_matrix_type;
-typedef gmm::col_matrix<sparse_vector_type> col_sparse_matrix_type;
-*/
 
 
 int main(int argc, char *argv[]) {

@@ -15,7 +15,6 @@ public:
 
 private:
   BulkDatum diff1, diff2;
-  //BulkDatum exact_sol, source;
 
 };
 

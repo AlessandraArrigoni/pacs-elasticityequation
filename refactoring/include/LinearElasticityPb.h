@@ -16,8 +16,7 @@ public:
 
 private:
   BulkDatum mu1, lambda1, mu2, lambda2;
-  //BulkDatum exact_sol, source;
-
+  
 };
 
 

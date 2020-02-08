@@ -50,7 +50,7 @@
                 % soluzione SENO e COSENO
             		bulkload = 8*pi*pi*cos(2*pi*x)*sin(2*pi*y)
             		u_BC = cos(2*pi*x)*sin(2*pi*y)
-            		du_BC = 0 % è il q1 = salto della derivata conormale sull'interfaccia
+            		du_BC = 0 % è il q1 = salto della derivata conormale sull interfaccia
 
         [../]
 
@@ -58,7 +58,7 @@
         [./femspaces]
 
                 FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l'approssimazione dei coefficienti: FEM costanti su triangoli
+                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l approssimazione dei coefficienti: FEM costanti su triangoli
                 integrationMethod = IM_TRIANGLE(6)
 
         [../]

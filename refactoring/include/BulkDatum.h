@@ -3,6 +3,7 @@
 
 #include "Core.h"
 #include "Parser.h"
+
 /*!  @file BulkDatum.h
   @briefThis is a class for any kind of data related to the problem.
 
@@ -22,10 +23,6 @@ public:
              const std::string& domainNumber, //  "1",
              const std::string& datum); //  "exact_sol"
 
-/*protected:
-  scalar_type getScalarValue(const base_node& x) const;
-  base_node getVectorValue(const base_node& x) const;
-*/
 
 //! method to evaluate the string.
   /*!
