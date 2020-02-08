@@ -1,0 +1,140 @@
+File name 1: inputData/dataSX_seno
+File name 2: inputData/dataDX_seno
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,0]
+condizione Dirichlet: sin(2*pi*x)*(x<(0.5-1e-5))
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,1]
+condizione Dirichlet: sin(2*pi*x)
+Il numero totale di dofs è 462
+Gli indici sull'interfaccia di SINISTRA sono: 
+20  21  32  43  54  65  76  87  98  109  120  131  142  153  164  175  186  197  208  219  230  
+The number of interface dofs is : 21
+Interface Omega1      [OK]
+Gli indici sull'interfaccia di DESTRA sono: 
+1  2  22  34  44  56  66  78  88  100  110  122  132  144  154  166  176  188  198  210  220  Interface Omega2      [OK]
+operator a(volume)      [OK]
+operator a(volume)      [OK]
+stress boundary    [OK]
+stress boundary    [OK]
+Dirichlet boundary conditions      [OK]
+Dirichlet interface conditions      [OK]
+Size of the solution in Problem: 462
+Solved system      [OK]
+export u1
+Solution extracted! 
+export u2
+Solution extracted! 
+L2 error LEFT : 0.00105173	L2 error RIGHT : 0.00105173	L2 error TOTAL : 0.00210347
+H1 error LEFT : 0.112676	H1 error RIGHT : 0.112676	H1 error TOTAL : 0.225351
+File name 1: inputData/dataSX_seno
+File name 2: inputData/dataDX_seno
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,0]
+condizione Dirichlet: sin(2*pi*x)*(x<(0.5-1e-5))
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,1]
+condizione Dirichlet: sin(2*pi*x)
+Il numero totale di dofs è 1722
+Gli indici sull'interfaccia di SINISTRA sono: 
+40  41  62  83  104  125  146  167  188  209  230  251  272  293  314  335  356  377  398  419  440  461  482  503  524  545  566  587  608  629  650  671  692  713  734  755  776  797  818  839  860  
+The number of interface dofs is : 41
+Interface Omega1      [OK]
+Gli indici sull'interfaccia di DESTRA sono: 
+1  2  42  64  84  106  126  148  168  190  210  232  252  274  294  316  336  358  378  400  420  442  462  484  504  526  546  568  588  610  630  652  672  694  714  736  756  778  798  820  840  Interface Omega2      [OK]
+operator a(volume)      [OK]
+operator a(volume)      [OK]
+stress boundary    [OK]
+stress boundary    [OK]
+Dirichlet boundary conditions      [OK]
+Dirichlet interface conditions      [OK]
+Size of the solution in Problem: 1722
+Solved system      [OK]
+export u1
+Solution extracted! 
+export u2
+Solution extracted! 
+L2 error LEFT : 0.000263262	L2 error RIGHT : 0.000263262	L2 error TOTAL : 0.000526524
+H1 error LEFT : 0.0574425	H1 error RIGHT : 0.0574425	H1 error TOTAL : 0.114885
+File name 1: inputData/dataSX_seno
+File name 2: inputData/dataDX_seno
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,0]
+condizione Dirichlet: sin(2*pi*x)*(x<(0.5-1e-5))
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,1]
+condizione Dirichlet: sin(2*pi*x)
+Il numero totale di dofs è 6642
+Gli indici sull'interfaccia di SINISTRA sono: 
+80  81  122  163  204  245  286  327  368  409  450  491  532  573  614  655  696  737  778  819  860  901  942  983  1024  1065  1106  1147  1188  1229  1270  1311  1352  1393  1434  1475  1516  1557  1598  1639  1680  1721  1762  1803  1844  1885  1926  1967  2008  2049  2090  2131  2172  2213  2254  2295  2336  2377  2418  2459  2500  2541  2582  2623  2664  2705  2746  2787  2828  2869  2910  2951  2992  3033  3074  3115  3156  3197  3238  3279  3320  
+The number of interface dofs is : 81
+Interface Omega1      [OK]
+Gli indici sull'interfaccia di DESTRA sono: 
+1  2  82  124  164  206  246  288  328  370  410  452  492  534  574  616  656  698  738  780  820  862  902  944  984  1026  1066  1108  1148  1190  1230  1272  1312  1354  1394  1436  1476  1518  1558  1600  1640  1682  1722  1764  1804  1846  1886  1928  1968  2010  2050  2092  2132  2174  2214  2256  2296  2338  2378  2420  2460  2502  2542  2584  2624  2666  2706  2748  2788  2830  2870  2912  2952  2994  3034  3076  3116  3158  3198  3240  3280  Interface Omega2      [OK]
+operator a(volume)      [OK]
+operator a(volume)      [OK]
+stress boundary    [OK]
+stress boundary    [OK]
+Dirichlet boundary conditions      [OK]
+Dirichlet interface conditions      [OK]
+Size of the solution in Problem: 6642
+Solved system      [OK]
+export u1
+Solution extracted! 
+export u2
+Solution extracted! 
+L2 error LEFT : 6.59316e-05	L2 error RIGHT : 6.59316e-05	L2 error TOTAL : 0.000131863
+H1 error LEFT : 0.0289248	H1 error RIGHT : 0.0289248	H1 error TOTAL : 0.0578496
+File name 1: inputData/dataSX_seno
+File name 2: inputData/dataDX_seno
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+la forzante è 4*pi*pi*sin(2*pi*x)
+La soluzione esatta è sin(2*pi*x)
+bulkData/domain/
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,0]
+condizione Dirichlet: sin(2*pi*x)*(x<(0.5-1e-5))
+stringa section: bulkData/laplacian/
+stringa BC: [0,0,0,1]
+condizione Dirichlet: sin(2*pi*x)
+Il numero totale di dofs è 26082
+Gli indici sull'interfaccia di SINISTRA sono: 
+160  161  242  323  404  485  566  647  728  809  890  971  1052  1133  1214  1295  1376  1457  1538  1619  1700  1781  1862  1943  2024  2105  2186  2267  2348  2429  2510  2591  2672  2753  2834  2915  2996  3077  3158  3239  3320  3401  3482  3563  3644  3725  3806  3887  3968  4049  4130  4211  4292  4373  4454  4535  4616  4697  4778  4859  4940  5021  5102  5183  5264  5345  5426  5507  5588  5669  5750  5831  5912  5993  6074  6155  6236  6317  6398  6479  6560  6641  6722  6803  6884  6965  7046  7127  7208  7289  7370  7451  7532  7613  7694  7775  7856  7937  8018  8099  8180  8261  8342  8423  8504  8585  8666  8747  8828  8909  8990  9071  9152  9233  9314  9395  9476  9557  9638  9719  9800  9881  9962  10043  10124  10205  10286  10367  10448  10529  10610  10691  10772  10853  10934  11015  11096  11177  11258  11339  11420  11501  11582  11663  11744  11825  11906  11987  12068  12149  12230  12311  12392  12473  12554  12635  12716  12797  12878  12959  13040  
+The number of interface dofs is : 161
+Interface Omega1      [OK]
+Gli indici sull'interfaccia di DESTRA sono: 
+1  2  162  244  324  406  486  568  648  730  810  892  972  1054  1134  1216  1296  1378  1458  1540  1620  1702  1782  1864  1944  2026  2106  2188  2268  2350  2430  2512  2592  2674  2754  2836  2916  2998  3078  3160  3240  3322  3402  3484  3564  3646  3726  3808  3888  3970  4050  4132  4212  4294  4374  4456  4536  4618  4698  4780  4860  4942  5022  5104  5184  5266  5346  5428  5508  5590  5670  5752  5832  5914  5994  6076  6156  6238  6318  6400  6480  6562  6642  6724  6804  6886  6966  7048  7128  7210  7290  7372  7452  7534  7614  7696  7776  7858  7938  8020  8100  8182  8262  8344  8424  8506  8586  8668  8748  8830  8910  8992  9072  9154  9234  9316  9396  9478  9558  9640  9720  9802  9882  9964  10044  10126  10206  10288  10368  10450  10530  10612  10692  10774  10854  10936  11016  11098  11178  11260  11340  11422  11502  11584  11664  11746  11826  11908  11988  12070  12150  12232  12312  12394  12474  12556  12636  12718  12798  12880  12960  Interface Omega2      [OK]
+operator a(volume)      [OK]
+operator a(volume)      [OK]
+stress boundary    [OK]
+stress boundary    [OK]
+Dirichlet boundary conditions      [OK]
+Dirichlet interface conditions      [OK]
+Size of the solution in Problem: 26082
+Solved system      [OK]
+export u1
+Solution extracted! 
+export u2
+Solution extracted! 
+L2 error LEFT : 1.65019e-05	L2 error RIGHT : 1.65019e-05	L2 error TOTAL : 3.30037e-05
+H1 error LEFT : 0.014504	H1 error RIGHT : 0.014504	H1 error TOTAL : 0.029008
