@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     myProblem.treatIFaceDofs();
     std::cout << "Interface conditions      [OK]" << std::endl;
 
-    std::string outputMatrixName = "matrixLaplacian_Nref" + std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+    std::string outputMatrixName = "matrixLaplacian2_Nref" + std::to_string(int(myDomainLeft.nSubY())) + ".mm";
     std::cout<<"Stringa nome matrice output "<<outputMatrixName<<std::endl;
     mySys.saveMatrix(outputMatrixName.c_str());   //esporto la matrice per guardarla in matlab, se serve
 
