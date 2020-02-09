@@ -82,3 +82,17 @@ void exactSolution(scalarVectorPtr_Type V, const FEM& FemSol, BulkDatum& Solutio
     }
   }
 }
+
+void jump(scalarVectorPtr_Type V, BulkDatum& Jump, const FEM& FemSol)
+{
+  size_type Qdim = FemSol.getFEM().get_qdim(); 
+
+  for (size_type i=0; i<FemSol.nb_dof(); i+= Qdim)
+  {
+    for (size_type j = 0; j < Qdim; j++){
+      V->at(i+j) = Jump.getValue(FemSol.point_of_basic_dof(i), j);
+
+    }
+  }
+}
+

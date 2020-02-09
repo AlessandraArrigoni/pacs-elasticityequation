@@ -54,6 +54,8 @@ public:
 	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVectorPtr_Type V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);  //moltiplica M per V e aggiunge il risultato a RHS
 	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVector_Type& V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);
 
+	 void eliminateRowsColumns(std::vector<size_type> indexes);
+
 	 inline void cleanRHS()
 	 {
 	 	gmm::clear(*M_RHS);

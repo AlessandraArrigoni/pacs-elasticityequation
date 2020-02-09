@@ -40,13 +40,13 @@ public:
 
   virtual void assembleMatrix() = 0;
 
-  void assembleRHS();
+  virtual void assembleRHS() = 0;
 
-  void enforceStrongBC(size_type const domainIdx);
+  virtual void enforceStrongBC(size_type const domainIdx) = 0;
 
-  void enforceInterfaceJump();
+  virtual void treatIFaceDofs() = 0;
 
-  void solve();
+  virtual void solve() = 0;
 
   // This function extracts in destSol the values of the variable specified by variable, taking them from the global solution M_uSol; the default value of the std::string implies that the whole solutions M_uSol is extracted.
   void extractSol(scalarVector_Type & destSol, std::string const variable = "all");

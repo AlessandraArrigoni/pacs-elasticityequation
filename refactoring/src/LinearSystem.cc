@@ -201,3 +201,56 @@ void LinearSystem::saveMatrix(const char* nomefile) const
 {
 	gmm::MatrixMarket_IO::write(nomefile , *M_Matrix);
 }
+
+
+
+void LinearSystem::eliminateRowsColumns(std::vector<size_type> indexes)
+{
+// ordina vettore in oridine crescente
+sort(indexes.begin(),indexes.end());
+
+
+// eliminare le righe e le colonne una alla volta, a partire da quella "più bassa" e quella "più a destra" nella matrice 
+// contemporaneamente elimina le stesse righe dal rhs 
+
+for (size_type k=0; k<indexes.size(); k++)
+{
+  size_type idx=indexes[indexes.size()-1-k]; // indice riga e colonna che sono da eliminare in ordine decrescente
+ // std::cout<< "idx è:"<< idx<<std::endl;
+
+sparseMatrixPtr_Type A1 = std::make_shared<sparseMatrix_Type>(idx,idx);
+sparseMatrixPtr_Type A2 = std::make_shared<sparseMatrix_Type>(idx,M_ndof-idx-1);
+sparseMatrixPtr_Type A3 = std::make_shared<sparseMatrix_Type> (M_ndof-idx-1,idx);
+sparseMatrixPtr_Type A4 = std::make_shared<sparseMatrix_Type>(M_ndof-idx-1,M_ndof-idx-1);
+
+extractSubMatrix(A1,0,idx,0,idx);
+extractSubMatrix(A2,0,idx,idx+1,M_ndof-idx-1);
+extractSubMatrix(A3,idx+1,M_ndof-idx-1,0,idx);
+extractSubMatrix(A4,idx+1,M_ndof-idx-1,idx+1,M_ndof-idx-1);
+
+cleanMAT();
+M_Matrix->resize(M_ndof-1,M_ndof-1);
+addSubMatrix(A1, 0, 0);
+addSubMatrix(A2, 0, idx);
+addSubMatrix(A3, idx, 0);
+addSubMatrix(A4, idx, idx);
+
+scalarVectorPtr_Type RHS1= std::make_shared<scalarVector_Type> (idx);
+scalarVectorPtr_Type RHS2 = std::make_shared<scalarVector_Type> (M_ndof-1-idx);
+
+
+extractSubVector(RHS1, 0, "M_RHS");
+extractSubVector(RHS2, idx+1, "M_RHS");
+
+cleanRHS();
+M_RHS->resize(M_ndof-1);
+addSubVector(RHS1, 0);
+addSubVector(RHS2, idx);
+
+M_Sol->resize(M_ndof-1);
+
+M_ndof=M_ndof-1;
+
+}
+
+}
