@@ -81,6 +81,7 @@ int main(int argc, char *argv[]) {
 
     // Compute and print errors
     myProblem.computeErrors();
+    myProblem.printErrors("laplacianSymmetric_errorsL2","laplacianSymmetric_errorsH1",data_file_name);
 
     std::cout<<"L2 error TOTAL : " << myProblem.getL2ERR() << std::endl;
     std::cout<<"H1 error TOTAL : " << myProblem.getH1ERR() <<"\n\n###############################################################################################################\n"<< std::endl;

@@ -185,3 +185,17 @@ void Problem::computeErrors(){
 	errL2 = errL2sx + errL2dx;
 	errH1 = errH1sx + errH1dx;
 }
+
+void Problem::printErrors(std::string const filename1, std::string const filename2, std::string const test )
+{
+std::ofstream f1,f2;
+f1.open(filename1, std::ios_base::app);
+if (M_Bulk1.nSubY()== 20) {f1<<"Test:"<<test<<"\n";}
+f1<<errL2<<"\n";
+if (M_Bulk1.nSubY()== 160) {f1<<"\n";}
+
+f2.open(filename2, std::ios_base::app);
+if (M_Bulk1.nSubY()== 20) {f2<<"Test:"<<test<<"\n";}
+f2<<errH1<<"\n";
+if (M_Bulk1.nSubY()== 160) {f2<<"\n";}
+}

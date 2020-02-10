@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 
     GetPot command_line(argc, argv);
 
-    const std::string data_file_name = command_line.follow("inputData/linearq0", 2, "-f","--file");
+    const std::string data_file_name = command_line.follow("inputData/quadraticq0", 2, "-f","--file");
 
     GetPot dataFile(data_file_name.data());
     std::cout<< "File name : "<< data_file_name << std::endl;
@@ -81,6 +81,7 @@ int main(int argc, char *argv[]) {
 
     // Compute and print errors
     myProblem.computeErrors();
+    myProblem.printErrors("laplacianBasic_errorsL2","laplacianBasic_errorsH1",data_file_name);
 
     std::cout<<"L2 error TOTAL : " << myProblem.getL2ERR() << std::endl;
     std::cout<<"H1 error TOTAL : " << myProblem.getH1ERR() <<"\n\n###############################################################################################################\n"<< std::endl;

@@ -55,6 +55,8 @@ public:
 
   void computeErrors();
 
+  void printErrors(std::string const filename1, std::string const filename2, std::string const test );
+
   virtual ~Problem(){};
 
 
