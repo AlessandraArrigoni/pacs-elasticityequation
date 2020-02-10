@@ -122,10 +122,10 @@ main_test.o: main_test.cc \
  /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_derivatives.h \
  /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_dense_qr.h \
  /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_mesh.h \
- ../include/GetPot ../include/FEM.h ../include/LaplacianPb2.h \
- ../include/Method2.h ../include/LinearSystem.h ../include/Operators.h \
- ../include/Bulk.h ../include/Parser.h ../include/ParserDefinitions.h \
- ../include/ParserSpiritGrammar.h ../include/BC.h \
- ../include/OperatorsBulk.h ../include/BulkDatum.h \
+ ../include/GetPot ../include/FEM.h ../include/LaplacianSymmetric.h \
+ ../include/SymmetricMethod.h ../include/LinearSystem.h \
+ ../include/Operators.h ../include/Bulk.h ../include/Parser.h \
+ ../include/ParserDefinitions.h ../include/ParserSpiritGrammar.h \
+ ../include/BC.h ../include/OperatorsBulk.h ../include/BulkDatum.h \
  ../include/OperatorsBD.h ../include/UsefulFunctions.h \
  ../include/StringUtility.h ../include/Problem.h

@@ -1,8 +1,131 @@
-main_test.o: main_test.cc ../include/UsefulFunctions.h ../include/Core.h \
- ../include/GetPot ../include/FEM.h ../include/LinearElasticityPb1.h \
- ../include/Method1.h ../include/LinearSystem.h ../include/Operators.h \
- ../include/Bulk.h ../include/Parser.h ../include/ParserDefinitions.h \
- ../include/ParserSpiritGrammar.h ../include/BC.h \
- ../include/OperatorsBulk.h ../include/BulkDatum.h \
+main_test.o: main_test.cc \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_regular_meshes.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_ftool.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_mesh.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_mesh_structure.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_convex_structure.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_ref.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_except.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_std.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_arch_config.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_feedback_management.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_config.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_arch_config.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_config.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_except.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_algobase.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_kernel.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_def.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_ref.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_blas.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_scaled.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_transposed.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_conjugated.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_real_part.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_vector.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_interface.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_sub_index.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_sub_vector.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_sub_matrix.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_vector_to_matrix.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_matrix.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_tri_solve.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_blas_interface.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_lapack_interface.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_dense_lu.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_dense_Householder.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_kernel.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_opt.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_dense_lu.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_dense_qr.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem_boost/noncopyable.hpp \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_tensor.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_small_vector.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_singleton.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_omp.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_std.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_interface_bgeot.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_poly.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_static_stored_objects.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_tree_sorted.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_tas.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_basic.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_bit_vector.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_geometric_trans.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_convex_ref.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_convex.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_naming_system.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_node_tab.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_geotrans_inv.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_kdtree.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_context.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_config.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_superlu.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_region.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_interpolation.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_fem.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_fem.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_poly_composite.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_integration.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/dal_naming_system.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_torus.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_geometric_trans.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_im_data.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_im.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_torus.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_fem.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_config.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_assembling.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_assembling_tensors.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_im.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_sparse_tensors.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mat_elem_type.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mat_elem.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_generic_assembly.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_slice.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_slicers.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_rtree.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_import.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_export.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_interpolation.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_mesh_slice.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_iter_solvers.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_iter.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond_diagonal.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond_ildlt.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond_ildltt.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond_ilut.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond_mr_approx_inverse.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond_ilu.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_precond_ilutp.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_solver_cg.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_solver_bicgstab.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_solver_qmr.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_solver_constrained_cg.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_solver_Schwarz_additive.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_superlu_interface.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_solver_gmres.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_modified_gram_schmidt.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_solver_bfgs.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_least_squares_cg.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_condition_number.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_inoutput.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_range_basis.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_domain_decomp.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_inoutput.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_MUMPS_interface.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_superlu_interface.h \
+ ../include/UsefulFunctions.h ../include/Core.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/getfem_derivatives.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/gmm/gmm_dense_qr.h \
+ /home/alearrigoni/Documenti/getfem-5.3/src/getfem/bgeot_mesh.h \
+ ../include/GetPot ../include/FEM.h ../include/LinearElasticityBasic.h \
+ ../include/BasicMethod.h ../include/LinearSystem.h \
+ ../include/Operators.h ../include/Bulk.h ../include/Parser.h \
+ ../include/ParserDefinitions.h ../include/ParserSpiritGrammar.h \
+ ../include/BC.h ../include/OperatorsBulk.h ../include/BulkDatum.h \
  ../include/OperatorsBD.h ../include/UsefulFunctions.h \
  ../include/StringUtility.h ../include/Problem.h

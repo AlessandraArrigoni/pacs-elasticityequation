@@ -83,9 +83,9 @@ void exactSolution(scalarVectorPtr_Type V, const FEM& FemSol, BulkDatum& Solutio
   }
 }
 
-void jump(scalarVectorPtr_Type V, BulkDatum& Jump, const FEM& FemSol)
+void jump(scalarVectorPtr_Type V, const FEM& FemSol, BulkDatum& Jump )
 {
-  size_type Qdim = FemSol.getFEM().get_qdim(); 
+  size_type Qdim = FemSol.getFEM().get_qdim();
 
   for (size_type i=0; i<FemSol.nb_dof(); i+= Qdim)
   {
@@ -95,4 +95,3 @@ void jump(scalarVectorPtr_Type V, BulkDatum& Jump, const FEM& FemSol)
     }
   }
 }
-

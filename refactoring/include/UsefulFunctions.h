@@ -6,6 +6,8 @@
 #include "Core.h"
 #include "FEM.h"
 
+bool index_inside(size_type k, const sizeVector_Type & vec);
+
 void exportSolution ( const std::string& fileName,
                       const std::string& solutionName,
                       const getfem::mesh_fem& meshFEM,

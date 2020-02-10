@@ -17,7 +17,7 @@
 #include "gmm/gmm_superlu_interface.h"
 
 #include "../include/UsefulFunctions.h"
-#include "../include/LaplacianPb2.h"
+#include "../include/LaplacianSymmetric.h"
 
 /* try to enable the SIGFPE if something evaluates to a Not-a-number
  * of infinity during computations
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     LinearSystem mySys;
 
     // Create the Problem and link it to the system
-    LaplacianPb2 myProblem(dataFile, myDomainLeft, myDomainRight, mySys);
+    LaplacianSymmetric myProblem(dataFile, myDomainLeft, myDomainRight, mySys);
 
     // Assemble matrix and RHS
     myProblem.assembleMatrix();

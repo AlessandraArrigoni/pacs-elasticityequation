@@ -1,5 +1,18 @@
 #include "../include/UsefulFunctions.h"
 
+bool index_inside(size_type k, const sizeVector_Type & vec)
+{
+
+ bool boolean = 0;
+ for (size_type i=0; i<vec.size(); i++)
+  {
+   if (vec[i]==k)
+      {boolean=1;}
+  }
+
+return boolean;
+}
+
 void massLumping ( sparseMatrix_Type& matrix )
 {
 

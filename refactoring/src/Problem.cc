@@ -19,10 +19,7 @@ Problem::Problem( GetPot const & dataFile, std::string const problem, Bulk & bul
   M_exact_sol1(dataFile, "bulkData/", problem, "1", "exact_sol"),
   M_exact_sol2(dataFile, "bulkData/", problem, "2", "exact_sol"),
   M_source1(dataFile, "bulkData/", problem, "1", "bulkload"),
-  M_source2(dataFile, "bulkData/", problem, "2", "bulkload") //,
-//  M_nbDOF1(M_uFEM1.nb_dof()),
-//  M_nbDOF2(M_uFEM2.nb_dof()),
-//  M_nbTotDOF(M_nbDOF1 + M_nbDOF2)
+  M_source2(dataFile, "bulkData/", problem, "2", "bulkload")
 {
 
   // Set dofs number
@@ -153,7 +150,7 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 		exp.write_mesh();
 		exp.write_point_data( M_uFEM2.getFEM(), M_uSol2, what);
 
-    
+
 	}
 
 }
@@ -188,6 +185,3 @@ void Problem::computeErrors(){
 	errL2 = errL2sx + errL2dx;
 	errH1 = errH1sx + errH1dx;
 }
-
-
-

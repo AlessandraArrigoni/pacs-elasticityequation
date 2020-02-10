@@ -17,7 +17,7 @@
 #include "gmm/gmm_superlu_interface.h"
 
 #include "../include/UsefulFunctions.h"
-#include "../include/LinearElasticityPb2.h"
+#include "../include/LinearElasticitySymmetric.h"
 
 /* try to enable the SIGFPE if something evaluates to a Not-a-number
  * of infinity during computations
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     LinearSystem mySys;
 
     // Create the Problem and link it to the system
-    LinearElasticityPb2 myProblem(dataFile, myDomainLeft, myDomainRight, mySys);
+    LinearElasticitySymmetric myProblem(dataFile, myDomainLeft, myDomainRight, mySys);
 
     // Assemble matrix and RHS
     myProblem.assembleMatrix();
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     myProblem.treatIFaceDofs();
     std::cout << "Interface conditions      [OK]" << std::endl;
 
-    std::string outputMatrixName = "matrixElasticity_Nref" + std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+    std::string outputMatrixName = "matrixElasticity2_Nref" + std::to_string(int(myDomainLeft.nSubY())) + ".mm";
     std::cout<<"Stringa nome matrice output "<<outputMatrixName<<std::endl;
     mySys.saveMatrix(outputMatrixName.c_str());   //esporto la matrice per guardarla in matlab, se serve
 
