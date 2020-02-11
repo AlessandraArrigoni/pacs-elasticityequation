@@ -13,7 +13,6 @@ FEM::FEM ( const getfem::mesh& mesh,
 {
 
    M_femType = dataFile ( ( M_section+ "FEMType"+variable ).data (), "FEM_PK(2,1)" );
-   //M_SpaceDim= dataFile ( ( M_section+ "spaceDimension" ).data (), 2 );
 
    getfem::pfem pf_v;
    pf_v = getfem::fem_descriptor(M_femType);
@@ -27,7 +26,9 @@ FEM::FEM ( const getfem::mesh& mesh,
    	M_DOFpoints.push_back(M_FEM.point_of_basic_dof(i));
    }
 
-	 std::cout<<"In constructor FEM the dimension of the space is "<< M_SpaceDim <<", the type is "<<M_femType<<" and the number of dofs is "<< M_FEM.nb_dof() << std::endl;
+			 #ifdef DEBUG
+			 std::cout<<"In constructor FEM the dimension of the space is "<< M_SpaceDim <<", the type is "<<M_femType<<" and the number of dofs is "<< M_FEM.nb_dof() << std::endl;
+			 #endif
 }
 
 
@@ -50,10 +51,8 @@ FEM::FEM (const getfem::mesh& mesh, const std::string femType, const size_type s
    	M_DOFpoints.push_back(M_FEM.point_of_basic_dof(i));
    }
 
-}
+			 #ifdef DEBUG
+			 std::cout<<"In constructor FEM the dimension of the space is "<< M_SpaceDim <<", the type is "<<M_femType<<" and the number of dofs is "<< M_FEM.nb_dof() << std::endl;
+			 #endif
 
-/*
-size_type FEM::nb_dof() const
-{
-	return M_FEM.nb_dof();
-}*/
+}

@@ -36,9 +36,6 @@ void SymmetricMethod::assembleRHS()
 
 	//aggiungo i termini che tengono conto del salto q0 nel rhs
 
-//scalarVectorPtr_Type q01(new scalarVector_Type(M_uFEM1.nb_dof()));
-//jump(q01, M_uFEM1, M_jump1);
-
   for (size_type i = 0; i < M_nbDOF1; ++i)
   {
 		scalar_type value1 = 0;
@@ -52,11 +49,6 @@ void SymmetricMethod::assembleRHS()
 	  	source1->at(i) -= value1/2;
     }
 	}
-
-
-//scalarVectorPtr_Type q02(new scalarVector_Type(M_uFEM2.nb_dof()));
-//jump(q02, M_uFEM2, M_jump2);
-
 
   for (size_type i=0; i < M_nbDOF2; ++i)
   {
@@ -129,9 +121,6 @@ void SymmetricMethod::enforceStrongBC(size_type const domainIdx)
 	}
 
 
-	//scalarVectorPtr_Type q02(new scalarVector_Type(M_uFEM2.nb_dof()));
-	//jump(q02,  M_uFEM2,M_jump2);
-
 	for (size_type i = 0; i < M_rowsStrongBCcur.size(); i += Qdim)
 	{
 		size_type ii; // é l'indice "locale" del primo dof associato a un punto fisico (spero!)
@@ -186,32 +175,34 @@ void SymmetricMethod::solve()
   M_Sys.solve();
 
   M_Sys.extractSubVector(M_uSol, 0, "sol");
-	std::cout << "Size of the solution in Problem: "<< M_uSol.size() << std::endl;
-				// The content of the variable M_sol contained in the LinearSystem M_Sys (actually it is all a matter of pointers...) is copied into the variable M_uSol of our class Problem.
 
-// aggiungo di nuovo i nodi per l'interfaccia sul dominio 1 e modifico le soluzioni dove c'è la media con il valore vero anche sul dominio 2
-
-
-	//scalarVectorPtr_Type q01(new scalarVector_Type(M_uFEM1.nb_dof()));
-	//jump(q01, M_uFEM1, M_jump1);
-
-  for (size_type j=0; j < M_nbDOFIFace; j++)
+	// aggiungo di nuovo i nodi per l'interfaccia sul dominio 1 e modifico le soluzioni dove c'è la media con il valore vero anche sul dominio 2
+	for (size_type j=0; j < M_nbDOFIFace; j++)
   {
 		size_type idx= dof_IFace1[j];
 	  scalar_type value= M_uSol.at(dof_IFace2[j] + M_nbDOF1 - M_nbDOFIFace + j) + M_q01.at(idx)/2; // valore della media trovato + il salto/2
     auto it= M_uSol.insert(M_uSol.begin() + idx, value);
-      // std::cout<< "la nuova dimensione di M_uSol è:" <<M_uSol->size()<<std::endl;
-    //std::cout<<"Soluzione nel dof"<<idx<<"è:"<<M_uSol->at(idx)<<std::endl;
+
+				#ifdef DEBUG
+				std::cout<< "In SymmetricMethod::solve() the new dimension of M_uSol is :" <<M_uSol.size()<<std::endl;
+      	std::cout<< "The value at the dof "<<idx<<" is: "<<M_uSol.at(idx)<<std::endl;
+				#endif
   }
 
-	//scalarVectorPtr_Type q02(new scalarVector_Type(M_uFEM2.nb_dof()));
-	//jump(q02,  M_uFEM2, M_jump2);
-
-  for (size_type j=0; j< M_nbDOFIFace; j++)
+	for (size_type j=0; j< M_nbDOFIFace; j++)
 	{
     M_uSol.at(dof_IFace2[j] + M_nbDOF1) -= M_q02.at(dof_IFace2[j])/2; // il valore della media - il salto/2
   }
 
+				#ifdef DEBUG
+				std::cout << "Size of the solution in Problem: "<< M_uSol.size() << std::endl;
+				std::cout << "\nSolution in SymmetricMethod::solve() "<<std::endl;
+				for (size_type k=0; k < M_uSol.size(); k++)
+				{
+					std::cout << M_uSol[k]<< "\t"<<std::endl;
+				}
+				std::cout << "\nEND Solution in SymmetricMethod::solve()\n"<<std::endl;
+				#endif
 
 
 }

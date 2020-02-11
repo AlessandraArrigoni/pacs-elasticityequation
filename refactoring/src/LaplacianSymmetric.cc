@@ -19,12 +19,14 @@ void LaplacianSymmetric::assembleMatrix()
   sparseMatrixPtr_Type A2 = std::make_shared<sparseMatrix_Type> (M_nbDOF2, M_nbDOF2);
 	stiffness( A2, M_uFEM2, M_CoeffFEM2, diff2, M_intMethod2);
 
-
+      #ifdef DEBUG
+      std::cout << "In LaplacianSymmetric::assembleMatrix() the matrices have dimensions: A1 = " << A1->nrows() << "x" << A1->ncols() << " and A2 = " << A2->nrows() << "x" << A2->ncols()<<std::endl;
+      #endif
 
 // dal blocco [A_1Gamma A_1GammaGamma 0 0] metto a zero i termini A_1GammaGamma e li sommo a A_2GammaGamma:
 	for (size_type k = 0; k < M_nbDOFIFace; k++)
   {
-	    size_type idx1 = dof_IFace1[k];
+	  size_type idx1 = dof_IFace1[k];
     scalar_type value = (*A1)(idx1, idx1);
 
     size_type idx2 = dof_IFace2[k];
@@ -47,5 +49,5 @@ void LaplacianSymmetric::assembleMatrix()
 		M_Sys.addSubMatrix(curCol2, 0, dof_IFace2[k] + M_nbDOF1);
   }
 
-  std::cout<< "Global matrix assembled     [OK]"<<std::endl;
+  std::cout<< "In LaplacianSymmetric::assembleMatrix() global matrix assembled     [OK]"<<std::endl;
 }

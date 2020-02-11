@@ -6,7 +6,9 @@ BulkDatum::BulkDatum(const GetPot& dataFile, const std::string& section, const s
   M_sectionProblem ( section + sectionProblem + domainNumber + "/"),
   M_datum( dataFile ( ( M_sectionProblem + datum ).data (), "1." ) )
   {
+    #ifdef DEBUG
     std::cout<< "In constructor BulkDatum the datum is "<<M_datum<<std::endl;
+    #endif
   }
 
 

@@ -24,8 +24,6 @@ public:
 
   void solve() override;
 
-  //size_type index_inside(size_type k, std::vector<long unsigned int>& vec);
-
   virtual ~SymmetricMethod(){};
 
 

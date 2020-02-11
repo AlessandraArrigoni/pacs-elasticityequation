@@ -17,7 +17,10 @@ Bulk::Bulk ( const GetPot& dataFile,
 	    M_Lx ( dataFile ( ( M_sectionDomain + "lengthAbscissa" ).data (), 0.5 ) ),
       M_Ly ( dataFile ( ( M_sectionDomain + "lengthOrdinate" ).data (), 1. ) )
 {
-    std::cout <<  "in Bulk.cc il problema è "<<M_sectionProblem <<std::endl;
+          #ifdef DEBUG
+          std::cout <<  "In constructor Bulk the problem is "<<M_sectionProblem <<std::endl;
+          #endif
+
     bgeot::pgeometric_trans pgt;
 
     pgt =  bgeot::geometric_trans_descriptor(M_meshType);

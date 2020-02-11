@@ -7,11 +7,6 @@ BC::BC ( const GetPot& dataFile, const std::string& problem, const std::string& 
  	    M_BCNeum( dataFile ( ( M_section + "du_BC" ).data (), "1") ),
  	    M_BCDiri( dataFile ( ( M_section + "u_BC" ).data (), "1") )
 {
-
-	std::cout << "string section: " << M_section << std::endl;
-	std::cout << "string BC: " << M_BCstring << std::endl;
-	std::cout << "Dirichlet condition: "<< M_BCDiri << std::endl;
-
   M_BC.resize(M_nBoundaries,0);
 
   M_parser.setString ( M_BCstring );
@@ -30,17 +25,24 @@ BC::BC ( const GetPot& dataFile, const std::string& problem, const std::string& 
     }
   }
 
-  /* DEBUG
-  std::cout<<"\nValori Dirichlet"<<std::endl;
-  for (size_type k = 0; k<M_DiriRG.size(); k++)
-  {
-    std::cout << M_DiriRG[k]<<"\t";
-  }
-  std::cout<<"\nValori Neumann"<<std::endl;
-  for (size_type k = 0; k<M_NeumRG.size(); k++)
-  {
-    std::cout << M_NeumRG[k]<<"\t";
-  }*/
+        // Print values of the boundary conditions
+        #ifdef DEBUG
+
+        std::cout << "In constructor BC, string section: " << M_section << std::endl;
+      	std::cout << "string BC: " << M_BCstring << std::endl;
+      	std::cout << "string Dirichlet condition: "<< M_BCDiri << std::endl;
+
+        std::cout<<"\nDirichlet boundaries"<<std::endl;
+        for (size_type k = 0; k<M_DiriRG.size(); k++)
+        {
+          std::cout << M_DiriRG[k]<<"\t";
+        }
+        std::cout<<"\nNeumann boundaries"<<std::endl;
+        for (size_type k = 0; k<M_NeumRG.size(); k++)
+        {
+          std::cout << M_NeumRG[k]<<"\t";
+        }
+        #endif
 }
 
 scalar_type BC::BCNeum(const base_node & x, const size_type what, const size_type & flag)

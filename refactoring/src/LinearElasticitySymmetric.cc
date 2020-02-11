@@ -19,6 +19,9 @@ void LinearElasticitySymmetric::assembleMatrix()
 	sparseMatrixPtr_Type A2 = std::make_shared<sparseMatrix_Type> (M_nbDOF2, M_nbDOF2);
 	linearElasticity(A2,  M_uFEM2, M_CoeffFEM2, mu2, lambda2, M_intMethod2);
 
+      #ifdef DEBUG
+      std::cout << "In LinearElasticitySymmetric::assembleMatrix() the matrices have dimensions: A1 = " << A1->nrows() << "x" << A1->ncols() << " and A2 = " << A2->nrows() << "x" << A2->ncols()<<std::endl;
+      #endif
 
   // dal blocco [A_1Gamma A_1GammaGamma 0 0] metto a zero i termini A_1GammaGamma e li sommo a A_2GammaGamma:
 	for (size_type k=0; k < M_nbDOFIFace; k++)
@@ -45,5 +48,5 @@ void LinearElasticitySymmetric::assembleMatrix()
 		M_Sys.addSubMatrix(curCol2, 0, dof_IFace2[k] + M_nbDOF1);
 	}
 
-  std::cout<< "Global matrix assembled     [OK]"<<std::endl;
+  std::cout<< "In LinearElasticitySymmetric::assembleMatrix() global matrix assembled     [OK]"<<std::endl;
 }

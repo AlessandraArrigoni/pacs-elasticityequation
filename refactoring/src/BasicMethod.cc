@@ -9,7 +9,7 @@ BasicMethod::BasicMethod(GetPot const & dataFile, std::string const problem, Bul
 void BasicMethod::assembleRHS()
 {
   // Set the volumic source term
-  scalarVectorPtr_Type source1 = std::make_shared<scalarVector_Type> (M_nbDOF1); // Quello che metto tra parentesi viene passato al constructor del tipo tra parentesi angolate, quindi credo che sia la dimensione del vettore.
+  scalarVectorPtr_Type source1 = std::make_shared<scalarVector_Type> (M_nbDOF1);
 	bulkLoad(source1, M_uFEM1, M_uFEM1, M_source1, M_intMethod1);
 
   scalarVectorPtr_Type source2 = std::make_shared<scalarVector_Type> (M_nbDOF2);
@@ -138,7 +138,15 @@ void BasicMethod::solve()
   M_Sys.solve();
 
   M_Sys.extractSubVector(M_uSol, 0, "sol"); // Passo il vettore per indirizzo perchè la funzione vuole un pointer: in realtà è uno shared pointer: funziona lo stesso?
-	std::cout << "Size of the solution in Problem: "<< M_uSol.size() << std::endl;
-	// The content of the variable M_sol contained in the LinearSystem M_Sys (actually it is all a matter of pointers...) is copied into the variable M_uSol of our class Problem.
+
+        #ifdef DEBUG
+        std::cout << "Size of the solution in Problem: "<< M_uSol.size() << std::endl;
+        std::cout << "\nSolution in BasicMethod::solve() "<<std::endl;
+        for (size_type k=0; k < M_uSol.size(); k++)
+        {
+          std::cout << M_uSol[k]<< "\t"<<std::endl;
+        }
+        std::cout << "\nEND Solution in BasicMethod::solve()\n"<<std::endl;
+        #endif
 
 }

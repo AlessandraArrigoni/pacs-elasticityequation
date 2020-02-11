@@ -18,7 +18,9 @@ void LaplacianBasic::assembleMatrix()
   sparseMatrixPtr_Type A2 = std::make_shared<sparseMatrix_Type> (M_nbDOF2, M_nbDOF2);
   stiffness( A2, M_uFEM2, M_CoeffFEM2, diff2, M_intMethod2);
 
-  //std::cout<<"Dimensioni matrici in assembleMatrix: A1 = "<<A1->nrows()<<" A2 = "<<A2->ncols()<<std::endl;
+      #ifdef DEBUG
+      std::cout << "In LaplacianBasic::assembleMatrix() the matrices have dimensions: A1 = " << A1->nrows() << "x" << A1->ncols() << " and A2 = " << A2->nrows() << "x" << A2->ncols()<<std::endl;
+      #endif
 
   M_Sys.addSubMatrix(A1, 0, 0);
   M_Sys.addSubMatrix(A2, M_nbDOF1, M_nbDOF1);
@@ -29,11 +31,9 @@ void LaplacianBasic::assembleMatrix()
   for (size_type k = 0; k < M_nbDOFIFace; k++)
   {
     M_Sys.extractSubMatrix( curRow, dof_IFace1[k], 1, 0, M_nbTotDOF );
-    //std::cout << "Estratta in curRow la riga "<< dof_IFace1[k] <<std::endl;
-    //std::cout<<"Aggiunta la curRow alla riga "<< dof_IFace2[k] + M_nbDOF1 <<std::endl;
     M_Sys.addSubMatrix(curRow, dof_IFace2[k] + M_nbDOF1, 0);
 
   }
 
-  std::cout<< "Global matrix assembled     [OK]"<<std::endl;
+  std::cout<< "In LaplacianBasic::assembleMatrix(), global matrix assembled     [OK]"<<std::endl;
 }

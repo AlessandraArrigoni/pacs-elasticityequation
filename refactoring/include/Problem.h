@@ -13,11 +13,7 @@ class Problem
 public:
   Problem(  GetPot const & dataFile, std::string const problem, Bulk & bulk1, Bulk & bulk2, const size_type dim, LinearSystem & extSys);
 
-  //void initialize(); // Ho messo questa parte nel constructor
-
   FEM getFEM(size_type const idx) const;
-
-  //const Bulk& getBULK(size_type const idx) const; //solo metodi const possono trattare variabili const;
 
   inline LinearSystem& getSYS() const // non sono molto sicura di questa funzione: posso restituire una reference così?
   {
@@ -35,8 +31,6 @@ public:
   {
     return errH1;
   }
-
-  //void addToSys( LinearSystem & extSys ); // Già fatto nel constructor
 
   virtual void assembleMatrix() = 0;
 
@@ -59,6 +53,11 @@ public:
 
   virtual ~Problem(){};
 
+  #ifdef DEBUG
+  void printCoordinatesInterfaceNodes() const ;
+
+  void printInterfaceValues() const ;
+  #endif
 
 
 protected:

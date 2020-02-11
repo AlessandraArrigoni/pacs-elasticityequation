@@ -15,7 +15,7 @@ void stiffness ( sparseMatrixPtr_Type M, const FEM& FemSol, const FEM& FemCoef, 
 
     getfem::asm_stiffness_matrix_for_laplacian(*M, im, femSol, femCoef, diff);
 
-    std::cout << "operator stiffness (volume)   :    [OK]" << std::endl;
+    std::cout << "operator stiffness   :    [OK]" << std::endl;
 
 }
 
@@ -38,7 +38,7 @@ void linearElasticity(sparseMatrixPtr_Type M, const FEM& FemSol, const FEM& FemC
 
   getfem::asm_stiffness_matrix_for_linear_elasticity(*M, im, femSol, femCoef, lambda, mu);
 
-  std::cout << "operator linearElasticity(volume)      [OK]" << std::endl;
+  std::cout << "operator linearElasticity      [OK]" << std::endl;
 }
 
 
@@ -65,7 +65,7 @@ void bulkLoad(scalarVectorPtr_Type V, const FEM& FemSol, const FEM& FemSource, B
 
   getfem::asm_source_term(*V, im, femSol, femSource, sourceVett);
 
-  std::cout << "operator bulkLoad(volume)      [OK]" << std::endl;
+  std::cout << "operator bulkLoad      [OK]" << std::endl;
 }
 
 

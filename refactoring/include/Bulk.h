@@ -3,7 +3,6 @@
 
 #include "Core.h"
 #include "Parser.h"
-//#include "BC.h"
 
 //gestione del dominio 2D "bulk": non contiene i dati (coefficienti, soluzione e fornzante)
 
@@ -13,8 +12,8 @@ public:
 	 Bulk ( const GetPot& dataFile,
                    const std::string& section = "bulkData/",
                    const std::string& sectionDomain = "domain/",
-									 const std::string& sectionProblem = "nothing",
-								   const std::string& domainNumber = "nothing");
+									 const std::string& sectionProblem = "laplacian",
+								   const std::string& domainNumber = "1");
 
   void exportMesh(std::string const nomefile) const;
 

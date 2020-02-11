@@ -95,28 +95,3 @@ char intToChar ( const size_type& integer )
 {
         return static_cast<char>( integer + 97 );
 } // intToChar
-
-
-/*scalar_type getScalarValue(const std::string function, const base_node& x) const
-{
-  M_parser.setString ( function );
-  M_parser.setVariable ( "x", x [ 0 ] );
-  M_parser.setVariable ( "y", x [ 1 ] );
-
-  return M_parser.evaluate ();
-}
-
-
-base_node getVectorValue(const std::string function, const base_node& x) const
-{
-  base_node value(0,0);
-
-  for (size_type i = 0; i < 2; ++i ){
-    M_parser.setString( function );
-    M_parser.setVariable ( "x", x [ 0 ] );
-    M_parser.setVariable ( "y", x [ 1 ] );
-    value[i]= M_parser.evaluate (i);
-  }
-
-  return value;
-};*/

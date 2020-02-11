@@ -1,6 +1,5 @@
 #include "../include/Problem.h"
 
-// NB: NON SO SE È GIUSTO PERCHÈ NEL CONSTRUCTOR DEL PROBLEM DOVREI PASSARE LA DIMENSIONE CHE PERÒ È CONTENUTA NELLE CLASSI DERIVATE! COMUNQUE È UN MEMBRO STATICO QUINDI IN TEORIA POSSO USARLO ANCHE SENZA AVERE NESSUN OGGETTO DI QUELLA CLASSE, MA NON SONO SICURA!
 
 // Constructor
 Problem::Problem( GetPot const & dataFile, std::string const problem, Bulk & bulk1, Bulk & bulk2, size_type const dim, LinearSystem & extSys):
@@ -27,10 +26,6 @@ Problem::Problem( GetPot const & dataFile, std::string const problem, Bulk & bul
   M_nbDOF2 = M_uFEM2.nb_dof();
   M_nbTotDOF = M_nbDOF1 + M_nbDOF2;
 
-  std::cout<<"In the Problem constructor: total number of dofs in 1 = "<< M_nbDOF1 <<std::endl;
-  std::cout<<"In the Problem constructor: total number of dofs in 2 = "<< M_nbDOF2 <<std::endl;
-  std::cout<<"In the Problem constructor: total number of dofs = "<< M_nbTotDOF <<std::endl;
-
   // Set solution vectors
   M_uSol.resize(M_nbTotDOF, 0.0);
   M_uSol1.resize(M_nbDOF1, 0.0);
@@ -40,7 +35,12 @@ Problem::Problem( GetPot const & dataFile, std::string const problem, Bulk & bul
   // Set matrix dimensions in the linear system
   M_Sys.addToMatrix(M_nbTotDOF);
 
-  std::cout<< "Matrix dimension in Problem constructor = "<<M_Sys.getMatrix()->nrows()<<" x " <<M_Sys.getMatrix()->ncols()<<std::endl;
+        #ifdef DEBUG
+        std::cout<<"In the Problem constructor: total number of dofs in 1 = "<< M_nbDOF1 <<std::endl;
+        std::cout<<"In the Problem constructor: total number of dofs in 2 = "<< M_nbDOF2 <<std::endl;
+        std::cout<<"In the Problem constructor: total number of dofs = "<< M_nbTotDOF <<std::endl;
+        std::cout<< "Matrix dimension in Problem constructor = "<<M_Sys.getMatrix()->nrows()<<" x " <<M_Sys.getMatrix()->ncols()<<std::endl;
+        #endif
 
   // Set integration method (in realtà non sono sicura che la stringa venga letta)
   std::string intMethod(dataFile(std::string("bulkData/femspaces/integrationMethod").data(), "IM_TRIANGLE(6)" ) );
@@ -80,7 +80,7 @@ Problem::Problem( GetPot const & dataFile, std::string const problem, Bulk & bul
   M_nbDOFIFace = dof_IFace1.size();
 
   // Output info
-  std::cout<<"In the Problem constructor: total number of dofs = "<< M_nbTotDOF << ", number of interface dofs from domain Omega2 = "<< dof_IFace2.size() << std::endl;
+  std::cout<<"In the Problem constructor: total number of dofs = "<< M_nbTotDOF << ", number of interface dofs = "<< M_nbDOFIFace << std::endl;
 }
 
 
@@ -132,25 +132,53 @@ void Problem::extractSol(scalarVector_Type & destination, std::string const vari
 
 void Problem::exportVtk( std::string const folder, std::string const what)
 {
+        #ifdef DEBUG
+  			scalarVectorPtr_Type DIFF1 = std::make_shared<scalarVector_Type> (M_nbDOF1);
+  			scalarVectorPtr_Type DIFF2 = std::make_shared<scalarVector_Type> (M_nbDOF2);
+
+  			exactSolution(DIFF1, M_uFEM1, M_exact_sol1);  // calcolo la soluzione esatta
+  			exactSolution(DIFF2, M_uFEM2, M_exact_sol2);
+  			#endif
+
 	std::cout << "export "+ what <<std::endl;
 	getfem::vtk_export exp(folder + "Solution_" + what + ".vtk" );
 	if (what == "u1"){
 		exp.exporting( M_uFEM1.getFEM());
 		extractSol(M_uSol1, what);
 		std::cout<< "Solution extracted! "<< std::endl;
+
+        // DEBUG : Compute difference with the numerical sol
+        #ifdef DEBUG
+        for (size_type i=0; i<M_nbDOF1; i++){
+           DIFF1->at(i) -= M_uSol1.at(i);
+        }
+        #endif
+
 		exp.write_mesh();
 		exp.write_point_data( M_uFEM1.getFEM(), M_uSol1, what);
 
-
+        #ifdef DEBUG
+        exp.write_point_data(M_uFEM1.getFEM(), *DIFF1, "error1");
+        #endif
 	}
 	if (what == "u2"){
 		exp.exporting( M_uFEM2.getFEM());
 		extractSol(M_uSol2, what);
 		std::cout<< "Solution extracted! "<< std::endl;
+
+        // DEBUG : Compute difference with the numerical sol
+        #ifdef DEBUG
+        for (size_type i=0; i<M_nbDOF2; i++){
+           DIFF2->at(i) -= M_uSol2.at(i);
+        }
+        #endif
+
 		exp.write_mesh();
 		exp.write_point_data( M_uFEM2.getFEM(), M_uSol2, what);
 
-
+        #ifdef DEBUG
+        exp.write_point_data(M_uFEM2.getFEM(), *DIFF2, "error2");
+        #endif
 	}
 
 }
@@ -199,3 +227,37 @@ if (M_Bulk1.nSubY()== 20) {f2<<"Test:"<<test<<"\n";}
 f2<<errH1<<"\n";
 if (M_Bulk1.nSubY()== 160) {f2<<"\n";}
 }
+
+#ifdef DEBUG
+
+// Prints the coordinates of the nodes on the interface following the order of the vectors (dof_IFace1, dof_IFace2) that contain them, to check that they are the same (so we don't need to check every time if the coordinates are the same, but just take the element in the same position)
+void Problem::printCoordinatesInterfaceNodes() const {
+
+	for (size_type k=0; k < M_nbDOFIFace; k++){
+			bgeot::base_node whereSX = M_uFEM1.getFEM().point_of_basic_dof(dof_IFace1[k]);
+			bgeot::base_node whereDX = M_uFEM2.getFEM().point_of_basic_dof(dof_IFace2[k]);
+
+			std::cout<<" Coordinate dofs interface LEFT: "<<whereSX[0]<<" "<<whereSX[1]<<" RIGHT: "<<whereDX[0]<< " "<<whereDX[1]<<std::endl;
+	}
+
+}
+
+// Prints the values of the two solutions on the interface, associating the ones with the same coordinates
+void Problem::printInterfaceValues() const {
+
+	std::vector<base_node> coordsSx = M_uFEM1.getDOFpoints();
+	std::vector<base_node> coordsDx = M_uFEM2.getDOFpoints();
+	std::cout<< " The solution on the LEFT and RIGHT interface is:" <<std::endl;
+
+	for (size_type k=0; k < M_nbDOFIFace; k++){
+		for (size_type h=0; h < M_nbDOFIFace; h++){
+
+			if (gmm::vect_norm2(coordsSx[dof_IFace1[k]] - coordsDx[dof_IFace2[h]])<1.0e-9){
+				std::cout<<"Coords LEFT: ("<<coordsSx[dof_IFace1[k]][0]<<" , "<<coordsSx[dof_IFace1[k]][1]<<")\tCoords RIGHT: ("<<coordsDx[dof_IFace2[h]][0]<<" , "<<coordsDx[dof_IFace2[h]][1]<<")"<<std::endl;
+				std::cout<<"Sol LEFT: "<< M_uSol1.at(dof_IFace1[k])<<" Sol RIGHT: "<<M_uSol2.at(dof_IFace2[h])<<std::endl;
+			}
+		}
+	}
+
+}
+#endif
