@@ -59,11 +59,9 @@ int main(int argc, char *argv[]) {
     myProblem.assembleRHS();
 
         // save the matrix BEFORE the boundary and the interface conditions are assigned
-        #ifndef DEBUG
-          #ifdef TEST
+        #if defined(DEBUG) || defined(TEST)
           std::string matrixFileName = "ElastBasicMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
-          #endif
         #endif
 
     // Enforce Dirichet boundary conditions
@@ -87,12 +85,10 @@ int main(int argc, char *argv[]) {
     myProblem.computeErrors();
 
         // save the matrix AFTER the boundary and the interface conditions are assigned, and the computed errors
-        #ifndef DEBUG
-          #ifdef TEST
+        #if defined(DEBUG) || defined(TEST)
           matrixFileName = "ElastBasicMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
           myProblem.printErrors("linearElasticityBasic_errorsL2","linearElasticityBasic_errorsH1", data_file_name);
-          #endif
         #endif
 
         #ifdef DEBUG

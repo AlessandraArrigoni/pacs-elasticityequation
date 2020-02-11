@@ -59,11 +59,9 @@ int main(int argc, char *argv[]) {
     myProblem.assembleRHS();
 
         // save the matrix BEFORE the boundary and the interface conditions are assigned
-        #ifndef DEBUG
-          #ifdef TEST
+        #if defined(DEBUG) || defined(TEST)
           std::string matrixFileName = "LapBasicMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
-          #endif
         #endif
 
     // Enforce Dirichet boundary conditions
@@ -89,12 +87,10 @@ int main(int argc, char *argv[]) {
     myProblem.computeErrors();
 
         // save the matrix AFTER the boundary and the interface conditions are assigned, and the computed errors
-        #ifndef DEBUG
-          #ifdef TEST
+        #if defined(DEBUG) || defined(TEST)
           matrixFileName = "LapBasicMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
           myProblem.printErrors("laplacianBasic_errorsL2","laplacianBasic_errorsH1", data_file_name);
-          #endif
         #endif
 
         #ifdef DEBUG
