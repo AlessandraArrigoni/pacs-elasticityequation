@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program linear elasticity: soluzione [sin(2*pi*x);sin(2*pi*y) a sx e [3+sin(2*pi*x);1+sin(2*pi*y)] a dx , q0 costante e q1 nullo
+% parameters for program linear elasticity: soluzione [sin(2*pi*x);sin(2*pi*y)] a sx e [3+sin(2*pi*x);1+sin(2*pi*y)] a dx , q0 costante e q1 nullo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]

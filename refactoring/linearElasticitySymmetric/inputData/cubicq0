@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program linear elasticity: soluzione [x^3, y^2*x] a sx e [x^3+1,y^2*x+3] a dx
+% parameters for program linear elasticity: soluzione [x^3, y^2*x] a sx e [x^3,y^2*x+3] a dx
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -30,7 +30,7 @@
                 lambda = 1  %coefficiente di Lamè
                 mu = 1 %coefficiente di Lamè
                 exact_sol = x*x*x;y*y*x % soluzione esatta: la componente x e y sono separate da ";"
-		qzero = -1;-3
+		qzero = 0;-3
 
             		% soluzione CUBICA IN X E Y
             		bulkload = -18*x-4*y;-6*x
@@ -46,12 +46,12 @@
                 interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 lambda = 1  %coefficiente di Lamè
                 mu = 1 %coefficiente di Lamè
-                exact_sol = x*x*x+1;y*y*x+3  % soluzione esatta: le componenti x e y sono separate da ";"
-		qzero = -1;-3
+                exact_sol = x*x*x;y*y*x+3  % soluzione esatta: le componenti x e y sono separate da ";"
+		qzero = 0;-3
 
                 % soluzione CUBICA IN X E Y
                 bulkload = -18*x-4*y;-6*x
-                u_BC = x*x*x+1;y*y*x+3
+                u_BC = x*x*x;y*y*x+3
                 du_BC = 0;0
 
         [../]

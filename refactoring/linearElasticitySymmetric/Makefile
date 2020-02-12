@@ -61,7 +61,7 @@ optimised :
 	@$(MAKE) --no-print-directory OPTFLAGS="-O3 -DNDEBUG" all
 
 test :
-	@$(MAKE) --no-print-directory OPTFLAGS+="-DTEST -DNDEBUG" all
+	@$(MAKE) --no-print-directory OPTFLAGS="-O3 -DTEST -DNDEBUG" all
 
 
 clean :

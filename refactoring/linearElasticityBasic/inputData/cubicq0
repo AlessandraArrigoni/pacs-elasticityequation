@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program linear elasticity: soluzione [x^3, y^2*x] a sx e [x^3+1,y^2*x+3] a dx
+% parameters for program linear elasticity: continuous stress and continuous normal component, discontinuous tangential component
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -7,60 +7,58 @@
         [./domain]
 
                 meshExternal = none
-                meshFolder = ./meshes/   % per caricare mesh fatte con altri tool
+                meshFolder = ./meshes/   % to load meshes defined with other tools
 
-                spatialDiscretizationX = 80  % la mesh è conforme: suddivisione uguale in omega1 e omega2
+                spatialDiscretizationX = 80
                 spatialDiscretizationY = 160
-                lengthAbscissa = 0.5  % misure in x e y per entrambi
+                lengthAbscissa = 0.5  % dimensions of both domains
                 lengthOrdinate = 1.0
-                startingAbscissa1 = 0 % punto in basso a sx per omega1
+                startingAbscissa1 = 0 % coordinates of bottom left point in Omega1
                 startingOrdinate1 = 0
-                startingAbscissa2 = 0.5 % punto in basso a sx per omega2
+                startingAbscissa2 = 0.5 % coordinates of bottom left point in Omega2
                 startingOrdinate2 = 0
-                meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
-                spaceDimension = 2   % bidimensionale
+                meshType = GT_PK(2,1)  % triangle mesh
+                spaceDimension = 2   % dimension of the domain
 
         [../]
 
 
-        [./elasticity1] %Dominio a sinistra
+        [./elasticity1]
 
-            		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-                interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
-                lambda = 1  %coefficiente di Lamè
-                mu = 1 %coefficiente di Lamè
-                exact_sol = x*x*x;y*y*x % soluzione esatta: la componente x e y sono separate da ";"
+            		bcflag = [0,0,0,0]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 1 % The borders are numbered starting from 0 = bottom.
+                lambda = 1  % Lamé coefficient
+                mu = 1 % Lamé coefficient
+                exact_sol = x*x*x;y*y*x % Exact solution: first and second component are separated by a ";"
 
 
-            		% soluzione CUBICA IN X E Y
             		bulkload = -18*x-4*y;-6*x
-            		u_BC = x*x*x*(x<(0.5-1e-5))-1*(x>(0.5-1e-5));y*y*x*(x<(0.5-1e-5))-3*(x>(0.5-1e-5))
+            		u_BC = x*x*x*(x<(0.5-1e-5));y*y*x*(x<(0.5-1e-5))-3*(x>(0.5-1e-5)) % It includes the jump q0 on Gamma
             		du_BC = 0;0
 
         [../]
 
 
-        [./elasticity2] %Dominio a destra
+        [./elasticity2]
 
-                bcflag = [0,0,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-                interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
-                lambda = 1  %coefficiente di Lamè
-                mu = 1 %coefficiente di Lamè
-                exact_sol = x*x*x+1;y*y*x+3  % soluzione esatta: le componenti x e y sono separate da ";"
+                bcflag = [0,0,0,1]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 3 % The borders are numbered starting from 0 = bottom.
+                lambda = 1  % Lamé coefficient
+                mu = 1 % Lamé coefficient
+                exact_sol = x*x*x;y*y*x+3  % Exact solution: first and second component are separated by a ";"
 
 
-                % soluzione CUBICA IN X E Y
                 bulkload = -18*x-4*y;-6*x
-                u_BC = x*x*x+1;y*y*x+3
-                du_BC = 0;0
+                u_BC = x*x*x;y*y*x+3
+                du_BC = 0;0 % q1 = jump of the conormal derivative on the interface Gamma
 
         [../]
 
 
         [./femspaces]
 
-                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l approssimazione dei coefficienti: FEM costanti su triangoli
+                FEMTypeSol = FEM_PK(2,1)  % FEM type for the solution: linear on triangle mesh
+                FEMTypeCoeff = FEM_PK(2,0)  % FEM type for the coefficients: constant on triangle mesh
                 integrationMethod = IM_TRIANGLE(6)
 
         [../]

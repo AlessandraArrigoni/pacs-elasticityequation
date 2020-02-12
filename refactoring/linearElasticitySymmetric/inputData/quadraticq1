@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program linear elasticity: soluzione [sin(2*pi*x);sin(2*pi*y)] a sx e [x*x+sin(2*pi*x);x*x+sin(2*pi*y)] a dx, q0 quadratico, q1 lineare
+% parameters for program linear elasticity: discontinuous solution with discontinuous stress on the interface
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -7,32 +7,32 @@
         [./domain]
 
                 meshExternal = none
-                meshFolder = ./meshes/   % per caricare mesh fatte con altri tool
+                meshFolder = ./meshes/   % to load meshes defined with other tools
 
-                spatialDiscretizationX = 80  % la mesh è conforme: suddivisione uguale in omega1 e omega2
+                spatialDiscretizationX = 80
                 spatialDiscretizationY = 160
-                lengthAbscissa = 0.5  % misure in x e y per entrambi
+                lengthAbscissa = 0.5  % dimensions of both domains
                 lengthOrdinate = 1.0
-                startingAbscissa1 = 0 % punto in basso a sx per omega1
+                startingAbscissa1 = 0 % coordinates of bottom left point in Omega1
                 startingOrdinate1 = 0
-                startingAbscissa2 = 0.5 % punto in basso a sx per omega2
+                startingAbscissa2 = 0.5 % coordinates of bottom left point in Omega2
                 startingOrdinate2 = 0
-                meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
-                spaceDimension = 2   % bidimensionale
+                meshType = GT_PK(2,1)  % triangle mesh
+                spaceDimension = 2  % dimension of the domain
 
         [../]
 
 
-        [./elasticity1] %Dominio a sinistra
+        [./elasticity1]
 
-            		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-                interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
-                lambda = 1  %coefficiente di Lamè
-                mu = 1 %coefficiente di Lamè
-                exact_sol = sin(2*pi*x);sin(2*pi*y) % soluzione esatta: la componente x e y sono separate da ";"
-		qzero = -x*x;-x*x
+            		bcflag = [0,0,0,0]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 1 % The borders are numbered starting from 0 = bottom.
+                lambda = 1   % Lamé coefficient
+                mu = 1  % Lamé coefficient
+                exact_sol = sin(2*pi*x);sin(2*pi*y) % Exact solution: first and second component are separated by a ";"
+		            qzero = -x*x;-x*x % jump q0 = u1 - u2 on Gamma: first and second component are separated by a ";"
 
-            		% soluzione PERIODICA + PARABOLICA IN X
+
             		bulkload = 12*pi*pi*sin(2*pi*x);12*pi*pi*sin(2*pi*y)
             		u_BC = sin(2*pi*x);sin(2*pi*y)
             		du_BC = 0;0
@@ -40,27 +40,27 @@
         [../]
 
 
-        [./elasticity2] %Dominio a destra
+        [./elasticity2]
 
-                bcflag = [0,0,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-                interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
-                lambda = 1  %coefficiente di Lamè
-                mu = 1 %coefficiente di Lamè
-                exact_sol = x*x+sin(2*pi*x);x*x+sin(2*pi*y)  % soluzione esatta: le componenti x e y sono separate da ";"
-		qzero = -x*x;-x*x
+                bcflag = [0,0,0,1]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 3  % The borders are numbered starting from 0 = bottom.
+                lambda = 1  % Lamé coefficient
+                mu = 1 % Lamé coefficient
+                exact_sol = x*x+sin(2*pi*x);x*x+sin(2*pi*y)  % Exact solution: first and second component are separated by a ";"
+		            qzero = -x*x;-x*x % jump q0 = u1 - u2 on Gamma: first and second component are separated by a ";"
 
-                % soluzione PERIODICA + PARABOLICA IN X
+
                 bulkload = 12*pi*pi*sin(2*pi*x)-6;12*pi*pi*sin(2*pi*y)-2
                 u_BC = x*x+sin(2*pi*x);x*x+sin(2*pi*y)
-                du_BC = -6*x;-2*x
+                du_BC = -6*x;-2*x % q1 = jump of the conormal derivative on the interface Gamma
 
         [../]
 
 
         [./femspaces]
 
-                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l approssimazione dei coefficienti: FEM costanti su triangoli
+                FEMTypeSol = FEM_PK(2,1)  % FEM type for the solution: linear on triangle mesh
+                FEMTypeCoeff = FEM_PK(2,0)  % FEM type for the coefficients: constant on triangle mesh
                 integrationMethod = IM_TRIANGLE(6)
 
         [../]

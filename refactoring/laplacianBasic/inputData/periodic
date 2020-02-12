@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% parameters for program laplacian: soluzione sin(2 pi x)
+% parameters for program laplacian: continuous periodic solution
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [bulkData]
@@ -7,31 +7,30 @@
         [./domain]
 
                 meshExternal = none
-                meshFolder = ./meshes/   % per caricare mesh fatte con altri tool
+                meshFolder = ./meshes/   % to load meshes defined with other tools
 
-                spatialDiscretizationX = 10  % la mesh è conforme: suddivisione uguale in omega1 e omega2
+                spatialDiscretizationX = 10
                 spatialDiscretizationY = 20
-                lengthAbscissa = 0.5  % misure in x e y per entrambi
+                lengthAbscissa = 0.5  % dimensions of both domains
                 lengthOrdinate = 1.0
-                startingAbscissa1 = 0 % punto in basso a sx per omega1
+                startingAbscissa1 = 0 % coordinates of bottom left point in Omega1
                 startingOrdinate1 = 0
-                startingAbscissa2 = 0.5 % punto in basso a sx per omega2
+                startingAbscissa2 = 0.5 % coordinates of bottom left point in Omega2
                 startingOrdinate2 = 0
-                meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
-                spaceDimension = 2   % bidimensionale
+                meshType = GT_PK(2,1)  % triangle mesh
+                spaceDimension = 2  % dimension of the domain
 
         [../]
 
 
         [./laplacian1]
 
-            		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-                interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
-                diff = 1  %coefficiente di diffusione
-                exact_sol = sin(2*pi*x) % soluzione esatta
+            		bcflag = [0,0,0,0]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 1 % The borders are numbered starting from 0 = bottom.
+                diff = 1   % Diffusion coefficient
+                exact_sol = sin(2*pi*x) % Exact solution
 
 
-            		% soluzione SENO in x
             		bulkload = 4*pi*pi*sin(2*pi*x)
             		u_BC = sin(2*pi*x)*(x<(0.5-1e-5))
             		du_BC = 0
@@ -41,13 +40,12 @@
 
         [./laplacian2]
 
-                bcflag = [0,0,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
-                interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
-                diff = 1  %coefficiente di diffusione
-                exact_sol = sin(2*pi*x) % soluzione esatta
+                bcflag = [0,0,0,1]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 3 % The borders are numbered starting from 0 = bottom.
+                diff = 1  % Diffusion coefficient
+                exact_sol = sin(2*pi*x) % Exact solution
 
 
-                % soluzione SENO DI X sin(2 pi x) : così le condizioni di salto sono nulle sia per u che per du
                 bulkload = 4*pi*pi*sin(2*pi*x)
                 u_BC = sin(2*pi*x)
                 du_BC = 0
@@ -57,8 +55,8 @@
 
         [./femspaces]
 
-                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
-                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l approssimazione dei coefficienti: FEM costanti su triangoli
+                FEMTypeSol = FEM_PK(2,1)  % FEM type for the solution: linear on triangle mesh
+                FEMTypeCoeff = FEM_PK(2,0)  % FEM type for the coefficients: constant on triangle mesh
                 integrationMethod = IM_TRIANGLE(6)
 
         [../]
