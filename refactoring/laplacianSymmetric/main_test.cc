@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
         // save the matrix BEFORE the boundary and the interface conditions are assigned
         #if defined(DEBUG) || defined(TEST)
-          std::string matrixFileName = "LapSymMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+          std::string matrixFileName = "outputData/LapSymMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
         #endif
 
@@ -87,9 +87,9 @@ int main(int argc, char *argv[]) {
 
         // save the matrix AFTER the boundary and the interface conditions are assigned, and the computed errors
         #if defined(DEBUG) || defined(TEST)
-          matrixFileName = "LapSymMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+          matrixFileName = "outputData/LapSymMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
-          myProblem.printErrors("laplacianSymmetric_errorsL2","laplacianSymmetric_errorsH1", data_file_name);
+          myProblem.printErrors("outputData/laplacianSymmetric_errorsL2","outputData/laplacianSymmetric_errorsH1", data_file_name);
         #endif
 
         #ifdef DEBUG

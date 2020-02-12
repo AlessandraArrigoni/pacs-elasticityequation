@@ -64,4 +64,4 @@ test :
 	@$(MAKE) --no-print-directory OPTFLAGS+="-DTEST -DNDEBUG" all
 
 clean :
-	$(RM) $(EXEC) $(OBJS) $(EXECOBJS) *.mm output_vtk/*.vtk laplacianBasic_errors*
+	$(RM) $(EXEC) $(OBJS) $(EXECOBJS) outputData/*.mm output_vtk/*.vtk outputData/laplacianBasic_errors*

@@ -65,4 +65,4 @@ test :
 
 
 clean :
-	$(RM) $(EXEC) $(OBJS) $(EXECOBJS) *.mm output_vtk/*.vtk linearElasticitySymmetric_errors*
+	$(RM) $(EXEC) $(OBJS) $(EXECOBJS) outputData/*.mm output_vtk/*.vtk outputData/linearElasticitySymmetric_errors*

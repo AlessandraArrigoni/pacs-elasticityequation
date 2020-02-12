@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
         // save the matrix BEFORE the boundary and the interface conditions are assigned
         #if defined(DEBUG) || defined(TEST)
-          std::string matrixFileName = "LapBasicMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+          std::string matrixFileName = "outputData/LapBasicMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
         #endif
 
@@ -88,9 +88,9 @@ int main(int argc, char *argv[]) {
 
         // save the matrix AFTER the boundary and the interface conditions are assigned, and the computed errors
         #if defined(DEBUG) || defined(TEST)
-          matrixFileName = "LapBasicMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+          matrixFileName = "outputData/LapBasicMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
-          myProblem.printErrors("laplacianBasic_errorsL2","laplacianBasic_errorsH1", data_file_name);
+          myProblem.printErrors("outputData/laplacianBasic_errorsL2","outputData/laplacianBasic_errorsH1", data_file_name);
         #endif
 
         #ifdef DEBUG

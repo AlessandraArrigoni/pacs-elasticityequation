@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
         // save the matrix BEFORE the boundary and the interface conditions are assigned
         #if defined(DEBUG) || defined(TEST)
-          std::string matrixFileName = "ElastSymMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+          std::string matrixFileName = "outputData/ElastSymMat_noBC_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
         #endif
 
@@ -87,9 +87,9 @@ int main(int argc, char *argv[]) {
 
         // save the matrix AFTER the boundary and the interface conditions are assigned, and the computed errors
         #if defined(DEBUG) || defined(TEST)
-          matrixFileName = "ElastSymMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
+          matrixFileName = "outputData/ElastSymMat_Nref"+ std::to_string(int(myDomainLeft.nSubY())) + ".mm";
           mySys.saveMatrix(matrixFileName.c_str());
-          myProblem.printErrors("linearElasticitySymmetric_errorsL2","linearElasticitySymmetric_errorsH1", data_file_name);
+          myProblem.printErrors("outputData/linearElasticitySymmetric_errorsL2","outputData/linearElasticitySymmetric_errorsH1", data_file_name);
         #endif
 
         #ifdef DEBUG
