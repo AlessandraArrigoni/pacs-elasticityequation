@@ -9,8 +9,8 @@
                 meshExternal = none
                 meshFolder = ./meshes/   % to load meshes defined with other tools
 
-                spatialDiscretizationX = 10
-                spatialDiscretizationY = 20
+                spatialDiscretizationX = 80
+                spatialDiscretizationY = 160
                 lengthAbscissa = 0.5  % dimensions of both domains
                 lengthOrdinate = 1.0
                 startingAbscissa1 = 0 % coordinates of bottom left point in Omega1

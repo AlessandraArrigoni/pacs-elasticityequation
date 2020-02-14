@@ -29,7 +29,7 @@
                 interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
                 exact_sol = 4*y*(y-1) % soluzione esatta
-		qzero = 0
+		            qzero = 0
 
             		% soluzione PARABOLICA in Y : 4y(y-1)
                 bulkload = -8
@@ -45,7 +45,7 @@
                 interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
                 diff = 1  %coefficiente di diffusione
                 exact_sol = 4*y*(y-1) % soluzione esatta
-		qzero = 0
+		            qzero = 0
 
                 % soluzione PARABOLICA IN Y 4y(y-1) : così le condizioni di salto sono nulle sia per u che per du
             		bulkload = -8
