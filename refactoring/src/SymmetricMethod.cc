@@ -6,7 +6,7 @@ SymmetricMethod::SymmetricMethod(GetPot const & dataFile, std::string const prob
 	M_jump2(dataFile, "bulkData/", problem, "2", "qzero")
 	{
 
-		// Compute the jump q0 in all the dofs on both domains
+		// Initialize variables storing the q0 values on both subdomains
 		scalarVectorPtr_Type q01 = std::make_shared<scalarVector_Type>(M_nbDOF1);
 		scalarVectorPtr_Type q02 = std::make_shared<scalarVector_Type>(M_nbDOF2);
 		jump(q01, M_uFEM1, M_jump1);
@@ -21,28 +21,31 @@ SymmetricMethod::SymmetricMethod(GetPot const & dataFile, std::string const prob
 
 void SymmetricMethod::assembleRHS()
 {
-
+	// Volumetric source term
 	scalarVectorPtr_Type  source1 = std::make_shared<scalarVector_Type> (M_nbDOF1);
   bulkLoad(source1, M_uFEM1, M_uFEM1, M_source1, M_intMethod1);
 
 	scalarVectorPtr_Type  source2 = std::make_shared<scalarVector_Type> (M_nbDOF2);
 	bulkLoad(source2, M_uFEM2, M_uFEM2, M_source2, M_intMethod2);
 
-	// Come per la matrice, "sposto" (sommandoli) anche i valori del rhs relativi alle funzioni definite sull'interfaccia di Omega1, perchè poi questi valori vengono persi quando impongo la condizione q0 con enforceInterfaceJump.
+	// For each interface node...
 	for (size_type k=0; k < M_nbDOFIFace; k++){
+		// Sum the values from Omega1 and Omega2
 		scalar_type newVal = source1->at(dof_IFace1[k]) + source2->at(dof_IFace2[k]);
+		// Set the new value of the interface dof on Omega2
 		source2->at(dof_IFace2[k]) = newVal;
 	}
 
-	//aggiungo i termini che tengono conto del salto q0 nel rhs
-
+	// For each dof in Omega1...
   for (size_type i = 0; i < M_nbDOF1; ++i)
   {
 		scalar_type value1 = 0;
-		if (index_inside(i, dof_IFace1) == 0) // If the current dof is NOT on the interface
+		// If NOT on the interface modify the rhs
+		if (index_inside(i, dof_IFace1) == 0)
 		{
 			for (size_type j = 0; j < M_nbDOFIFace; ++j)
 	   	{
+				// Compute the additional term
 				value1 += (*(M_Sys.getMatrix()))(i, dof_IFace2[j] + M_nbDOF1)*M_q01.at(dof_IFace1[j]);
 			}
 
@@ -50,13 +53,16 @@ void SymmetricMethod::assembleRHS()
     }
 	}
 
+	// For each dof in Omega2...
   for (size_type i=0; i < M_nbDOF2; ++i)
   {
 		scalar_type value2 = 0;
-		if (index_inside(i, dof_IFace2) == 0) // If the current dof is NOT on the interface
+		// If NOT on the interface modify the rhs
+		if (index_inside(i, dof_IFace2) == 0)
 		{
 			for (size_type j=0; j < M_nbDOFIFace; ++j)
 	    {
+				// Compute the additional term
 				value2 += (*(M_Sys.getMatrix()))(i + M_nbDOF1, dof_IFace2[j] + M_nbDOF1)*M_q02.at(dof_IFace2[j]);
 
 	   }
@@ -65,10 +71,12 @@ void SymmetricMethod::assembleRHS()
 	  }
   }
 
+	// Put the source for Omega1 at the top of the rhs
 	M_Sys.addSubVector(source1,0);
+	// Put the source for Omega2 at the bottom of the rhs
 	M_Sys.addSubVector(source2,M_nbDOF1);
 
-  // To include the Neumann boundary conditions or interface condition on the conormal derivative q1
+  // Set Neumann boundary conditions
  	scalarVectorPtr_Type BCvec1 = std::make_shared<scalarVector_Type> (M_nbDOF1);
 	stressRHS( BCvec1, M_Bulk1, M_BC1, M_uFEM1, M_uFEM1, M_intMethod1);
 
@@ -86,7 +94,6 @@ void SymmetricMethod::assembleRHS()
 void SymmetricMethod::enforceStrongBC(size_type const domainIdx)
 {
 	// Set local variables according to the current domain
-	//(vorrei fare delle references per non sprecare memoria, ma non posso perchè dovrei inizializzarle e non so come, quindi uso dei pointers
 	FEM * M_uFEMcur;
 	BC * M_BCcur;
 	sizeVector_Type  M_rowsStrongBCcur;
@@ -107,33 +114,36 @@ void SymmetricMethod::enforceStrongBC(size_type const domainIdx)
 
 	size_type Qdim = M_uFEMcur->getFEM().get_qdim();
 
+	// Store the dofs on all the Dirichlet sides in M_rowsStrongBCcur
+	// Loop on the Dirichlet sides
 	for ( size_type bndID = 0; bndID < M_BCcur->getDiriBD().size(); bndID++ )
 	{
+		// Get the dofs on the current side
 		dal::bit_vector quali = M_uFEMcur->getFEM().dof_on_region( M_BCcur->getDiriBD()[bndID]);
-		size_type counter=0;
 		for(dal::bv_visitor i(quali); !i.finished(); ++i)
 		{
-			// Sono vettori di size_type cioè di indici: contengono gli indici dei dof interessati dalle BC e gli indici delle frontiere con Dirichlet, credo
-      M_rowsStrongBCcur.push_back(i); // aggiungo gli indici dei dofs, che però non sono necessariamente in ordine!
+      M_rowsStrongBCcur.push_back(i);
 			M_rowsStrongBCFlagscur.push_back(bndID);
-			counter++;
 		}
 	}
 
-
+	// For each dof on the Dirichlet boundaries
 	for (size_type i = 0; i < M_rowsStrongBCcur.size(); i += Qdim)
 	{
-		size_type ii; // é l'indice "locale" del primo dof associato a un punto fisico (spero!)
-		ii = M_rowsStrongBCcur[i] ;
+		size_type ii = M_rowsStrongBCcur[i] ;
 
+		// For each dimension of the problem
 		for(size_type j = 0; j < Qdim; j++)
 		{
-			bgeot::base_node where;
-			where = M_uFEMcur->getFEM().point_of_basic_dof(ii + j);
+			// Get coordinates of the node
+			bgeot::base_node where = M_uFEMcur->getFEM().point_of_basic_dof(ii + j);
+			// Evaluate the Dirichlet condition
+			scalar_type value = M_BCcur->BCDiri(where,j,M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
+
       M_Sys.setNullRow(ii + j  + (domainIdx==1 ? 0 : M_nbDOF1 ));
+			// Set the diagonal value to 1
 			M_Sys.setMatrixValue(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), ii  + j + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
 
-			scalar_type value = M_BCcur->BCDiri(where,j,M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
 
 			// Special treatment for the first and last node on the interface (it belongs to the boundary too)
 			if(domainIdx==1) // No special treatment
@@ -142,17 +152,18 @@ void SymmetricMethod::enforceStrongBC(size_type const domainIdx)
 			}
       else
 			{
-				if (index_inside(ii+j,dof_IFace2) == 0) // If the current dof is NOT on the interface: no special treatment
+				// If the current dof is NOT on the interface: no special treatment
+				if (index_inside(ii+j,dof_IFace2) == 0)
 				{
 					M_Sys.setRHSValue(ii + j + M_nbDOF1, value);
 				}
 				else
 				{
-					M_Sys.setRHSValue(ii  + j + M_nbDOF1, value + M_q02.at(ii+j)/2 ); // Add 1/2 of the jump
+					// Add 1/2 of the jump
+					M_Sys.setRHSValue(ii  + j + M_nbDOF1, value + M_q02.at(ii+j)/2 );
 				}
 		  }
-		} // fine loop su j (2 dofs associati a un punto fisico)
-
+		}
 	}
 
 }
@@ -160,8 +171,9 @@ void SymmetricMethod::enforceStrongBC(size_type const domainIdx)
 
 void SymmetricMethod::treatIFaceDofs()
 {
-	M_Sys.eliminateRowsColumns(dof_IFace1);      // ora il sistema ha dimensione ridotta M_nbDOF1+M_nbDOF2-M_nbIFace
-  M_nbTotDOF= M_nbDOF1 + M_nbDOF2 - M_nbDOFIFace;
+	// reduce the dimension of the system
+	M_Sys.eliminateRowsColumns(dof_IFace1);
+  M_nbTotDOF = M_nbDOF1 + M_nbDOF2 - M_nbDOFIFace;
 }
 
 
@@ -174,13 +186,16 @@ void SymmetricMethod::solve()
 
   M_Sys.solve();
 
+	//Store the solution contained in LinearSystem in the vector M_uSol of Problem
   M_Sys.extractSubVector(M_uSol, 0, "sol");
 
-	// aggiungo di nuovo i nodi per l'interfaccia sul dominio 1 e modifico le soluzioni dove c'è la media con il valore vero anche sul dominio 2
+	// Reconstruct the solution on Omega1
 	for (size_type j=0; j < M_nbDOFIFace; j++)
   {
 		size_type idx= dof_IFace1[j];
-	  scalar_type value= M_uSol.at(dof_IFace2[j] + M_nbDOF1 - M_nbDOFIFace + j) + M_q01.at(idx)/2; // valore della media trovato + il salto/2
+		// new value = average + jump/2
+	  scalar_type value= M_uSol.at(dof_IFace2[j] + M_nbDOF1 - M_nbDOFIFace + j) + M_q01.at(idx)/2;
+		// Insert the value in the correct place according to the global numbering
     auto it= M_uSol.insert(M_uSol.begin() + idx, value);
 
 				#ifdef DEBUG
@@ -189,10 +204,15 @@ void SymmetricMethod::solve()
 				#endif
   }
 
+	// Reconstruct the solution on Omega2
 	for (size_type j=0; j< M_nbDOFIFace; j++)
 	{
-    M_uSol.at(dof_IFace2[j] + M_nbDOF1) -= M_q02.at(dof_IFace2[j])/2; // il valore della media - il salto/2
+		// new value = average - jump/2
+    M_uSol.at(dof_IFace2[j] + M_nbDOF1) -= M_q02.at(dof_IFace2[j])/2;
   }
+
+	// Update the dimension of the solution
+	M_nbTotDOF = M_uSol.size();
 
 				#ifdef DEBUG
 				std::cout << "Size of the solution in Problem: "<< M_uSol.size() << std::endl;

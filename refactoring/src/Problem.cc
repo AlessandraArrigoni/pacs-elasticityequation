@@ -107,7 +107,7 @@ size_type Problem::getNDOF(std::string variable) const
 	if (variable=="u") // Meaning the global solution (trial function)
 	{		return M_nbTotDOF;	}
 
-	if (variable=="all") // Equivalente a "u"
+	if (variable=="all") // Equivalent to "u"
 	{		return M_nbTotDOF; }
 }
 

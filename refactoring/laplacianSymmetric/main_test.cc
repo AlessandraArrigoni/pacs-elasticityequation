@@ -73,7 +73,6 @@ int main(int argc, char *argv[]) {
     myProblem.treatIFaceDofs();
     std::cout << "Interface conditions      [OK]" << std::endl;
 
-
     // Solve the problem
     myProblem.solve();
     std::cout << "Solved system      [OK]" << std::endl;

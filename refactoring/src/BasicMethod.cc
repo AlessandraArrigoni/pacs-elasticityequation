@@ -8,20 +8,24 @@ BasicMethod::BasicMethod(GetPot const & dataFile, std::string const problem, Bul
 
 void BasicMethod::assembleRHS()
 {
-  // Set the volumic source term
+  // Volumetric source term
   scalarVectorPtr_Type source1 = std::make_shared<scalarVector_Type> (M_nbDOF1);
 	bulkLoad(source1, M_uFEM1, M_uFEM1, M_source1, M_intMethod1);
 
   scalarVectorPtr_Type source2 = std::make_shared<scalarVector_Type> (M_nbDOF2);
 	bulkLoad(source2, M_uFEM2, M_uFEM2, M_source2, M_intMethod2);
 
+  // Put the source for Omega1 at the top of the rhs
 	M_Sys.addSubVector(source1, 0);
+  // Put the source for Omega2 at the bottom of the rhs
 	M_Sys.addSubVector(source2, M_nbDOF1);
 
-	// Come per la matrice, "sposto" (sommandoli) anche i valori del rhs relativi alle funzioni definite sull'interfaccia di Omega1, perchè poi questi valori vengono persi quando impongo la condizione q0 con enforceInterfaceJump.
+	// For each interface node...
 	for (size_type k = 0; k < M_nbDOFIFace; k++)
   {
+    // Sum the values from Omega1 and Omega2
 		scalar_type newVal = (M_Sys.getRHS())->at(dof_IFace1[k]) + (M_Sys.getRHS())->at(dof_IFace2[k] + M_nbDOF1);
+    // Set the new value of the interface dof on Omega2
 		M_Sys.setRHSValue(dof_IFace2[k] + M_nbDOF1, newVal);
 	}
 
@@ -58,38 +62,42 @@ void BasicMethod::enforceStrongBC(size_type const domainIdx)
 			M_rowsStrongBCFlagscur = M_rowsStrongBCFlags2;
 		}
 
-    size_type Qdim = M_uFEMcur->getFEM().get_qdim(); // DEVO RECUPERARE IL DATO DAL FEM PERCHÈ LA VARIABILE STATICA È NELLE CLASSI DERIVATE, MENTRE QUI SONO NELLA BASE!
+    size_type Qdim = M_uFEMcur->getFEM().get_qdim();
 
+    // Store the dofs on all the Dirichlet sides in M_rowsStrongBCcur
+    // Loop on the Dirichlet sides
 		for ( size_type bndID = 0; bndID < M_BCcur->getDiriBD().size(); bndID++ )
 		{
+      // Get the dofs on the current side
 			dal::bit_vector quali = M_uFEMcur->getFEM().dof_on_region( M_BCcur->getDiriBD()[bndID]);
-			size_type counter=0;
 			for(dal::bv_visitor i(quali); !i.finished(); ++i)
 			{
-				// Sono vettori di size_type cioè di indici: contengono gli indici dei dof interessati dalle BC e gli indici delle frontiere con Dirichlet, credo
-				M_rowsStrongBCcur.push_back(i); // aggiungo gli indici dei dofs, che però non sono necessariamente in ordine!
+				M_rowsStrongBCcur.push_back(i);
 				M_rowsStrongBCFlagscur.push_back(bndID);
-				counter++;
 			}
 		}
 
+    // For each dof on the Dirichlet boundaries
 		for (size_type i = 0; i < M_rowsStrongBCcur.size(); i += Qdim)
 		{
-			size_type ii; // é l'indice "locale" del primo dof associato a un punto fisico (spero!)
-			ii = M_rowsStrongBCcur[i] ;
+			size_type ii = M_rowsStrongBCcur[i] ;
 
+      // For each dimension of the problem
 			for(size_type j = 0; j < Qdim; j++)
 			{
-				bgeot::base_node where;
-				where = M_uFEMcur->getFEM().point_of_basic_dof(ii + j);
-				scalar_type value = M_BCcur->BCDiri(where, j, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
+        // Get coordinates of the node
+				bgeot::base_node where = M_uFEMcur->getFEM().point_of_basic_dof(ii + j);
+        // Evaluate the Dirichlet condition
+        scalar_type value = M_BCcur->BCDiri(where, j, M_BCcur->getDiriBD()[M_rowsStrongBCFlagscur[i]]);
 
 				M_Sys.setNullRow(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ));
+        // Set the diagonal value to 1
         M_Sys.setMatrixValue(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), 1);
 
+        // Set value on the rhs
 				M_Sys.setRHSValue(ii + j + (domainIdx==1 ? 0 : M_nbDOF1 ), value);
 
-			} // fine loop su j (2 dofs associati a un punto fisico)
+			}
 
 		}
 
@@ -98,36 +106,38 @@ void BasicMethod::enforceStrongBC(size_type const domainIdx)
 
 void BasicMethod::treatIFaceDofs(){
 
-  size_type Qdim = M_uFEM1.getFEM().get_qdim(); // DEVO RECUPERARE IL DATO DAL FEM PERCHÈ LA VARIABILE STATICA È NELLE CLASSI DERIVATE, MENTRE QUI SONO NELLA BASE!
+  size_type Qdim = M_uFEM1.getFEM().get_qdim();
 
+  // Get index of the interface (order: bottom, right, top, left)
 	size_type idxIFaceInDiriBD;
  	for (size_type j=0; j<M_BC1.getDiriBD().size(); j++){
  		if (M_BC1.getDiriBD()[j] == interfaceIdx1) {idxIFaceInDiriBD = j;}
  	}
 
-	// Loop on the interface dofs and change the matrix
+	// For each interface node...
 	for (size_type k = 0 ; k < M_nbDOFIFace ; k += Qdim){
 
-		// Global indices in the two domains: vectors dof_IFace1 and dof_IFace2 are initialized by the constructor. I hope, once again, that the 2 dofs associated to the same physical node occupy two consecutive places in the vector!
+
 		size_type idx1 = dof_IFace1[k];
 		size_type idx2 = dof_IFace2[k] + M_nbDOF1;
 
+    // For each dimension of the problem
 		for (size_type j = 0; j < Qdim; j++)
 		{
-			// Get the coordinates of the points
+			// Get coordinates of the node
 			bgeot::base_node where;
 			where = M_uFEM1.getFEM().point_of_basic_dof(idx1 + j);
 
-			// Change the matrix in M_Sys
+			// Change the matrix
 			M_Sys.setNullRow(idx1 + j);
 			M_Sys.setMatrixValue(idx1 + j, idx1 + j, 1);
 			M_Sys.setMatrixValue(idx1 + j, idx2 + j, -1);
 
-			// Change the RHS
+			// Evaluate the interface condition q0 and set the rhs value
 			scalar_type value = M_BC1.BCDiri(where, j, M_BC1.getDiriBD()[idxIFaceInDiriBD]);
 			M_Sys.setRHSValue(idx1 + j, value);
 
-		} // fine loop su j (2 dofs associati a un punto fisico)
+		}
 
 	}
 }
@@ -137,7 +147,8 @@ void BasicMethod::solve()
 {
   M_Sys.solve();
 
-  M_Sys.extractSubVector(M_uSol, 0, "sol"); // Passo il vettore per indirizzo perchè la funzione vuole un pointer: in realtà è uno shared pointer: funziona lo stesso?
+  //Store the solution contained in LinearSystem in the vector M_uSol of Problem
+  M_Sys.extractSubVector(M_uSol, 0, "sol");
 
         #ifdef DEBUG
         std::cout << "Size of the solution in Problem: "<< M_uSol.size() << std::endl;

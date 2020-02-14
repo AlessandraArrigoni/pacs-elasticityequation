@@ -6,7 +6,6 @@
 #include "UsefulFunctions.h"
 #include "StringUtility.h"
 
-// Copio da Problem della Scotti ma invece dei puntatori metto le references!
 
 class Problem
 {
@@ -15,8 +14,7 @@ public:
 
   FEM getFEM(size_type const idx) const;
 
-  inline LinearSystem& getSYS() const // non sono molto sicura di questa funzione: posso restituire una reference così?
-  {
+  inline LinearSystem& getSYS() const 
     return M_Sys;
   }
 
