@@ -1,0 +1,26 @@
+\hypertarget{Problem_8h}{}\doxysection{include/\+Problem.h File Reference}
+\label{Problem_8h}\index{include/Problem.h@{include/Problem.h}}
+
+
+This is the base abstract class. It contains all the methods andattributes that both the “symmetric” and the “basic” approach need without specialization.  
+
+
+{\ttfamily \#include \char`\"{}Linear\+System.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Operators.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Useful\+Functions.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}String\+Utility.\+h\char`\"{}}\newline
+Include dependency graph for Problem.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classProblem}{Problem}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This is the base abstract class. It contains all the methods andattributes that both the “symmetric” and the “basic” approach need without specialization. 
+
+This class contains the functions that extract the solution and compute or print errors in the L$^\wedge$2 and H$^\wedge$1 norm. The methods which deeply change according to the P\+D\+Es system and the algebraic formulation have been defined virtual. These are the ones for the construction of the matrix, of the right-\/hand-\/sideand the treatment of the boundary and interface conditions and the resolution of the linear system. 

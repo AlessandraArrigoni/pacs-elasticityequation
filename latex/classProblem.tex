@@ -1,0 +1,256 @@
+\hypertarget{classProblem}{}\doxysection{Problem Class Reference}
+\label{classProblem}\index{Problem@{Problem}}
+
+
+Inheritance diagram for Problem\+:
+% FIG 0
+
+
+Collaboration diagram for Problem\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classProblem_ae48369cd7f0fd844855055fde437b658}{Problem}} (Get\+Pot const \&data\+File, std\+::string const problem, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk1, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk2, const size\+\_\+type dim, \mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&ext\+Sys)
+\item 
+\mbox{\Hypertarget{classProblem_aabf50a05ce09ac973c6f7baae0d79a36}\label{classProblem_aabf50a05ce09ac973c6f7baae0d79a36}} 
+\mbox{\hyperlink{classFEM}{F\+EM}} {\bfseries get\+F\+EM} (size\+\_\+type const idx) const
+\item 
+\mbox{\Hypertarget{classProblem_a842e147eb80b8c0a4480804f5e13c501}\label{classProblem_a842e147eb80b8c0a4480804f5e13c501}} 
+\mbox{\hyperlink{classLinearSystem}{Linear\+System}} \& {\bfseries get\+S\+YS} () const
+\item 
+\mbox{\Hypertarget{classProblem_a0778563987b8c77f26607869ae62f8e5}\label{classProblem_a0778563987b8c77f26607869ae62f8e5}} 
+size\+\_\+type {\bfseries get\+N\+D\+OF} (std\+::string const variable=\char`\"{}all\char`\"{}) const
+\item 
+\mbox{\Hypertarget{classProblem_ad497cda7281ccc702dca456cb458160d}\label{classProblem_ad497cda7281ccc702dca456cb458160d}} 
+scalar\+\_\+type {\bfseries get\+L2\+E\+RR} () const
+\item 
+\mbox{\Hypertarget{classProblem_a3f70e73a231833475bb495d657505196}\label{classProblem_a3f70e73a231833475bb495d657505196}} 
+scalar\+\_\+type {\bfseries get\+H1\+E\+RR} () const
+\item 
+virtual void \mbox{\hyperlink{classProblem_a834cfdf8d3909ad602712989dccac7c9}{assemble\+Matrix}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classProblem_a40a120364978bcd6286f1f869fba679e}{assemble\+R\+HS}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classProblem_a9f98deb4082b4586fa5060038a73a9dc}{enforce\+Strong\+BC}} (size\+\_\+type const domain\+Idx)=0
+\item 
+virtual void \mbox{\hyperlink{classProblem_a1294b9a6f3e27c8723d7ae2f91aff45c}{treat\+I\+Face\+Dofs}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classProblem_a6060cada9aac7d61fc52155ab392660d}{solve}} ()=0
+\item 
+void \mbox{\hyperlink{classProblem_af4aa8a2e68cc79e1ec35bbcbc7c7ba9b}{extract\+Sol}} (scalar\+Vector\+\_\+\+Type \&dest\+Sol, std\+::string const variable=\char`\"{}all\char`\"{})
+\item 
+void \mbox{\hyperlink{classProblem_a22f7a6dd40d34b6d442c98fa855fd029}{export\+Vtk}} (std\+::string const folder=\char`\"{}./vtk\char`\"{}, std\+::string const what=\char`\"{}all\char`\"{})
+\item 
+void \mbox{\hyperlink{classProblem_ae219d0fe3034f3743b42542c18689d41}{compute\+Errors}} ()
+\item 
+void \mbox{\hyperlink{classProblem_a1b388d491c72ba85a3da4a9cc8ae8f46}{print\+Errors}} (std\+::string const filename1, std\+::string const filename2, std\+::string const test)
+\item 
+virtual \mbox{\hyperlink{classProblem_af175051c1f08660690573aa0021e4106}{$\sim$\+Problem}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classProblem_ade8baf94e766265155328e5123e6b77e}\label{classProblem_ade8baf94e766265155328e5123e6b77e}} 
+\mbox{\hyperlink{classBulk}{Bulk}} \& {\bfseries M\+\_\+\+Bulk1}
+\item 
+\mbox{\Hypertarget{classProblem_afee20e59ad7edeed156e7ecb3935af62}\label{classProblem_afee20e59ad7edeed156e7ecb3935af62}} 
+\mbox{\hyperlink{classBulk}{Bulk}} \& {\bfseries M\+\_\+\+Bulk2}
+\item 
+\mbox{\Hypertarget{classProblem_afaeb3bb3f1723a8c8926608c314b1d45}\label{classProblem_afaeb3bb3f1723a8c8926608c314b1d45}} 
+\mbox{\hyperlink{classBC}{BC}} {\bfseries M\+\_\+\+B\+C1}
+\item 
+\mbox{\Hypertarget{classProblem_a8f026abe8df11e4f2cdf148c08fd9a9e}\label{classProblem_a8f026abe8df11e4f2cdf148c08fd9a9e}} 
+\mbox{\hyperlink{classBC}{BC}} {\bfseries M\+\_\+\+B\+C2}
+\item 
+\mbox{\Hypertarget{classProblem_aab8b9001528ad4ce4724a69d73bb1200}\label{classProblem_aab8b9001528ad4ce4724a69d73bb1200}} 
+size\+\_\+type {\bfseries interface\+Idx1}
+\item 
+\mbox{\Hypertarget{classProblem_a9b8a9b727f57b03d60a859fafe7d55b3}\label{classProblem_a9b8a9b727f57b03d60a859fafe7d55b3}} 
+size\+\_\+type {\bfseries interface\+Idx2}
+\item 
+\mbox{\Hypertarget{classProblem_a867723b67f237ce9ad0b5c773812fc8c}\label{classProblem_a867723b67f237ce9ad0b5c773812fc8c}} 
+\mbox{\hyperlink{classFEM}{F\+EM}} {\bfseries M\+\_\+u\+F\+E\+M1}
+\item 
+\mbox{\Hypertarget{classProblem_af8cb16908bcc2b776548571c967c9aed}\label{classProblem_af8cb16908bcc2b776548571c967c9aed}} 
+\mbox{\hyperlink{classFEM}{F\+EM}} {\bfseries M\+\_\+u\+F\+E\+M2}
+\item 
+\mbox{\Hypertarget{classProblem_a201b17d78797d0a59c9d8f6ad02133c6}\label{classProblem_a201b17d78797d0a59c9d8f6ad02133c6}} 
+\mbox{\hyperlink{classFEM}{F\+EM}} {\bfseries M\+\_\+\+Coeff\+F\+E\+M1}
+\item 
+\mbox{\Hypertarget{classProblem_a1f63cde1d83331ebbaa8586b536d757d}\label{classProblem_a1f63cde1d83331ebbaa8586b536d757d}} 
+\mbox{\hyperlink{classFEM}{F\+EM}} {\bfseries M\+\_\+\+Coeff\+F\+E\+M2}
+\item 
+\mbox{\Hypertarget{classProblem_ab436892c5e4fea7dcbfd65eafef61ff4}\label{classProblem_ab436892c5e4fea7dcbfd65eafef61ff4}} 
+getfem\+::mesh\+\_\+im {\bfseries M\+\_\+int\+Method1}
+\item 
+\mbox{\Hypertarget{classProblem_a7cc686b6b83888ea84aa928346d75971}\label{classProblem_a7cc686b6b83888ea84aa928346d75971}} 
+getfem\+::mesh\+\_\+im {\bfseries M\+\_\+int\+Method2}
+\item 
+\mbox{\Hypertarget{classProblem_a8045d0a6088377fb4688b86d0ff8cdc9}\label{classProblem_a8045d0a6088377fb4688b86d0ff8cdc9}} 
+\mbox{\hyperlink{classLinearSystem}{Linear\+System}} \& {\bfseries M\+\_\+\+Sys}
+\item 
+\mbox{\Hypertarget{classProblem_a7c036c646d0ff6dd60581efb1daee1dc}\label{classProblem_a7c036c646d0ff6dd60581efb1daee1dc}} 
+\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} {\bfseries M\+\_\+exact\+\_\+sol1}
+\item 
+\mbox{\Hypertarget{classProblem_ab365dfe7e9a2c20c55a2cb1505cc48b8}\label{classProblem_ab365dfe7e9a2c20c55a2cb1505cc48b8}} 
+\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} {\bfseries M\+\_\+exact\+\_\+sol2}
+\item 
+\mbox{\Hypertarget{classProblem_a4060e13d0dddfb006229818651c940dd}\label{classProblem_a4060e13d0dddfb006229818651c940dd}} 
+\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} {\bfseries M\+\_\+source1}
+\item 
+\mbox{\Hypertarget{classProblem_ab76465f0e81ade9e0b7c84decddcb518}\label{classProblem_ab76465f0e81ade9e0b7c84decddcb518}} 
+\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} {\bfseries M\+\_\+source2}
+\item 
+\mbox{\Hypertarget{classProblem_af1709f31a78557410d0cb03558180b40}\label{classProblem_af1709f31a78557410d0cb03558180b40}} 
+scalar\+Vector\+\_\+\+Type {\bfseries M\+\_\+u\+Sol}
+\item 
+\mbox{\Hypertarget{classProblem_abefd350aae328d9943b61406ba64e6fa}\label{classProblem_abefd350aae328d9943b61406ba64e6fa}} 
+scalar\+Vector\+\_\+\+Type {\bfseries M\+\_\+u\+Sol1}
+\item 
+\mbox{\Hypertarget{classProblem_a41b0ecb00b3552d21dff8ebbb593ed88}\label{classProblem_a41b0ecb00b3552d21dff8ebbb593ed88}} 
+scalar\+Vector\+\_\+\+Type {\bfseries M\+\_\+u\+Sol2}
+\item 
+\mbox{\Hypertarget{classProblem_ad6f0bd20bb2a0eb61c7f24469b17f002}\label{classProblem_ad6f0bd20bb2a0eb61c7f24469b17f002}} 
+size\+\_\+type {\bfseries M\+\_\+nb\+D\+O\+F1}
+\item 
+\mbox{\Hypertarget{classProblem_a055d39004df8913415f11e007bc138ab}\label{classProblem_a055d39004df8913415f11e007bc138ab}} 
+size\+\_\+type {\bfseries M\+\_\+nb\+D\+O\+F2}
+\item 
+\mbox{\Hypertarget{classProblem_adfaa9675ea08cf5c2d065bf2f36c7d7e}\label{classProblem_adfaa9675ea08cf5c2d065bf2f36c7d7e}} 
+size\+\_\+type {\bfseries M\+\_\+nb\+Tot\+D\+OF}
+\item 
+\mbox{\Hypertarget{classProblem_a4ce76c46126d25342e73ce18f1d3d3d5}\label{classProblem_a4ce76c46126d25342e73ce18f1d3d3d5}} 
+size\+\_\+type {\bfseries M\+\_\+nb\+D\+O\+F\+I\+Face}
+\item 
+\mbox{\Hypertarget{classProblem_aafbd2c4d0d3588a954ae8717c135f7d0}\label{classProblem_aafbd2c4d0d3588a954ae8717c135f7d0}} 
+size\+Vector\+\_\+\+Type {\bfseries dof\+\_\+\+I\+Face1}
+\item 
+\mbox{\Hypertarget{classProblem_a1c097b4821a74b905425fbeb01d0538e}\label{classProblem_a1c097b4821a74b905425fbeb01d0538e}} 
+size\+Vector\+\_\+\+Type {\bfseries dof\+\_\+\+I\+Face2}
+\item 
+\mbox{\Hypertarget{classProblem_a7e0bd68b773ed40697b39dbcc4553028}\label{classProblem_a7e0bd68b773ed40697b39dbcc4553028}} 
+size\+Vector\+\_\+\+Type {\bfseries M\+\_\+rows\+Strong\+B\+C1}
+\item 
+\mbox{\Hypertarget{classProblem_ac823a2f940b05233c409f43ac6534614}\label{classProblem_ac823a2f940b05233c409f43ac6534614}} 
+size\+Vector\+\_\+\+Type {\bfseries M\+\_\+rows\+Strong\+B\+C2}
+\item 
+\mbox{\Hypertarget{classProblem_a0f9c035b48c51e47c4d0b599cdfe066b}\label{classProblem_a0f9c035b48c51e47c4d0b599cdfe066b}} 
+size\+Vector\+\_\+\+Type {\bfseries M\+\_\+rows\+I\+Face1}
+\item 
+\mbox{\Hypertarget{classProblem_a5c40e1402096cf9b3be7064ceea60a09}\label{classProblem_a5c40e1402096cf9b3be7064ceea60a09}} 
+size\+Vector\+\_\+\+Type {\bfseries M\+\_\+rows\+I\+Face2}
+\item 
+\mbox{\Hypertarget{classProblem_ae84ced970386d902740ebbb07d0772f5}\label{classProblem_ae84ced970386d902740ebbb07d0772f5}} 
+size\+Vector\+\_\+\+Type {\bfseries M\+\_\+rows\+Strong\+B\+C\+Flags1}
+\item 
+\mbox{\Hypertarget{classProblem_a2c799490f17fe212e09c81c6c70a9f78}\label{classProblem_a2c799490f17fe212e09c81c6c70a9f78}} 
+size\+Vector\+\_\+\+Type {\bfseries M\+\_\+rows\+Strong\+B\+C\+Flags2}
+\item 
+\mbox{\Hypertarget{classProblem_a01b46d314a82c76c0e802cb6e8996ff2}\label{classProblem_a01b46d314a82c76c0e802cb6e8996ff2}} 
+size\+Vector\+\_\+\+Type {\bfseries M\+\_\+rows\+I\+Face}
+\item 
+\mbox{\Hypertarget{classProblem_a0868fc95f602e2d5d29bdf10839d5e61}\label{classProblem_a0868fc95f602e2d5d29bdf10839d5e61}} 
+scalar\+\_\+type {\bfseries err\+L2}
+\item 
+\mbox{\Hypertarget{classProblem_a3ba525f8acc9dc318dad1244f1d0c67f}\label{classProblem_a3ba525f8acc9dc318dad1244f1d0c67f}} 
+scalar\+\_\+type {\bfseries err\+H1}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classProblem_ae48369cd7f0fd844855055fde437b658}\label{classProblem_ae48369cd7f0fd844855055fde437b658}} 
+\index{Problem@{Problem}!Problem@{Problem}}
+\index{Problem@{Problem}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{Problem()}{Problem()}}
+{\footnotesize\ttfamily Problem\+::\+Problem (\begin{DoxyParamCaption}\item[{Get\+Pot const \&}]{data\+File,  }\item[{std\+::string const}]{problem,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk1,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk2,  }\item[{const size\+\_\+type}]{dim,  }\item[{\mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&}]{ext\+Sys }\end{DoxyParamCaption})}
+
+constructor \mbox{\Hypertarget{classProblem_af175051c1f08660690573aa0021e4106}\label{classProblem_af175051c1f08660690573aa0021e4106}} 
+\index{Problem@{Problem}!````~Problem@{$\sim$Problem}}
+\index{````~Problem@{$\sim$Problem}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{$\sim$Problem()}{~Problem()}}
+{\footnotesize\ttfamily virtual Problem\+::$\sim$\+Problem (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+destructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classProblem_a834cfdf8d3909ad602712989dccac7c9}\label{classProblem_a834cfdf8d3909ad602712989dccac7c9}} 
+\index{Problem@{Problem}!assembleMatrix@{assembleMatrix}}
+\index{assembleMatrix@{assembleMatrix}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{assembleMatrix()}{assembleMatrix()}}
+{\footnotesize\ttfamily virtual void Problem\+::assemble\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+pure virtual method for the assembly of the matrix 
+
+Implemented in \mbox{\hyperlink{classBasicMethod_adb840ba671783c8c4432e86bca08b2d8}{Basic\+Method}}, \mbox{\hyperlink{classSymmetricMethod_a5784faa0a01899baa773b79ad682e9c1}{Symmetric\+Method}}, \mbox{\hyperlink{classLinearElasticityBasic_a04d64b618394bc515783ff5277b8790a}{Linear\+Elasticity\+Basic}}, \mbox{\hyperlink{classLaplacianBasic_a366644edeeab40474a3c19fb092833f5}{Laplacian\+Basic}}, \mbox{\hyperlink{classLaplacianSymmetric_a493f07db07412e1933e773765470470f}{Laplacian\+Symmetric}}, and \mbox{\hyperlink{classLinearElasticitySymmetric_a252dbbd35410cacaaea91cc4178fffb1}{Linear\+Elasticity\+Symmetric}}.
+
+\mbox{\Hypertarget{classProblem_a40a120364978bcd6286f1f869fba679e}\label{classProblem_a40a120364978bcd6286f1f869fba679e}} 
+\index{Problem@{Problem}!assembleRHS@{assembleRHS}}
+\index{assembleRHS@{assembleRHS}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{assembleRHS()}{assembleRHS()}}
+{\footnotesize\ttfamily virtual void Problem\+::assemble\+R\+HS (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+pure virtual method for the assembly of the R\+HS 
+
+Implemented in \mbox{\hyperlink{classBasicMethod_abf06fe2da33a67d57eccb5be3555e407}{Basic\+Method}}, and \mbox{\hyperlink{classSymmetricMethod_a1c61b5597eb0a5380ae94fa9e2a8dc9c}{Symmetric\+Method}}.
+
+\mbox{\Hypertarget{classProblem_ae219d0fe3034f3743b42542c18689d41}\label{classProblem_ae219d0fe3034f3743b42542c18689d41}} 
+\index{Problem@{Problem}!computeErrors@{computeErrors}}
+\index{computeErrors@{computeErrors}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{computeErrors()}{computeErrors()}}
+{\footnotesize\ttfamily void Problem\+::compute\+Errors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+method to compute errors in L$^\wedge$2 and H$^\wedge$1 norm \mbox{\Hypertarget{classProblem_a9f98deb4082b4586fa5060038a73a9dc}\label{classProblem_a9f98deb4082b4586fa5060038a73a9dc}} 
+\index{Problem@{Problem}!enforceStrongBC@{enforceStrongBC}}
+\index{enforceStrongBC@{enforceStrongBC}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{enforceStrongBC()}{enforceStrongBC()}}
+{\footnotesize\ttfamily virtual void Problem\+::enforce\+Strong\+BC (\begin{DoxyParamCaption}\item[{size\+\_\+type const}]{domain\+Idx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+pure virtual method for the imposition of the Dirichlet boundary conditions 
+
+Implemented in \mbox{\hyperlink{classBasicMethod_aaa85c0bcbe646349dfffdd48dc528a97}{Basic\+Method}}, and \mbox{\hyperlink{classSymmetricMethod_ac974cc23d1683630fee4e1b1d6141c1a}{Symmetric\+Method}}.
+
+\mbox{\Hypertarget{classProblem_a22f7a6dd40d34b6d442c98fa855fd029}\label{classProblem_a22f7a6dd40d34b6d442c98fa855fd029}} 
+\index{Problem@{Problem}!exportVtk@{exportVtk}}
+\index{exportVtk@{exportVtk}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{exportVtk()}{exportVtk()}}
+{\footnotesize\ttfamily void Problem\+::export\+Vtk (\begin{DoxyParamCaption}\item[{std\+::string const}]{folder = {\ttfamily \char`\"{}./vtk\char`\"{}},  }\item[{std\+::string const}]{what = {\ttfamily \char`\"{}all\char`\"{}} }\end{DoxyParamCaption})}
+
+method to export the solution in ./vtk extension \mbox{\Hypertarget{classProblem_af4aa8a2e68cc79e1ec35bbcbc7c7ba9b}\label{classProblem_af4aa8a2e68cc79e1ec35bbcbc7c7ba9b}} 
+\index{Problem@{Problem}!extractSol@{extractSol}}
+\index{extractSol@{extractSol}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{extractSol()}{extractSol()}}
+{\footnotesize\ttfamily void Problem\+::extract\+Sol (\begin{DoxyParamCaption}\item[{scalar\+Vector\+\_\+\+Type \&}]{dest\+Sol,  }\item[{std\+::string const}]{variable = {\ttfamily \char`\"{}all\char`\"{}} }\end{DoxyParamCaption})}
+
+method to extract in \char`\"{}dest\+Sol\char`\"{} the values of the variable specified by \char`\"{}variable\char`\"{}, taking them from the global solution M\+\_\+u\+Sol; the default value of the std\+::string implies that the whole solutions M\+\_\+u\+Sol is extracted. ~\newline
+ \mbox{\Hypertarget{classProblem_a1b388d491c72ba85a3da4a9cc8ae8f46}\label{classProblem_a1b388d491c72ba85a3da4a9cc8ae8f46}} 
+\index{Problem@{Problem}!printErrors@{printErrors}}
+\index{printErrors@{printErrors}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{printErrors()}{printErrors()}}
+{\footnotesize\ttfamily void Problem\+::print\+Errors (\begin{DoxyParamCaption}\item[{std\+::string const}]{filename1,  }\item[{std\+::string const}]{filename2,  }\item[{std\+::string const}]{test }\end{DoxyParamCaption})}
+
+method to print errors of the \char`\"{}test\char`\"{} in L$^\wedge$2 norm in \char`\"{}filename1\char`\"{} and the errors in H$^\wedge$1 norm in \char`\"{}filename2\char`\"{} \mbox{\Hypertarget{classProblem_a6060cada9aac7d61fc52155ab392660d}\label{classProblem_a6060cada9aac7d61fc52155ab392660d}} 
+\index{Problem@{Problem}!solve@{solve}}
+\index{solve@{solve}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily virtual void Problem\+::solve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+pure virtual method for the resolution of the linear system 
+
+Implemented in \mbox{\hyperlink{classBasicMethod_a0350db7e525c33c8015af7e33b9e118c}{Basic\+Method}}, and \mbox{\hyperlink{classSymmetricMethod_a8fd0a301a95f15a5cd35b58e9b3362b9}{Symmetric\+Method}}.
+
+\mbox{\Hypertarget{classProblem_a1294b9a6f3e27c8723d7ae2f91aff45c}\label{classProblem_a1294b9a6f3e27c8723d7ae2f91aff45c}} 
+\index{Problem@{Problem}!treatIFaceDofs@{treatIFaceDofs}}
+\index{treatIFaceDofs@{treatIFaceDofs}!Problem@{Problem}}
+\doxysubsubsection{\texorpdfstring{treatIFaceDofs()}{treatIFaceDofs()}}
+{\footnotesize\ttfamily virtual void Problem\+::treat\+I\+Face\+Dofs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+pure virtual method for the treatment of the interface degrees of freedom 
+
+Implemented in \mbox{\hyperlink{classBasicMethod_adb753e76e136aa65c41f6ec8492a4602}{Basic\+Method}}, and \mbox{\hyperlink{classSymmetricMethod_a704c6dc67331e9d79bf7bbfd4428ae52}{Symmetric\+Method}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{Problem_8h}{Problem.\+h}}\end{DoxyCompactItemize}

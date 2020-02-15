@@ -1,0 +1,59 @@
+\hypertarget{classLaplacianBasic}{}\doxysection{Laplacian\+Basic Class Reference}
+\label{classLaplacianBasic}\index{LaplacianBasic@{LaplacianBasic}}
+
+
+Inheritance diagram for Laplacian\+Basic\+:
+% FIG 0
+
+
+Collaboration diagram for Laplacian\+Basic\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLaplacianBasic_a07e8a3a6302dd630523aecfb564f4941}{Laplacian\+Basic}} (Get\+Pot const \&data\+File, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk1, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk2, \mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&ext\+Sys)
+\item 
+void \mbox{\hyperlink{classLaplacianBasic_a366644edeeab40474a3c19fb092833f5}{assemble\+Matrix}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+type \mbox{\hyperlink{classLaplacianBasic_a3a45ec9a7d820a75eb0ea1df5cb869c2}{Qdim}} = 1
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLaplacianBasic_a07e8a3a6302dd630523aecfb564f4941}\label{classLaplacianBasic_a07e8a3a6302dd630523aecfb564f4941}} 
+\index{LaplacianBasic@{LaplacianBasic}!LaplacianBasic@{LaplacianBasic}}
+\index{LaplacianBasic@{LaplacianBasic}!LaplacianBasic@{LaplacianBasic}}
+\doxysubsubsection{\texorpdfstring{LaplacianBasic()}{LaplacianBasic()}}
+{\footnotesize\ttfamily Laplacian\+Basic\+::\+Laplacian\+Basic (\begin{DoxyParamCaption}\item[{Get\+Pot const \&}]{data\+File,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk1,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk2,  }\item[{\mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&}]{ext\+Sys }\end{DoxyParamCaption})}
+
+constructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLaplacianBasic_a366644edeeab40474a3c19fb092833f5}\label{classLaplacianBasic_a366644edeeab40474a3c19fb092833f5}} 
+\index{LaplacianBasic@{LaplacianBasic}!assembleMatrix@{assembleMatrix}}
+\index{assembleMatrix@{assembleMatrix}!LaplacianBasic@{LaplacianBasic}}
+\doxysubsubsection{\texorpdfstring{assembleMatrix()}{assembleMatrix()}}
+{\footnotesize\ttfamily void Laplacian\+Basic\+::assemble\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+overriden method for the assembly of the Matrix in the case of an elliptic scalar problem 
+
+Implements \mbox{\hyperlink{classBasicMethod_adb840ba671783c8c4432e86bca08b2d8}{Basic\+Method}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classLaplacianBasic_a3a45ec9a7d820a75eb0ea1df5cb869c2}\label{classLaplacianBasic_a3a45ec9a7d820a75eb0ea1df5cb869c2}} 
+\index{LaplacianBasic@{LaplacianBasic}!Qdim@{Qdim}}
+\index{Qdim@{Qdim}!LaplacianBasic@{LaplacianBasic}}
+\doxysubsubsection{\texorpdfstring{Qdim}{Qdim}}
+{\footnotesize\ttfamily const size\+\_\+type Laplacian\+Basic\+::\+Qdim = 1\hspace{0.3cm}{\ttfamily [static]}}
+
+static member for the dimension of the solution and the necessary \mbox{\hyperlink{classFEM}{F\+EM}} (1 because the problem is scalar) 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{LaplacianBasic_8h}{Laplacian\+Basic.\+h}}\end{DoxyCompactItemize}

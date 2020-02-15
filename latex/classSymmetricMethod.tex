@@ -1,0 +1,128 @@
+\hypertarget{classSymmetricMethod}{}\doxysection{Symmetric\+Method Class Reference}
+\label{classSymmetricMethod}\index{SymmetricMethod@{SymmetricMethod}}
+
+
+Inheritance diagram for Symmetric\+Method\+:
+% FIG 0
+
+
+Collaboration diagram for Symmetric\+Method\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classSymmetricMethod_ab364b80e109b29ee317d6f6dcbf1ab77}{Symmetric\+Method}} (Get\+Pot const \&data\+File, std\+::string const problem, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk1, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk2, const size\+\_\+type dim, \mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&ext\+Sys)
+\item 
+virtual void \mbox{\hyperlink{classSymmetricMethod_a5784faa0a01899baa773b79ad682e9c1}{assemble\+Matrix}} ()=0
+\item 
+void \mbox{\hyperlink{classSymmetricMethod_a1c61b5597eb0a5380ae94fa9e2a8dc9c}{assemble\+R\+HS}} () override
+\item 
+void \mbox{\hyperlink{classSymmetricMethod_ac974cc23d1683630fee4e1b1d6141c1a}{enforce\+Strong\+BC}} (size\+\_\+type const domain\+Idx) override
+\begin{DoxyCompactList}\small\item\em overriden method for the strong Dirichlet boundary conditions \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSymmetricMethod_a704c6dc67331e9d79bf7bbfd4428ae52}{treat\+I\+Face\+Dofs}} () override
+\item 
+void \mbox{\hyperlink{classSymmetricMethod_a8fd0a301a95f15a5cd35b58e9b3362b9}{solve}} () override
+\item 
+virtual \mbox{\hyperlink{classSymmetricMethod_ad1b6f97ba9e9a9465265e8fb91f46a96}{$\sim$\+Symmetric\+Method}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSymmetricMethod_a8b729a31cfcf5a0fb8fab6d97e05e07a}\label{classSymmetricMethod_a8b729a31cfcf5a0fb8fab6d97e05e07a}} 
+\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} {\bfseries M\+\_\+jump1}
+\item 
+\mbox{\Hypertarget{classSymmetricMethod_a1baad8a4a5eaea9f385b8f9b157e5430}\label{classSymmetricMethod_a1baad8a4a5eaea9f385b8f9b157e5430}} 
+\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} {\bfseries M\+\_\+jump2}
+\item 
+\mbox{\Hypertarget{classSymmetricMethod_acfcf248e54bc22a6cef5fd1586b4df05}\label{classSymmetricMethod_acfcf248e54bc22a6cef5fd1586b4df05}} 
+scalar\+Vector\+\_\+\+Type {\bfseries M\+\_\+q01}
+\item 
+\mbox{\Hypertarget{classSymmetricMethod_a8ffc6eaa33c167c75d32761bd4c60076}\label{classSymmetricMethod_a8ffc6eaa33c167c75d32761bd4c60076}} 
+scalar\+Vector\+\_\+\+Type {\bfseries M\+\_\+q02}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classSymmetricMethod_ab364b80e109b29ee317d6f6dcbf1ab77}\label{classSymmetricMethod_ab364b80e109b29ee317d6f6dcbf1ab77}} 
+\index{SymmetricMethod@{SymmetricMethod}!SymmetricMethod@{SymmetricMethod}}
+\index{SymmetricMethod@{SymmetricMethod}!SymmetricMethod@{SymmetricMethod}}
+\doxysubsubsection{\texorpdfstring{SymmetricMethod()}{SymmetricMethod()}}
+{\footnotesize\ttfamily Symmetric\+Method\+::\+Symmetric\+Method (\begin{DoxyParamCaption}\item[{Get\+Pot const \&}]{data\+File,  }\item[{std\+::string const}]{problem,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk1,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk2,  }\item[{const size\+\_\+type}]{dim,  }\item[{\mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&}]{ext\+Sys }\end{DoxyParamCaption})}
+
+constructor \mbox{\Hypertarget{classSymmetricMethod_ad1b6f97ba9e9a9465265e8fb91f46a96}\label{classSymmetricMethod_ad1b6f97ba9e9a9465265e8fb91f46a96}} 
+\index{SymmetricMethod@{SymmetricMethod}!````~SymmetricMethod@{$\sim$SymmetricMethod}}
+\index{````~SymmetricMethod@{$\sim$SymmetricMethod}!SymmetricMethod@{SymmetricMethod}}
+\doxysubsubsection{\texorpdfstring{$\sim$SymmetricMethod()}{~SymmetricMethod()}}
+{\footnotesize\ttfamily virtual Symmetric\+Method\+::$\sim$\+Symmetric\+Method (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+destructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classSymmetricMethod_a5784faa0a01899baa773b79ad682e9c1}\label{classSymmetricMethod_a5784faa0a01899baa773b79ad682e9c1}} 
+\index{SymmetricMethod@{SymmetricMethod}!assembleMatrix@{assembleMatrix}}
+\index{assembleMatrix@{assembleMatrix}!SymmetricMethod@{SymmetricMethod}}
+\doxysubsubsection{\texorpdfstring{assembleMatrix()}{assembleMatrix()}}
+{\footnotesize\ttfamily virtual void Symmetric\+Method\+::assemble\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+a pure virtual method for the assembly of the matrix 
+
+Implements \mbox{\hyperlink{classProblem_a834cfdf8d3909ad602712989dccac7c9}{Problem}}.
+
+
+
+Implemented in \mbox{\hyperlink{classLaplacianSymmetric_a493f07db07412e1933e773765470470f}{Laplacian\+Symmetric}}, and \mbox{\hyperlink{classLinearElasticitySymmetric_a252dbbd35410cacaaea91cc4178fffb1}{Linear\+Elasticity\+Symmetric}}.
+
+\mbox{\Hypertarget{classSymmetricMethod_a1c61b5597eb0a5380ae94fa9e2a8dc9c}\label{classSymmetricMethod_a1c61b5597eb0a5380ae94fa9e2a8dc9c}} 
+\index{SymmetricMethod@{SymmetricMethod}!assembleRHS@{assembleRHS}}
+\index{assembleRHS@{assembleRHS}!SymmetricMethod@{SymmetricMethod}}
+\doxysubsubsection{\texorpdfstring{assembleRHS()}{assembleRHS()}}
+{\footnotesize\ttfamily void Symmetric\+Method\+::assemble\+R\+HS (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+overriden method for the assembly of the right hand side 
+
+Implements \mbox{\hyperlink{classProblem_a40a120364978bcd6286f1f869fba679e}{Problem}}.
+
+\mbox{\Hypertarget{classSymmetricMethod_ac974cc23d1683630fee4e1b1d6141c1a}\label{classSymmetricMethod_ac974cc23d1683630fee4e1b1d6141c1a}} 
+\index{SymmetricMethod@{SymmetricMethod}!enforceStrongBC@{enforceStrongBC}}
+\index{enforceStrongBC@{enforceStrongBC}!SymmetricMethod@{SymmetricMethod}}
+\doxysubsubsection{\texorpdfstring{enforceStrongBC()}{enforceStrongBC()}}
+{\footnotesize\ttfamily void Symmetric\+Method\+::enforce\+Strong\+BC (\begin{DoxyParamCaption}\item[{size\+\_\+type const}]{domain\+Idx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+overriden method for the strong Dirichlet boundary conditions 
+
+This methods takes one argument as input 
+\begin{DoxyParams}{Parameters}
+{\em domain\+Idx} & index to identify if we are in the first or in the second domain \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classProblem_a9f98deb4082b4586fa5060038a73a9dc}{Problem}}.
+
+\mbox{\Hypertarget{classSymmetricMethod_a8fd0a301a95f15a5cd35b58e9b3362b9}\label{classSymmetricMethod_a8fd0a301a95f15a5cd35b58e9b3362b9}} 
+\index{SymmetricMethod@{SymmetricMethod}!solve@{solve}}
+\index{solve@{solve}!SymmetricMethod@{SymmetricMethod}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
+{\footnotesize\ttfamily void Symmetric\+Method\+::solve (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+overriden method for the resolution of the linear system 
+
+Implements \mbox{\hyperlink{classProblem_a6060cada9aac7d61fc52155ab392660d}{Problem}}.
+
+\mbox{\Hypertarget{classSymmetricMethod_a704c6dc67331e9d79bf7bbfd4428ae52}\label{classSymmetricMethod_a704c6dc67331e9d79bf7bbfd4428ae52}} 
+\index{SymmetricMethod@{SymmetricMethod}!treatIFaceDofs@{treatIFaceDofs}}
+\index{treatIFaceDofs@{treatIFaceDofs}!SymmetricMethod@{SymmetricMethod}}
+\doxysubsubsection{\texorpdfstring{treatIFaceDofs()}{treatIFaceDofs()}}
+{\footnotesize\ttfamily void Symmetric\+Method\+::treat\+I\+Face\+Dofs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+overriden method for the management of the interface degrees of freedom 
+
+Implements \mbox{\hyperlink{classProblem_a1294b9a6f3e27c8723d7ae2f91aff45c}{Problem}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{SymmetricMethod_8h}{Symmetric\+Method.\+h}}\end{DoxyCompactItemize}

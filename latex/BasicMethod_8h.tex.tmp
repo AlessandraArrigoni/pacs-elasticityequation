@@ -1,0 +1,27 @@
+\hypertarget{BasicMethod_8h}{}\doxysection{include/\+Basic\+Method.h File Reference}
+\label{BasicMethod_8h}\index{include/BasicMethod.h@{include/BasicMethod.h}}
+
+
+An abstract class to group the common features of the basic formulation.  
+
+
+{\ttfamily \#include \char`\"{}Linear\+System.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Operators.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Useful\+Functions.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}String\+Utility.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Problem.\+h\char`\"{}}\newline
+Include dependency graph for Basic\+Method.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classBasicMethod}{Basic\+Method}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An abstract class to group the common features of the basic formulation. 
+
+This class inherits from the \char`\"{}\+Problem\char`\"{} class and specializes the methods for the assembly of the matrix, the assembly of the right hand side, the imposition of the boundary and interface conditions and the function for the resolution of the linear system. 

@@ -1,0 +1,45 @@
+\hypertarget{classBulkDatum}{}\doxysection{Bulk\+Datum Class Reference}
+\label{classBulkDatum}\index{BulkDatum@{BulkDatum}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classBulkDatum_acad0930f8dadb2ca18d1c947c5f1b5d2}{Bulk\+Datum}} (const Get\+Pot \&data\+File, const std\+::string \&section, const std\+::string \&section\+Problem, const std\+::string \&domain\+Number, const std\+::string \&datum)
+\item 
+scalar\+\_\+type \mbox{\hyperlink{classBulkDatum_ac10d12a1f4a6bd00f7978d085d417389}{get\+Value}} (const base\+\_\+node \&x, const size\+\_\+type what)
+\begin{DoxyCompactList}\small\item\em method to evaluate the string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classBulkDatum_acad0930f8dadb2ca18d1c947c5f1b5d2}\label{classBulkDatum_acad0930f8dadb2ca18d1c947c5f1b5d2}} 
+\index{BulkDatum@{BulkDatum}!BulkDatum@{BulkDatum}}
+\index{BulkDatum@{BulkDatum}!BulkDatum@{BulkDatum}}
+\doxysubsubsection{\texorpdfstring{BulkDatum()}{BulkDatum()}}
+{\footnotesize\ttfamily Bulk\+Datum\+::\+Bulk\+Datum (\begin{DoxyParamCaption}\item[{const Get\+Pot \&}]{data\+File,  }\item[{const std\+::string \&}]{section,  }\item[{const std\+::string \&}]{section\+Problem,  }\item[{const std\+::string \&}]{domain\+Number,  }\item[{const std\+::string \&}]{datum }\end{DoxyParamCaption})}
+
+constructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classBulkDatum_ac10d12a1f4a6bd00f7978d085d417389}\label{classBulkDatum_ac10d12a1f4a6bd00f7978d085d417389}} 
+\index{BulkDatum@{BulkDatum}!getValue@{getValue}}
+\index{getValue@{getValue}!BulkDatum@{BulkDatum}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}}
+{\footnotesize\ttfamily scalar\+\_\+type Bulk\+Datum\+::get\+Value (\begin{DoxyParamCaption}\item[{const base\+\_\+node \&}]{x,  }\item[{const size\+\_\+type}]{what }\end{DoxyParamCaption})}
+
+
+
+method to evaluate the string. 
+
+This method takes two input parameters and returns a scalar value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & coordinates of the point where we want to evaluate the function. \\
+\hline
+{\em what} & index 0 if the datum is a scalar or if we want the first component of the vector; index 1 if we want to evaluate the second component. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{BulkDatum_8h}{Bulk\+Datum.\+h}}\end{DoxyCompactItemize}

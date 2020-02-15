@@ -1,0 +1,267 @@
+\begin{theindex}
+
+  \item {$\sim$BasicMethod}
+    \subitem {BasicMethod}, \hyperpage{7}
+  \item {$\sim$Problem}
+    \subitem {Problem}, \hyperpage{31}
+  \item {$\sim$SymmetricMethod}
+    \subitem {SymmetricMethod}, \hyperpage{34}
+
+  \indexspace
+
+  \item {addSubMatrix}
+    \subitem {LinearSystem}, \hyperpage{19}
+  \item {addSubVector}
+    \subitem {LinearSystem}, \hyperpage{19}
+  \item {assembleMatrix}
+    \subitem {BasicMethod}, \hyperpage{8}
+    \subitem {LaplacianBasic}, \hyperpage{14}
+    \subitem {LaplacianSymmetric}, \hyperpage{15}
+    \subitem {LinearElasticityBasic}, \hyperpage{17}
+    \subitem {LinearElasticitySymmetric}, \hyperpage{18}
+    \subitem {Problem}, \hyperpage{31}
+    \subitem {SymmetricMethod}, \hyperpage{34}
+  \item {assembleRHS}
+    \subitem {BasicMethod}, \hyperpage{8}
+    \subitem {Problem}, \hyperpage{31}
+    \subitem {SymmetricMethod}, \hyperpage{34}
+  \item {assignVariable}
+    \subitem {LifeV::ParserSpiritGrammar$<$ IteratorType, ResultsType $>$}, 
+		\hyperpage{28}
+
+  \indexspace
+
+  \item {BasicMethod}, \hyperpage{7}
+    \subitem {$\sim$BasicMethod}, \hyperpage{7}
+    \subitem {assembleMatrix}, \hyperpage{8}
+    \subitem {assembleRHS}, \hyperpage{8}
+    \subitem {BasicMethod}, \hyperpage{7}
+    \subitem {enforceStrongBC}, \hyperpage{8}
+    \subitem {solve}, \hyperpage{8}
+    \subitem {treatIFaceDofs}, \hyperpage{9}
+  \item {BC}, \hyperpage{9}
+    \subitem {BC}, \hyperpage{9}
+    \subitem {BCDiri}, \hyperpage{10}
+    \subitem {BCNeum}, \hyperpage{10}
+  \item {BCDiri}
+    \subitem {BC}, \hyperpage{10}
+  \item {BCNeum}
+    \subitem {BC}, \hyperpage{10}
+  \item {Bulk}, \hyperpage{11}
+    \subitem {Bulk}, \hyperpage{11}
+    \subitem {exportMesh}, \hyperpage{11}
+  \item {BulkDatum}, \hyperpage{12}
+    \subitem {BulkDatum}, \hyperpage{12}
+    \subitem {getValue}, \hyperpage{12}
+  \item {bulkLoad}
+    \subitem {OperatorsBulk.h}, \hyperpage{43}
+
+  \indexspace
+
+  \item {computeErrors}
+    \subitem {Problem}, \hyperpage{32}
+  \item {copySubMatrix}
+    \subitem {LinearSystem}, \hyperpage{20}
+  \item {copySubVector}
+    \subitem {LinearSystem}, \hyperpage{20}
+  \item {countSubstring}
+    \subitem {LifeV::Parser}, \hyperpage{23}
+
+  \indexspace
+
+  \item {eatLine}
+    \subitem {StringUtility.h}, \hyperpage{48}
+  \item {eliminateRowsColumns}
+    \subitem {LinearSystem}, \hyperpage{20}
+  \item {enforceStrongBC}
+    \subitem {BasicMethod}, \hyperpage{8}
+    \subitem {Problem}, \hyperpage{32}
+    \subitem {SymmetricMethod}, \hyperpage{34}
+  \item {evaluate}
+    \subitem {LifeV::Parser}, \hyperpage{23}
+  \item {exactSolution}
+    \subitem {OperatorsBulk.h}, \hyperpage{43}
+  \item {exportMesh}
+    \subitem {Bulk}, \hyperpage{11}
+  \item {exportVtk}
+    \subitem {Problem}, \hyperpage{32}
+  \item {extractSol}
+    \subitem {Problem}, \hyperpage{32}
+  \item {extractSubMatrix}
+    \subitem {LinearSystem}, \hyperpage{20}
+  \item {extractSubVector}
+    \subitem {LinearSystem}, \hyperpage{21}
+
+  \indexspace
+
+  \item {FEM}, \hyperpage{13}
+    \subitem {FEM}, \hyperpage{13}
+
+  \indexspace
+
+  \item {getValue}
+    \subitem {BulkDatum}, \hyperpage{12}
+
+  \indexspace
+
+  \item {include/BasicMethod.h}, \hyperpage{37}
+  \item {include/BC.h}, \hyperpage{37}
+  \item {include/Bulk.h}, \hyperpage{38}
+  \item {include/BulkDatum.h}, \hyperpage{38}
+  \item {include/Core.h}, \hyperpage{39}
+  \item {include/FEM.h}, \hyperpage{39}
+  \item {include/LaplacianBasic.h}, \hyperpage{40}
+  \item {include/LaplacianSymmetric.h}, \hyperpage{40}
+  \item {include/LinearElasticityBasic.h}, \hyperpage{41}
+  \item {include/LinearElasticitySymmetric.h}, \hyperpage{41}
+  \item {include/LinearSystem.h}, \hyperpage{41}
+  \item {include/OperatorsBD.h}, \hyperpage{42}
+  \item {include/OperatorsBulk.h}, \hyperpage{43}
+  \item {include/Parser.h}, \hyperpage{44}
+  \item {include/ParserDefinitions.h}, \hyperpage{45}
+  \item {include/ParserSpiritGrammar.h}, \hyperpage{46}
+  \item {include/Problem.h}, \hyperpage{46}
+  \item {include/StringUtility.h}, \hyperpage{47}
+  \item {include/SymmetricMethod.h}, \hyperpage{48}
+
+  \indexspace
+
+  \item {jump}
+    \subitem {OperatorsBulk.h}, \hyperpage{43}
+
+  \indexspace
+
+  \item {LaplacianBasic}, \hyperpage{14}
+    \subitem {assembleMatrix}, \hyperpage{14}
+    \subitem {LaplacianBasic}, \hyperpage{14}
+    \subitem {Qdim}, \hyperpage{14}
+  \item {LaplacianSymmetric}, \hyperpage{15}
+    \subitem {assembleMatrix}, \hyperpage{15}
+    \subitem {LaplacianSymmetric}, \hyperpage{15}
+    \subitem {Qdim}, \hyperpage{16}
+  \item {LifeV::Parser}, \hyperpage{21}
+    \subitem {countSubstring}, \hyperpage{23}
+    \subitem {evaluate}, \hyperpage{23}
+    \subitem {operator=}, \hyperpage{24}
+    \subitem {Parser}, \hyperpage{22, 23}
+    \subitem {setString}, \hyperpage{24}
+    \subitem {setVariable}, \hyperpage{24}
+    \subitem {variable}, \hyperpage{26}
+  \item {LifeV::ParserSpiritGrammar$<$ IteratorType, ResultsType $>$}, 
+		\hyperpage{26}
+    \subitem {assignVariable}, \hyperpage{28}
+    \subitem {operator=}, \hyperpage{28}
+    \subitem {ParserSpiritGrammar}, \hyperpage{28}
+    \subitem {setVariable}, \hyperpage{29}
+    \subitem {variable}, \hyperpage{29}
+  \item {linearElasticity}
+    \subitem {OperatorsBulk.h}, \hyperpage{44}
+  \item {LinearElasticityBasic}, \hyperpage{16}
+    \subitem {assembleMatrix}, \hyperpage{17}
+    \subitem {LinearElasticityBasic}, \hyperpage{16}
+    \subitem {Qdim}, \hyperpage{17}
+  \item {LinearElasticitySymmetric}, \hyperpage{17}
+    \subitem {assembleMatrix}, \hyperpage{18}
+    \subitem {LinearElasticitySymmetric}, \hyperpage{18}
+    \subitem {Qdim}, \hyperpage{18}
+  \item {LinearSystem}, \hyperpage{19}
+    \subitem {addSubMatrix}, \hyperpage{19}
+    \subitem {addSubVector}, \hyperpage{19}
+    \subitem {copySubMatrix}, \hyperpage{20}
+    \subitem {copySubVector}, \hyperpage{20}
+    \subitem {eliminateRowsColumns}, \hyperpage{20}
+    \subitem {extractSubMatrix}, \hyperpage{20}
+    \subitem {extractSubVector}, \hyperpage{21}
+    \subitem {solve}, \hyperpage{21}
+
+  \indexspace
+
+  \item {operator=}
+    \subitem {LifeV::Parser}, \hyperpage{24}
+    \subitem {LifeV::ParserSpiritGrammar$<$ IteratorType, ResultsType $>$}, 
+		\hyperpage{28}
+  \item {OperatorsBD.h}
+    \subitem {stressRHS}, \hyperpage{42}
+  \item {OperatorsBulk.h}
+    \subitem {bulkLoad}, \hyperpage{43}
+    \subitem {exactSolution}, \hyperpage{43}
+    \subitem {jump}, \hyperpage{43}
+    \subitem {linearElasticity}, \hyperpage{44}
+    \subitem {stiffness}, \hyperpage{44}
+
+  \indexspace
+
+  \item {Parser}
+    \subitem {LifeV::Parser}, \hyperpage{22, 23}
+  \item {ParserSpiritGrammar}
+    \subitem {LifeV::ParserSpiritGrammar$<$ IteratorType, ResultsType $>$}, 
+		\hyperpage{28}
+  \item {printErrors}
+    \subitem {Problem}, \hyperpage{32}
+  \item {Problem}, \hyperpage{30}
+    \subitem {$\sim$Problem}, \hyperpage{31}
+    \subitem {assembleMatrix}, \hyperpage{31}
+    \subitem {assembleRHS}, \hyperpage{31}
+    \subitem {computeErrors}, \hyperpage{32}
+    \subitem {enforceStrongBC}, \hyperpage{32}
+    \subitem {exportVtk}, \hyperpage{32}
+    \subitem {extractSol}, \hyperpage{32}
+    \subitem {printErrors}, \hyperpage{32}
+    \subitem {Problem}, \hyperpage{31}
+    \subitem {solve}, \hyperpage{32}
+    \subitem {treatIFaceDofs}, \hyperpage{33}
+
+  \indexspace
+
+  \item {Qdim}
+    \subitem {LaplacianBasic}, \hyperpage{14}
+    \subitem {LaplacianSymmetric}, \hyperpage{16}
+    \subitem {LinearElasticityBasic}, \hyperpage{17}
+    \subitem {LinearElasticitySymmetric}, \hyperpage{18}
+
+  \indexspace
+
+  \item {setString}
+    \subitem {LifeV::Parser}, \hyperpage{24}
+  \item {setStringLength}
+    \subitem {StringUtility.h}, \hyperpage{48}
+  \item {setVariable}
+    \subitem {LifeV::Parser}, \hyperpage{24}
+    \subitem {LifeV::ParserSpiritGrammar$<$ IteratorType, ResultsType $>$}, 
+		\hyperpage{29}
+  \item {solve}
+    \subitem {BasicMethod}, \hyperpage{8}
+    \subitem {LinearSystem}, \hyperpage{21}
+    \subitem {Problem}, \hyperpage{32}
+    \subitem {SymmetricMethod}, \hyperpage{35}
+  \item {stiffness}
+    \subitem {OperatorsBulk.h}, \hyperpage{44}
+  \item {stressRHS}
+    \subitem {OperatorsBD.h}, \hyperpage{42}
+  \item {StringUtility.h}
+    \subitem {eatLine}, \hyperpage{48}
+    \subitem {setStringLength}, \hyperpage{48}
+  \item {SymmetricMethod}, \hyperpage{33}
+    \subitem {$\sim$SymmetricMethod}, \hyperpage{34}
+    \subitem {assembleMatrix}, \hyperpage{34}
+    \subitem {assembleRHS}, \hyperpage{34}
+    \subitem {enforceStrongBC}, \hyperpage{34}
+    \subitem {solve}, \hyperpage{35}
+    \subitem {SymmetricMethod}, \hyperpage{34}
+    \subitem {treatIFaceDofs}, \hyperpage{35}
+
+  \indexspace
+
+  \item {treatIFaceDofs}
+    \subitem {BasicMethod}, \hyperpage{9}
+    \subitem {Problem}, \hyperpage{33}
+    \subitem {SymmetricMethod}, \hyperpage{35}
+
+  \indexspace
+
+  \item {variable}
+    \subitem {LifeV::Parser}, \hyperpage{26}
+    \subitem {LifeV::ParserSpiritGrammar$<$ IteratorType, ResultsType $>$}, 
+		\hyperpage{29}
+
+\end{theindex}

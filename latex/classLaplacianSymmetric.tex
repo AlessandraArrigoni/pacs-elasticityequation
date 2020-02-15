@@ -1,0 +1,59 @@
+\hypertarget{classLaplacianSymmetric}{}\doxysection{Laplacian\+Symmetric Class Reference}
+\label{classLaplacianSymmetric}\index{LaplacianSymmetric@{LaplacianSymmetric}}
+
+
+Inheritance diagram for Laplacian\+Symmetric\+:
+% FIG 0
+
+
+Collaboration diagram for Laplacian\+Symmetric\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLaplacianSymmetric_a3fbfc14ec8d20375ec64b339980bd34c}{Laplacian\+Symmetric}} (Get\+Pot const \&data\+File, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk1, \mbox{\hyperlink{classBulk}{Bulk}} \&bulk2, \mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&ext\+Sys)
+\item 
+void \mbox{\hyperlink{classLaplacianSymmetric_a493f07db07412e1933e773765470470f}{assemble\+Matrix}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+type \mbox{\hyperlink{classLaplacianSymmetric_afc436f6fffe8f83b779f13277a4d2f82}{Qdim}} = 1
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLaplacianSymmetric_a3fbfc14ec8d20375ec64b339980bd34c}\label{classLaplacianSymmetric_a3fbfc14ec8d20375ec64b339980bd34c}} 
+\index{LaplacianSymmetric@{LaplacianSymmetric}!LaplacianSymmetric@{LaplacianSymmetric}}
+\index{LaplacianSymmetric@{LaplacianSymmetric}!LaplacianSymmetric@{LaplacianSymmetric}}
+\doxysubsubsection{\texorpdfstring{LaplacianSymmetric()}{LaplacianSymmetric()}}
+{\footnotesize\ttfamily Laplacian\+Symmetric\+::\+Laplacian\+Symmetric (\begin{DoxyParamCaption}\item[{Get\+Pot const \&}]{data\+File,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk1,  }\item[{\mbox{\hyperlink{classBulk}{Bulk}} \&}]{bulk2,  }\item[{\mbox{\hyperlink{classLinearSystem}{Linear\+System}} \&}]{ext\+Sys }\end{DoxyParamCaption})}
+
+constructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLaplacianSymmetric_a493f07db07412e1933e773765470470f}\label{classLaplacianSymmetric_a493f07db07412e1933e773765470470f}} 
+\index{LaplacianSymmetric@{LaplacianSymmetric}!assembleMatrix@{assembleMatrix}}
+\index{assembleMatrix@{assembleMatrix}!LaplacianSymmetric@{LaplacianSymmetric}}
+\doxysubsubsection{\texorpdfstring{assembleMatrix()}{assembleMatrix()}}
+{\footnotesize\ttfamily void Laplacian\+Symmetric\+::assemble\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+overriden method for the assembly of the Matrix in the case of an elliptic scalar problem 
+
+Implements \mbox{\hyperlink{classSymmetricMethod_a5784faa0a01899baa773b79ad682e9c1}{Symmetric\+Method}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classLaplacianSymmetric_afc436f6fffe8f83b779f13277a4d2f82}\label{classLaplacianSymmetric_afc436f6fffe8f83b779f13277a4d2f82}} 
+\index{LaplacianSymmetric@{LaplacianSymmetric}!Qdim@{Qdim}}
+\index{Qdim@{Qdim}!LaplacianSymmetric@{LaplacianSymmetric}}
+\doxysubsubsection{\texorpdfstring{Qdim}{Qdim}}
+{\footnotesize\ttfamily const size\+\_\+type Laplacian\+Symmetric\+::\+Qdim = 1\hspace{0.3cm}{\ttfamily [static]}}
+
+static member for the dimension of the solution and the necessary \mbox{\hyperlink{classFEM}{F\+EM}} (1 because the problem is scalar) 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{LaplacianSymmetric_8h}{Laplacian\+Symmetric.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,70 @@
+\hypertarget{OperatorsBulk_8h}{}\doxysection{include/\+Operators\+Bulk.h File Reference}
+\label{OperatorsBulk_8h}\index{include/OperatorsBulk.h@{include/OperatorsBulk.h}}
+
+
+This file assembles different methods related to the bulk that can be employed in several contexts. ~\newline
+  
+
+
+{\ttfamily \#include \char`\"{}Core.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}F\+E\+M.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Bulk.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}B\+C.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Bulk\+Datum.\+h\char`\"{}}\newline
+Include dependency graph for Operators\+Bulk.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{OperatorsBulk_8h_afbad32bbbafe4f6076014458fe203f4a}{stiffness}} (sparse\+Matrix\+Ptr\+\_\+\+Type M, const \mbox{\hyperlink{classFEM}{F\+EM}} \&fem\+Sol, const \mbox{\hyperlink{classFEM}{F\+EM}} \&fem\+Coef, \mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&Diff, const getfem\+::mesh\+\_\+im \&im)
+\item 
+void \mbox{\hyperlink{OperatorsBulk_8h_a5784a5547d7e5ee3b3b3cde8a8b19c13}{linear\+Elasticity}} (sparse\+Matrix\+Ptr\+\_\+\+Type M, const \mbox{\hyperlink{classFEM}{F\+EM}} \&fem\+Sol, const \mbox{\hyperlink{classFEM}{F\+EM}} \&fem\+Coef, \mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&Mu, \mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&Lambda, const getfem\+::mesh\+\_\+im \&im)
+\item 
+void \mbox{\hyperlink{OperatorsBulk_8h_abaf92838459582ebd2a1f0fed0038da4}{bulk\+Load}} (scalar\+Vector\+Ptr\+\_\+\+Type V, const \mbox{\hyperlink{classFEM}{F\+EM}} \&Fem\+Sol, const \mbox{\hyperlink{classFEM}{F\+EM}} \&Fem\+Source, \mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&Source, const getfem\+::mesh\+\_\+im \&im)
+\item 
+void \mbox{\hyperlink{OperatorsBulk_8h_aec7e9eb08d0fbf7cf37ac28c693cf00b}{exact\+Solution}} (scalar\+Vector\+Ptr\+\_\+\+Type V, const \mbox{\hyperlink{classFEM}{F\+EM}} \&Fem\+Sol, \mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&Solution)
+\item 
+void \mbox{\hyperlink{OperatorsBulk_8h_ae8a7555340f29e1c2e3aee9a7037044b}{jump}} (scalar\+Vector\+Ptr\+\_\+\+Type V, const \mbox{\hyperlink{classFEM}{F\+EM}} \&Fem\+Sol, \mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&Jump)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file assembles different methods related to the bulk that can be employed in several contexts. ~\newline
+ 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{OperatorsBulk_8h_abaf92838459582ebd2a1f0fed0038da4}\label{OperatorsBulk_8h_abaf92838459582ebd2a1f0fed0038da4}} 
+\index{OperatorsBulk.h@{OperatorsBulk.h}!bulkLoad@{bulkLoad}}
+\index{bulkLoad@{bulkLoad}!OperatorsBulk.h@{OperatorsBulk.h}}
+\doxysubsubsection{\texorpdfstring{bulkLoad()}{bulkLoad()}}
+{\footnotesize\ttfamily void bulk\+Load (\begin{DoxyParamCaption}\item[{scalar\+Vector\+Ptr\+\_\+\+Type}]{V,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{Fem\+Sol,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{Fem\+Source,  }\item[{\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&}]{Source,  }\item[{const getfem\+::mesh\+\_\+im \&}]{im }\end{DoxyParamCaption})}
+
+method to compute the volumetric source term \mbox{\Hypertarget{OperatorsBulk_8h_aec7e9eb08d0fbf7cf37ac28c693cf00b}\label{OperatorsBulk_8h_aec7e9eb08d0fbf7cf37ac28c693cf00b}} 
+\index{OperatorsBulk.h@{OperatorsBulk.h}!exactSolution@{exactSolution}}
+\index{exactSolution@{exactSolution}!OperatorsBulk.h@{OperatorsBulk.h}}
+\doxysubsubsection{\texorpdfstring{exactSolution()}{exactSolution()}}
+{\footnotesize\ttfamily void exact\+Solution (\begin{DoxyParamCaption}\item[{scalar\+Vector\+Ptr\+\_\+\+Type}]{V,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{Fem\+Sol,  }\item[{\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&}]{Solution }\end{DoxyParamCaption})}
+
+method to evaluate the exact solution in every degree of freedom of the \mbox{\hyperlink{classFEM}{F\+EM}} \mbox{\Hypertarget{OperatorsBulk_8h_ae8a7555340f29e1c2e3aee9a7037044b}\label{OperatorsBulk_8h_ae8a7555340f29e1c2e3aee9a7037044b}} 
+\index{OperatorsBulk.h@{OperatorsBulk.h}!jump@{jump}}
+\index{jump@{jump}!OperatorsBulk.h@{OperatorsBulk.h}}
+\doxysubsubsection{\texorpdfstring{jump()}{jump()}}
+{\footnotesize\ttfamily void jump (\begin{DoxyParamCaption}\item[{scalar\+Vector\+Ptr\+\_\+\+Type}]{V,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{Fem\+Sol,  }\item[{\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&}]{Jump }\end{DoxyParamCaption})}
+
+method to evaluate the jump in every degree of freedom of the \mbox{\hyperlink{classFEM}{F\+EM}} \mbox{\Hypertarget{OperatorsBulk_8h_a5784a5547d7e5ee3b3b3cde8a8b19c13}\label{OperatorsBulk_8h_a5784a5547d7e5ee3b3b3cde8a8b19c13}} 
+\index{OperatorsBulk.h@{OperatorsBulk.h}!linearElasticity@{linearElasticity}}
+\index{linearElasticity@{linearElasticity}!OperatorsBulk.h@{OperatorsBulk.h}}
+\doxysubsubsection{\texorpdfstring{linearElasticity()}{linearElasticity()}}
+{\footnotesize\ttfamily void linear\+Elasticity (\begin{DoxyParamCaption}\item[{sparse\+Matrix\+Ptr\+\_\+\+Type}]{M,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{fem\+Sol,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{fem\+Coef,  }\item[{\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&}]{Mu,  }\item[{\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&}]{Lambda,  }\item[{const getfem\+::mesh\+\_\+im \&}]{im }\end{DoxyParamCaption})}
+
+method to compute the stiffness matrix for the linear elasticity problem \mbox{\Hypertarget{OperatorsBulk_8h_afbad32bbbafe4f6076014458fe203f4a}\label{OperatorsBulk_8h_afbad32bbbafe4f6076014458fe203f4a}} 
+\index{OperatorsBulk.h@{OperatorsBulk.h}!stiffness@{stiffness}}
+\index{stiffness@{stiffness}!OperatorsBulk.h@{OperatorsBulk.h}}
+\doxysubsubsection{\texorpdfstring{stiffness()}{stiffness()}}
+{\footnotesize\ttfamily void stiffness (\begin{DoxyParamCaption}\item[{sparse\+Matrix\+Ptr\+\_\+\+Type}]{M,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{fem\+Sol,  }\item[{const \mbox{\hyperlink{classFEM}{F\+EM}} \&}]{fem\+Coef,  }\item[{\mbox{\hyperlink{classBulkDatum}{Bulk\+Datum}} \&}]{Diff,  }\item[{const getfem\+::mesh\+\_\+im \&}]{im }\end{DoxyParamCaption})}
+
+method to compute the stiffness matrix for the elliptic scalar problem 
