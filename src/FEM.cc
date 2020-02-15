@@ -1,5 +1,6 @@
 #include "../include/FEM.h"
 
+// constructor that is based on the input file
 FEM::FEM ( const getfem::mesh& mesh,
 	   				const GetPot& dataFile,
 	   				const std::string& problem,
@@ -11,15 +12,14 @@ FEM::FEM ( const getfem::mesh& mesh,
            			M_SpaceDim( qdim ),
            			M_FEM(mesh)
 {
-
+   // finite element method type, linear polynomials as default
    M_femType = dataFile ( ( M_section+ "FEMType"+variable ).data (), "FEM_PK(2,1)" );
 
    getfem::pfem pf_v;
    pf_v = getfem::fem_descriptor(M_femType);
 
 	 M_FEM.set_qdim(qdim);
-   M_FEM.set_finite_element(mesh.convex_index(), pf_v);
-	 // convex_index returns the list of all the valid convex elements on the mesh
+   M_FEM.set_finite_element(mesh.convex_index(), pf_v); // convex_index returns the list of all the valid convex elements on the mesh
 
    for (size_type i=0; i<M_FEM.nb_dof();++i)
    {
@@ -33,8 +33,8 @@ FEM::FEM ( const getfem::mesh& mesh,
 
 
 
-// questo secondo costruttore non si basa sul file di input
 
+// constructor that is not based on the input file
 FEM::FEM (const getfem::mesh& mesh, const std::string femType, const size_type spaceDim ):
 		M_femType ( femType ),
     M_SpaceDim( spaceDim ),

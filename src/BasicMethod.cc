@@ -1,7 +1,7 @@
 #include "../include/BasicMethod.h"
 
 
-
+// constructor 
 BasicMethod::BasicMethod(GetPot const & dataFile, std::string const problem, Bulk & bulk1, Bulk & bulk2, const size_type dim, LinearSystem & extSys):
   Problem(dataFile, problem, bulk1, bulk2, dim, extSys) {}
 

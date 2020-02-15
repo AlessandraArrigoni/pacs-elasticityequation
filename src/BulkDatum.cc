@@ -1,5 +1,6 @@
 #include  "../include/BulkDatum.h"
 
+//constructor
 BulkDatum::BulkDatum(const GetPot& dataFile, const std::string& section, const std::string& sectionProblem,
  const std::string& domainNumber, const std::string& datum):
   M_section ( section ),
@@ -11,7 +12,7 @@ BulkDatum::BulkDatum(const GetPot& dataFile, const std::string& section, const s
     #endif
   }
 
-
+// evaluation of the string in the node "x"
 scalar_type BulkDatum::getValue(const base_node & x, const size_type what)
 {
   M_parser.setString( M_datum );

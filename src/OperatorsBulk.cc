@@ -21,7 +21,6 @@ void stiffness ( sparseMatrixPtr_Type M, const FEM& FemSol, const FEM& FemCoef, 
 }
 
 
-// Uso la funzione già fornita da getFEM per l'assemblaggio, e qui valuto solo i coefficienti nel punto giusto. Alla fine è un wrapper per chiamare l'altra, quindi è abbastanza inutile e potrei toglierla per semplificare il codice : valuto i coefficienti in Problem::assembleMatrix e bon, però poi devo ripensare alla struttura di tutto il codice completo, altrimenti elasticità e laplaciano risultano completamente diversi.
 void linearElasticity(sparseMatrixPtr_Type M, const FEM& FemSol, const FEM& FemCoef, BulkDatum& Mu, BulkDatum& Lambda, const getfem::mesh_im& im)
 {
   getfem::mesh_fem femSol(FemSol.getFEM());
@@ -44,9 +43,6 @@ void linearElasticity(sparseMatrixPtr_Type M, const FEM& FemSol, const FEM& FemC
 
 
 
-// Metodo con la funzione della libreria a cui passo il vettore di dati con Fx e Fy associate allo stesso nodo fisico una in seguito all'altra
-// getfem::asm_source_term(B, mim, mfu, mfd, V);
-// NB: Here there isn't any femCoef, but we specify the FEM space where the datum (source) is defined; in general it is the same as the FEM space where the solution is defined.
 void bulkLoad(scalarVectorPtr_Type V, const FEM& FemSol, const FEM& FemSource, BulkDatum& Source, const getfem::mesh_im& im)
 {
   size_type Qdim = FemSol.getFEM().get_qdim(); // I need it here since the Qdim property is defined in the Problem class, not here!

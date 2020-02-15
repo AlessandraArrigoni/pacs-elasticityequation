@@ -40,8 +40,8 @@ int main(int argc, char *argv[]) {
 
     const std::string vtkFolder = "output_vtk/";
 
-    // Anche qui i nomi del problema potrei leggerli da terminale per avere lo stesso main per entrambi i problemi.
-    Bulk myDomainLeft(dataFile, "bulkData/", "domain/", "laplacian","1");    //creo i domini
+    // construct the two domains
+    Bulk myDomainLeft(dataFile, "bulkData/", "domain/", "laplacian","1");    
     Bulk myDomainRight(dataFile, "bulkData/", "domain/", "laplacian","2");
 
     // Initial export
@@ -73,14 +73,12 @@ int main(int argc, char *argv[]) {
     myProblem.treatIFaceDofs();
     std::cout << "Interface conditions      [OK]" << std::endl;
 
-
-
     // Solve the problem
     myProblem.solve();
     std::cout << "Solved system      [OK]" << std::endl;
 
     // Export the two solutions to Paraview
-    myProblem.exportVtk(vtkFolder,"u1");  // esporto la soluzione per paraview separando i due domini
+    myProblem.exportVtk(vtkFolder,"u1");  
     myProblem.exportVtk(vtkFolder,"u2");
 
     // Compute and print errors

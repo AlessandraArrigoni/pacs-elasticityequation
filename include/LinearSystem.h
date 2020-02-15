@@ -3,8 +3,14 @@
 
 #include "Core.h"
 
+/*! @file LinearSystem.h
+    @brief This is the class for the management of a linear system.  
 
-// classe per i sistemi lineari collegati ai vari problemi
+   @details This class is endowed with different methods that let us copy, add or extract parts of the matrix, of the right hand side or of the solution vector. It also provides functions to get and set values, to save the matrix and algorithms that invert the matrix and solve the linear system.
+
+*/
+
+
 class LinearSystem
 {
 public:
@@ -12,17 +18,23 @@ public:
 
 	 void addToMatrix(int ndof);
 
-	 void copySubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ; // Copies the given matrix INTO the existing system starting from first_row, first_column
+	 /*! method to copy the given matrix into the existing system starting from first_row, first_column */
+	 void copySubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ; 
 
-	 void addSubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ; // Adds the given matrix TO the existing system starting from first_row, first_column
+	/*! method to add the given matrix to the existing system starting from first_row, first_column */
+	 void addSubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ; 
 
-	 void extractSubMatrix(sparseMatrixPtr_Type destination, int first_row, int number_rows, int first_column, int number_cols ) const ; // takes the submatrix of the existing system associated to the interval of indices specified by the ints and copies it into the destination
+         /*! method that takes the submatrix of the existing system associated to the interval of indices specified by the ints and copies it into the destination */
+	 void extractSubMatrix(sparseMatrixPtr_Type destination, int first_row, int number_rows, int first_column, int number_cols ) const ; 
 
-	 void copySubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0) ; // Copies the given vector INTO the existing system starting from first_row
+	/*! method to copy the given vector into the existing system starting from first_row */
+	 void copySubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0) ; 
 
-	 void addSubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0); // Adds the given vector TO the existing system starting from first_row
+	/*! method to add the given vector to existing system starting from first_row */
+	 void addSubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0); 
 
-	 void extractSubVector(scalarVectorPtr_Type destination, int first_row, std::string where="sol") const ; // Takes the subvector of the existing system (either the solution or the rhs, according to "where") from first_row to the dimension of destination and copies it into the destination.
+	/*! method that takes the subvector of the existing system (either the solution or the rhs, according to "where") from first_row to the dimension of destination and copies it into the destination */
+	 void extractSubVector(scalarVectorPtr_Type destination, int first_row, std::string where="sol") const ; 
 
 	 void extractSubVector(scalarVector_Type & destination, int first_row, std::string where="sol") const ;
 
@@ -41,19 +53,23 @@ public:
 	 	return M_Sol;
 	 }
 
-   //questo per problemi a blocchi
+
 	 void addSubSystem(LinearSystem* small, size_type shiftRows, size_type shiftColumns);
 
+ 	/*! resolution of the linear system */
 	 void solve();
 
 	 void computeInverse();
 
 	 void saveMatrix(const char* nomefile="Matrix.mm") const;
 
-	 void multAddToRHS(scalarVectorPtr_Type V, int first_row, int first_column, int nrows, int ncols);  //moltiplica la matrice del sistema per V e aggiunge il risultato a RHSe
-	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVectorPtr_Type V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);  //moltiplica M per V e aggiunge il risultato a RHS
+	 void multAddToRHS(scalarVectorPtr_Type V, int first_row, int first_column, int nrows, int ncols);  //method that multiplies the matrix of the system for V and adds the result to RHS 
+	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVectorPtr_Type V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);  //method that multiplies the matrix M for V and adds the result to RHS 
 	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVector_Type& V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);
 
+	/*! method that eliminates the rows and columns of the matrix of the system. It takes one argument as input.
+	@param indexes indexes of rows and columns we want to discard from the original matrix of the system
+        */
 	 void eliminateRowsColumns(std::vector<size_type> indexes);
 
 	 inline void cleanRHS()
@@ -89,10 +105,10 @@ public:
 
 private:
 
-	sparseMatrixPtr_Type M_Matrix;
-	sparseMatrixPtr_Type M_InverseMatrix;
-	scalarVectorPtr_Type M_RHS; // Puntatore a un vettore di scalari
-	scalarVectorPtr_Type M_Sol; // Puntatore a un vettore di scalari
+	sparseMatrixPtr_Type M_Matrix; // Pointer to a sparse matrix
+	sparseMatrixPtr_Type M_InverseMatrix; // Pointer to a sparse matrix
+	scalarVectorPtr_Type M_RHS; // Pointer to a vector of scalars
+	scalarVectorPtr_Type M_Sol; // Pointer to a vector of scalars
 	bool M_gotInverse;
 	int M_ndof;
 

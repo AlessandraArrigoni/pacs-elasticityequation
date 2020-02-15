@@ -1,11 +1,15 @@
 #ifndef USEFULFUNCTIONS_H
 #define USEFULFUNCTIONS_H
 
-// AGGIUNGEREI QUA LA FUNZIONE INDEX_INSIDE facendole restituire un booleano e ricevendo in input un sizeVector_Type
+/* @file UsefulFunctions.h
+   @brief This file includes some useful methods that can be exploited in several different contexts and that are beyond the analyzed problem.
+
+*/
 
 #include "Core.h"
 #include "FEM.h"
 
+/*! method to check whether the index "k" is inside the vector of indexes "vec" or not */
 bool index_inside(size_type k, const sizeVector_Type & vec);
 
 void exportSolution ( const std::string& fileName,

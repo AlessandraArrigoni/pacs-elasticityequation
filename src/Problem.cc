@@ -42,7 +42,7 @@ Problem::Problem( GetPot const & dataFile, std::string const problem, Bulk & bul
         std::cout<< "Matrix dimension in Problem constructor = "<<M_Sys.getMatrix()->nrows()<<" x " <<M_Sys.getMatrix()->ncols()<<std::endl;
         #endif
 
-  // Set integration method (in realtà non sono sicura che la stringa venga letta)
+  // Set integration method 
   std::string intMethod(dataFile(std::string("bulkData/femspaces/integrationMethod").data(), "IM_TRIANGLE(6)" ) );
 
   M_intMethod1.set_integration_method(bulk1.getMesh().convex_index(), getfem::int_method_descriptor(intMethod) );
@@ -136,7 +136,7 @@ void Problem::exportVtk( std::string const folder, std::string const what)
   			scalarVectorPtr_Type DIFF1 = std::make_shared<scalarVector_Type> (M_nbDOF1);
   			scalarVectorPtr_Type DIFF2 = std::make_shared<scalarVector_Type> (M_nbDOF2);
 
-  			exactSolution(DIFF1, M_uFEM1, M_exact_sol1);  // calcolo la soluzione esatta
+  			exactSolution(DIFF1, M_uFEM1, M_exact_sol1);  // compute te exact solution
   			exactSolution(DIFF2, M_uFEM2, M_exact_sol2);
   			#endif
 
@@ -147,7 +147,7 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 		extractSol(M_uSol1, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 
-        // DEBUG : Compute difference with the numerical sol
+        // DEBUG : Compute difference with the numerical solution
         #ifdef DEBUG
         for (size_type i=0; i<M_nbDOF1; i++){
            DIFF1->at(i) -= M_uSol1.at(i);
@@ -166,7 +166,7 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 		extractSol(M_uSol2, what);
 		std::cout<< "Solution extracted! "<< std::endl;
 
-        // DEBUG : Compute difference with the numerical sol
+        // DEBUG : Compute difference with the numerical solution
         #ifdef DEBUG
         for (size_type i=0; i<M_nbDOF2; i++){
            DIFF2->at(i) -= M_uSol2.at(i);
@@ -184,14 +184,14 @@ void Problem::exportVtk( std::string const folder, std::string const what)
 }
 
 // Computes the L2 and H1 errors with respect to the exact solution and saves them in the associated variables.
-// NB: per prima cosa estraggo le due sottosoluzioni, anche se magari è già stato fatto dall'exportVtk.
+
 void Problem::computeErrors(){
 
 	extractSol(M_uSol1, "u1"); // Sovrascrivono quelle già estratte dall'exportVtk!
 	extractSol(M_uSol2, "u2");
 
   scalarVectorPtr_Type DIFF1 = std::make_shared<scalarVector_Type> (M_nbDOF1);
-  exactSolution(DIFF1, M_uFEM1, M_exact_sol1); // calcolo la soluzione esatta
+  exactSolution(DIFF1, M_uFEM1, M_exact_sol1); // compute te exact solution
 
   scalarVectorPtr_Type DIFF2 = std::make_shared<scalarVector_Type> (M_nbDOF2);
 	exactSolution(DIFF2, M_uFEM2, M_exact_sol2);

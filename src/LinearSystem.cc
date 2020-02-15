@@ -1,7 +1,7 @@
 
 #include "../include/LinearSystem.h"
 
-LinearSystem::LinearSystem( ): M_Matrix(), M_RHS(), M_Sol() // Con il constructor ho creato dei puntatori vuoti, poi userò initialize e addToMatrix per riempirli
+LinearSystem::LinearSystem( ): M_Matrix(), M_RHS(), M_Sol() 
 {
    M_gotInverse=false;
 }
@@ -90,7 +90,7 @@ void LinearSystem::extractSubVector(scalarVectorPtr_Type destination, int first_
 	}
 }
 
-// Con la REFERENCE
+
 void LinearSystem::extractSubVector(scalarVector_Type & destination, int first_row, std::string where) const
 {
   if (where=="sol")

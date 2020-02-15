@@ -6,8 +6,11 @@
 #include "Bulk.h"
 #include "BC.h"
 
-//condizioni al contorno naturali
+/*! @file OperatorsBD.h
+    @brief This file includes the method for the evaluation of natural boundary conditions.
+*/
 
-void stressRHS( scalarVectorPtr_Type V, const Bulk& medium, BC& bcRef, const FEM& femSol, const FEM& femDatum, const getfem::mesh_im& im);  //condizione di sforzo
+/*! method to evaluate the Neumann boundary conditions using the function getfem::asm_source_term */
+void stressRHS( scalarVectorPtr_Type V, const Bulk& medium, BC& bcRef, const FEM& femSol, const FEM& femDatum, const getfem::mesh_im& im); 
 
 #endif

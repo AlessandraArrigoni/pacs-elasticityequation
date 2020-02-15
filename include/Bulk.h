@@ -4,17 +4,27 @@
 #include "Core.h"
 #include "Parser.h"
 
-//gestione del dominio 2D "bulk": non contiene i dati (coefficienti, soluzione e fornzante)
+/*! @file Bulk.h
+    @brief This class is for the management of a 2-dimensional domain.
+
+    @details This class contains all the data related to the domain and its triangulation. It does not include data regarding the specific problem to solve.
+*/
+
 
 class Bulk
 {
 public:
+ 	/*! constructor*/
 	 Bulk ( const GetPot& dataFile,
                    const std::string& section = "bulkData/",
                    const std::string& sectionDomain = "domain/",
 									 const std::string& sectionProblem = "laplacian",
 								   const std::string& domainNumber = "1");
-
+  //! method to export the mesh 
+  /*!
+      This method takes one argument as input.
+	@param nomefile a string containing the name of the file where we want to save the exported mesh 
+   */
   void exportMesh(std::string const nomefile) const;
 
   inline getfem::mesh& getMeshRef() // In order to modify it in the BC
@@ -63,7 +73,8 @@ private:
     scalar_type M_Ly;
 
     std::string M_meshType;
-    getfem::mesh M_mesh;          // the mesh
+	/*! variable for the mesh */
+    getfem::mesh M_mesh;    
 
 };
 

@@ -11,10 +11,12 @@ BC::BC ( const GetPot& dataFile, const std::string& problem, const std::string& 
 
   M_parser.setString ( M_BCstring );
 
+ // for each degree on the boundary...
   for ( size_type i = 0; i < M_nBoundaries; ++i )
   {
-    M_BC [ i ] = M_parser.evaluate ( i ); // vettore di indici: suppongo che contenga 0 per Dirichlet e 1 per Neumann nell'ordine dato dal Datafile (sotto, dx, sopra, sx)
+    M_BC [ i ] = M_parser.evaluate ( i ); 
 
+  // divide the Dirichlet and the Neumann degrees of freedom
     if (M_BC[i]==0)
     {
     	M_DiriRG.push_back(i);
@@ -45,6 +47,7 @@ BC::BC ( const GetPot& dataFile, const std::string& problem, const std::string& 
         #endif
 }
 
+// evaluation of the Neumann boundary condition in the coordinates of "x"
 scalar_type BC::BCNeum(const base_node & x, const size_type what, const size_type & flag)
 {
 	  M_parser.setString( M_BCNeum );
@@ -55,10 +58,11 @@ scalar_type BC::BCNeum(const base_node & x, const size_type what, const size_typ
     return M_parser.evaluate (what);
 }
 
+// evaluation of the Dirichlet boundary condition in the coordinates of "x"
 scalar_type BC::BCDiri(const base_node& x, const size_type what, const size_type& flag)
 {
-		M_parser.setString ( M_BCDiri );
-	  M_parser.setVariable ( "x", x [ 0 ] );
+    M_parser.setString ( M_BCDiri );
+    M_parser.setVariable ( "x", x [ 0 ] );
     M_parser.setVariable ( "y", x [ 1 ] );
     M_parser.setVariable ( "n", flag );
 
@@ -66,7 +70,8 @@ scalar_type BC::BCDiri(const base_node& x, const size_type what, const size_type
 }
 
 
-void BC::setBoundaries( getfem::mesh &  meshRef)
+// select the degrees of freedom on the boundary
+void BC::setBoundaries( getfem::mesh &  meshRef) 
 {
     getfem::mesh_region border_faces;
     getfem::outer_faces_of_mesh(meshRef, border_faces);

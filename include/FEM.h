@@ -3,13 +3,19 @@
 
 #include "Core.h"
 
+/*! @file FEM.h
+    @brief This class contains all the necessary features for a generic finite element method
+	
+    @details This class is actually a wrapper of the already existing getfem::fem class in the library Getfem++. It incorporates only the instruments that were really needed, such as the problem's dimension, the definition of the degrees of freedom and the selection f the functional space for the trial and test functions. 
 
-// Classe wrapper per la classe fem di getFEM
+*/
+
 
 class FEM
 {
 public:
 
+	/*! constructor based on the input file */
 	FEM (const getfem::mesh& mesh,
 	      const GetPot& dataFile,
 	      const std::string& problem,
@@ -17,11 +23,12 @@ public:
         const std::string& section = "bulkData/",
         const size_type qdim = 1);
 
+	/*! constructor that is not based on the input file */
  	FEM (const getfem::mesh& mesh,
 	     const std::string femType,
    		 const size_type spaceDim );
 
-  inline size_type nb_dof() const //numero gradi di libertà
+  inline size_type nb_dof() const //number of degrees of freedom
 	{
 		return M_FEM.nb_dof();
 	};
@@ -37,7 +44,7 @@ public:
   	return M_FEM;
   }
 
-  inline std::vector<base_node> getDOFpoints() const //punti corrispondenti ai dof
+  inline std::vector<base_node> getDOFpoints() const //physical point corresponding to the degrees of freedom
   {
    	return M_DOFpoints;
   }
@@ -53,9 +60,9 @@ private:
     std::string M_section;
     std::string M_femType;
     size_type M_SpaceDim;
-    getfem::mesh_fem M_FEM;
+    getfem::mesh_fem M_FEM; 
     std::vector<base_node> M_DOFpoints;
 
 };
 
-#endif
+#endifo
