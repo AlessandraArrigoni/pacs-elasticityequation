@@ -14,7 +14,8 @@ public:
 
   FEM getFEM(size_type const idx) const;
 
-  inline LinearSystem& getSYS() const 
+  inline LinearSystem& getSYS() const
+  {
     return M_Sys;
   }
 
