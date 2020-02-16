@@ -17,11 +17,17 @@ public:
  	/*! constructor */
 	BC ( const GetPot& dataFile,
 	      const std::string& problem,
-        const std::string& section ); 
+        const std::string& section );
 
+	//! method to identify the boundary dofs.
+	  /*!
+	    Creates 4 regions in the input mesh (one for each boundary side) associating the boundary dofs they contain
+
+	    @param meshRef reference to the mesh object describing the computational domain	    
+	  */
 	void setBoundaries( getfem::mesh& meshRef);
 
-		
+
 	inline std::vector<size_type> getNeumBD() const
 	{
 		return M_NeumRG;
@@ -32,7 +38,7 @@ public:
 		return M_DiriRG;
 	};
 
-//! method to to evaluate the Neumann boundary conditions.
+//! method to evaluate the Neumann boundary conditions.
   /*!
     This method takes three input parameters and returns a scalar value.
 
@@ -40,9 +46,9 @@ public:
     @param flag index indicating the side of the domain
     @param what index 0 if the datum is a scalar or if we want the first component of the vector; index 1 if we want to evaluate the second component.
   */
-	scalar_type BCNeum(const base_node& x, const size_type what, const size_type& flag) ; 
+	scalar_type BCNeum(const base_node& x, const size_type what, const size_type& flag) ;
 
-//! method to to evaluate the Dirichlet boundary conditions.
+//! method to evaluate the Dirichlet boundary conditions.
   /*!
     This method takes three input parameters and returns a scalar value.
 
@@ -51,7 +57,7 @@ public:
     @param what index 0 if the datum is a scalar or if we want the first component of the vector; index 1 if we want to evaluate the second component.
   */
 
-	scalar_type BCDiri(const base_node& x, const size_type what, const size_type& flag) ; 
+	scalar_type BCDiri(const base_node& x, const size_type what, const size_type& flag) ;
 
 private:
 
@@ -59,17 +65,17 @@ private:
     std::string M_BCstring;
 
      /*! string for functions defining the Neumann boundary conditions */
-    std::string M_BCNeum; 
+    std::string M_BCNeum;
      /*! string for functions defining the Dirichlet boundary conditions */
-    std::string M_BCDiri; 
+    std::string M_BCDiri;
 
     /*! vector containing the indices of the degrees of freedom on Neumann boundaries */
-    std::vector<size_type>  M_NeumRG; 
+    std::vector<size_type>  M_NeumRG;
     /*! vector containing the indices of the degrees of freedom on Dirichlet boundaries */
     std::vector<size_type>  M_DiriRG;
 
     /*! vector containing 0-Dirichlet or 1-Neumann for each edge of the domain in this order: down-right-up-left */
-    std::vector<size_type> M_BC; 
+    std::vector<size_type> M_BC;
 
     LifeV::Parser M_parser;
 

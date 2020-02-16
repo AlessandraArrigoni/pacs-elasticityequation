@@ -1,7 +1,7 @@
 
 #include "../include/LinearSystem.h"
 
-LinearSystem::LinearSystem( ): M_Matrix(), M_RHS(), M_Sol() 
+LinearSystem::LinearSystem( ): M_Matrix(), M_RHS(), M_Sol()
 {
    M_gotInverse=false;
 }
@@ -77,7 +77,7 @@ void LinearSystem::addSubVector(scalarVectorPtr_Type source, int first_row, scal
 						 gmm::sub_vector (*M_RHS, gmm::sub_interval (first_row, source->size()) ));
 }
 
-// Con il PUNTATORE
+// Version with POINTERS
 void LinearSystem::extractSubVector(scalarVectorPtr_Type destination, int first_row, std::string where) const
 {
 	if (where=="sol")
@@ -90,7 +90,7 @@ void LinearSystem::extractSubVector(scalarVectorPtr_Type destination, int first_
 	}
 }
 
-
+// Version with REFERENCES
 void LinearSystem::extractSubVector(scalarVector_Type & destination, int first_row, std::string where) const
 {
   if (where=="sol")
@@ -207,12 +207,10 @@ void LinearSystem::saveMatrix(const char* nomefile) const
 
 void LinearSystem::eliminateRowsColumns(std::vector<size_type> indexes)
 {
-  // ordina vettore in oridine crescente
+  // Sort the indexes in ascending order
   sort(indexes.begin(),indexes.end());
 
 
-  // eliminare le righe e le colonne una alla volta, a partire da quella "più bassa" e quella "più a destra" nella matrice
-  // contemporaneamente elimina le stesse righe dal rhs
 
       #ifdef DEBUG
       std::cout<< "In LinearSystem::eliminateRowsColumns, the indices of the rows and columns to be deleted are (decreasing order):"<<std::endl;
@@ -220,7 +218,8 @@ void LinearSystem::eliminateRowsColumns(std::vector<size_type> indexes)
 
   for (size_type k=0; k<indexes.size(); k++)
   {
-    size_type idx = indexes[indexes.size()-1-k]; // indice riga e colonna che sono da eliminare in ordine decrescente
+    // loop in the indexes in descending order
+    size_type idx = indexes[indexes.size()-1-k];
 
       #ifdef DEBUG
       std::cout<< "INDEX:"<< idx << std::endl;

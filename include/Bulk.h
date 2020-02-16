@@ -20,10 +20,11 @@ public:
                    const std::string& sectionDomain = "domain/",
 									 const std::string& sectionProblem = "laplacian",
 								   const std::string& domainNumber = "1");
-  //! method to export the mesh 
+
+  //! method to export the mesh
   /*!
       This method takes one argument as input.
-	@param nomefile a string containing the name of the file where we want to save the exported mesh 
+	@param nomefile a string containing the name of the file where we want to save the exported mesh
    */
   void exportMesh(std::string const nomefile) const;
 
@@ -37,21 +38,25 @@ public:
 		return M_mesh;
 	}
 
+	/*! length of the domain (x axis)*/
   inline scalar_type Lx() const
   {
   	return M_Lx;
   }
 
+	/*! length of the domain (y axis)*/
   inline scalar_type Ly() const
   {
   	return M_Ly;
   }
 
+	/*! number of subdivisions (x axis)*/
 	inline scalar_type nSubX() const
 	{
 		return M_Nx;
 	}
 
+	/*! number of subdivisions (y axis)*/
 	inline scalar_type nSubY() const
 	{
 		return M_Ny;
@@ -74,7 +79,7 @@ private:
 
     std::string M_meshType;
 	/*! variable for the mesh */
-    getfem::mesh M_mesh;    
+    getfem::mesh M_mesh;
 
 };
 

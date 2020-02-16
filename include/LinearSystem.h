@@ -4,7 +4,7 @@
 #include "Core.h"
 
 /*! @file LinearSystem.h
-    @brief This is the class for the management of a linear system.  
+    @brief This is the class for the management of a linear system.
 
    @details This class is endowed with different methods that let us copy, add or extract parts of the matrix, of the right hand side or of the solution vector. It also provides functions to get and set values, to save the matrix and algorithms that invert the matrix and solve the linear system.
 
@@ -18,24 +18,69 @@ public:
 
 	 void addToMatrix(int ndof);
 
-	 /*! method to copy the given matrix into the existing system starting from first_row, first_column */
-	 void copySubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ; 
+	 /*! method to copy the source matrix into the existing system starting from first_row, first_column
 
-	/*! method to add the given matrix to the existing system starting from first_row, first_column */
-	 void addSubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ; 
+	 @param source matrix to be entirely copied
+	 @param first_row starting row in M_Matrix for the copy
+	 @param first_column starting column in M_Matrix for the copy
+	 @param scale scaling factor for the source matrix
+	 @param transpose bool telling to transpose the source before copying it
+	 */
+	 void copySubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ;
 
-         /*! method that takes the submatrix of the existing system associated to the interval of indices specified by the ints and copies it into the destination */
-	 void extractSubMatrix(sparseMatrixPtr_Type destination, int first_row, int number_rows, int first_column, int number_cols ) const ; 
+	/*! method to add the given matrix to the existing system starting from first_row, first_column
 
-	/*! method to copy the given vector into the existing system starting from first_row */
-	 void copySubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0) ; 
+	@param source matrix to be entirely summed
+	@param first_row starting row in M_Matrix for the sum
+	@param first_column starting column in M_Matrix for the sum
+	@param scale scaling factor for the source matrix
+	@param transpose bool telling to transpose the source before adding it
+	*/
+	void addSubMatrix(sparseMatrixPtr_Type source, int first_row, int first_column, scalar_type scale=1.0, bool transpose=false) ;
 
-	/*! method to add the given vector to existing system starting from first_row */
-	 void addSubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0); 
 
-	/*! method that takes the subvector of the existing system (either the solution or the rhs, according to "where") from first_row to the dimension of destination and copies it into the destination */
-	 void extractSubVector(scalarVectorPtr_Type destination, int first_row, std::string where="sol") const ; 
+  /*! method that extracts the submatrix of the existing system associated to the specified interval of indices
 
+	@param destination matrix to store the extracted submatrix by copy
+	@param first_row initial row to extract
+	@param number_rows dimension of the submatrix (rows)
+	@param first_column initial column to extract
+	@param number_cols dimension of the submatrix (columns)
+	*/
+	void extractSubMatrix(sparseMatrixPtr_Type destination, int first_row, int number_rows, int first_column, int number_cols ) const ;
+
+
+	/*! method to copy the given vector into the right hand side of the system starting from first_row
+
+	@param source vector to be entirely copied
+	@param first_row starting row in M_RHS for the copy
+	@param scale scaling factor for the source vector
+	*/
+	 void copySubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0) ;
+
+
+	/*! method to add the given vector to the right hand side of the system starting from first_row
+	@param source vector to be entirely summed
+	@param first_row starting row in M_RHS for the sum
+	@param scale scaling factor for the source vector
+	*/
+	 void addSubVector(scalarVectorPtr_Type source, int first_row, scalar_type scale=1.0);
+
+	//! method that extracts the subvector from the existing system (either the solution or the rhs) of dimension destination.size() starting from first_row
+	/*! version with a pointer to vector
+	@param destination vector to store the extracted subvector by copy
+	@param first_row initial row to extract
+	@param where string to select the origin ("sol" = M_Sol, any other string = M_RHS)
+	*/
+	 void extractSubVector(scalarVectorPtr_Type destination, int first_row, std::string where="sol") const ;
+
+
+	//! method that extracts the subvector from the existing system (either the solution or the rhs) of dimension destination.size() starting from first_row
+ 	/*! version with a reference to vector
+ 	@param destination vector to store the extracted subvector by copy
+ 	@param first_row initial row to extract
+ 	@param where string to select the origin ("sol" = M_Sol, any other string = M_RHS)
+ 	*/
 	 void extractSubVector(scalarVector_Type & destination, int first_row, std::string where="sol") const ;
 
 	 sparseMatrixPtr_Type inline getMatrix() const
@@ -63,8 +108,8 @@ public:
 
 	 void saveMatrix(const char* nomefile="Matrix.mm") const;
 
-	 void multAddToRHS(scalarVectorPtr_Type V, int first_row, int first_column, int nrows, int ncols);  //method that multiplies the matrix of the system for V and adds the result to RHS 
-	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVectorPtr_Type V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);  //method that multiplies the matrix M for V and adds the result to RHS 
+	 void multAddToRHS(scalarVectorPtr_Type V, int first_row, int first_column, int nrows, int ncols);  //method that multiplies the matrix of the system for V and adds the result to RHS
+	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVectorPtr_Type V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);  //method that multiplies the matrix M for V and adds the result to RHS
 	 void multAddToRHS(sparseMatrixPtr_Type M, scalarVector_Type& V, int first_rowVector, int first_rowRHS, scalar_type scale=1.0, bool transposed=false);
 
 	/*! method that eliminates the rows and columns of the matrix of the system. It takes one argument as input.

@@ -59,7 +59,7 @@ along with LifeV.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace LifeV
 {
-/*! \file util_string.h
+/*! \file StringUtility.h
 \brief Special structures for handling mesh faces and sides
 \version 0.0 Experimental   5/2/00. Luca Formaggia
 Some utilities for handling ascii files

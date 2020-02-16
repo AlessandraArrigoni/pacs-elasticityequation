@@ -42,7 +42,7 @@ Problem::Problem( GetPot const & dataFile, std::string const problem, Bulk & bul
         std::cout<< "Matrix dimension in Problem constructor = "<<M_Sys.getMatrix()->nrows()<<" x " <<M_Sys.getMatrix()->ncols()<<std::endl;
         #endif
 
-  // Set integration method 
+  // Set integration method
   std::string intMethod(dataFile(std::string("bulkData/femspaces/integrationMethod").data(), "IM_TRIANGLE(6)" ) );
 
   M_intMethod1.set_integration_method(bulk1.getMesh().convex_index(), getfem::int_method_descriptor(intMethod) );

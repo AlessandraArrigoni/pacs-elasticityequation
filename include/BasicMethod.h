@@ -18,30 +18,39 @@ class BasicMethod: public Problem
 
 public:
 
-	/*! constructor */
-	BasicMethod(GetPot const & dataFile, std::string const problem, Bulk & bulk1, Bulk & bulk2, const size_type dim, LinearSystem & extSys); 
+	//! constructor
+	/*! calls the constructor of its base class Problem
+
+		@param dataFile reference to the GetPot object that reads the input data
+		@param problem name of the problem to solve, as contained in the input file
+		@param bulk1 reference to the Bulk object for the left subdomain
+		@param bulk2 reference to the Bulk object for the right subdomain
+		@param dim dimension of the problem (1=scalar, 2=vectorial)
+		@param extSys reference to the LinearSystem linked to the problem
+	 */
+	BasicMethod(GetPot const & dataFile, std::string const problem, Bulk & bulk1, Bulk & bulk2, const size_type dim, LinearSystem & extSys);
 
   /*! a pure virtual method for the assembly of the matrix*/
   virtual void assembleMatrix() = 0;
 
-   /*! overriden method for the assembly of the right hand side*/
+   /*! overridden method for the assembly of the right hand side*/
   void assembleRHS() override;
 
-  //! overriden method for the strong Dirichlet boundary conditions 
+  //! overridden method for the strong imposition of Dirichlet boundary conditions
   /*!
       This methods takes one argument
-      @param domainIdx index to identify if we are in the first or in the second   domain
+      @param domainIdx index to identify the domain (1=left, 2=right)
   */
   void enforceStrongBC(size_type const domainIdx) override;
 
-  /*! overriden method for the management of the interface degrees of freedom */
+  /*! overridden method for the management of the interface degrees of freedom */
   void treatIFaceDofs() override;
 
-  /*! overriden method for the resolution of the linear system */
+  /*! overridden method for the resolution of the linear system */
   void solve() override;
 
   /*! destructor*/
-  virtual ~BasicMethod(){}; 
+  virtual ~BasicMethod(){};
 
 };
 #endif
