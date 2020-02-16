@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 
     GetPot command_line(argc, argv);
 
-    const std::string data_file_name = command_line.follow("inputData/linearq0", 2, "-f","--file");
+    const std::string data_file_name = command_line.follow("inputData/quadratic", 2, "-f","--file");
 
     GetPot dataFile(data_file_name.data());
     std::cout<< "File name : "<< data_file_name << std::endl;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     const std::string vtkFolder = "output_vtk/";
 
     // construct the two domains
-    Bulk myDomainLeft(dataFile, "bulkData/", "domain/", "elasticity","1");  
+    Bulk myDomainLeft(dataFile, "bulkData/", "domain/", "elasticity","1");
     Bulk myDomainRight(dataFile, "bulkData/", "domain/", "elasticity","2");
 
     // Initial export
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Solved system      [OK]" << std::endl;
 
     // Export the two solutions to Paraview
-    myProblem.exportVtk(vtkFolder,"u1"); 
+    myProblem.exportVtk(vtkFolder,"u1");
     myProblem.exportVtk(vtkFolder,"u2");
 
     // Compute and print errors

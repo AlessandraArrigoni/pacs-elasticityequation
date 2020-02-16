@@ -1,5 +1,5 @@
 # Compiler
-CXX = g++ -std=c++14
+CXX = g++ -std=c++11
 
 # Optimize flags
 OPTFLAGS = -g
