@@ -13,6 +13,7 @@ Each subfolder associated to combination problem/method is organised as follows:
 * `debug` : builds the program with extensive output information at runtime and generating also the `.mm` and errors files;
 * `optimised`: as for `all` with the `-O3` flag active;
 * `test` : as for `optimised` generating also the `.mm` and errors files.
+Finally we have the folder `Matlab` which inculdes some `.mm` files in order to import the outputData ( the matrix of the final system and the errors in the L^2 and H^1 norms ) and visualize them in the `Matlab`software, if needed.
 
 #### Compile
 1. Choose the desired combination problem/method and go to the associated directory (es. `linearElasticityBasic`)
