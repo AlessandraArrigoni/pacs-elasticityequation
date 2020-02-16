@@ -40,3 +40,8 @@ Here are some notes and tips on how to write an input file that can be read corr
 * for the **vectorial** problem the strings for the first and second component are separated by a "**;**".
 * do **not** put additional blank lines at the beginning of the file or blank spaces in the definition of the strings, e.g. *correct*: `4*y*(y-1)-y*y*(x>(0.5-1e-5))` or `sin(2*pi*x);sin(2*pi*y)`, *wrong*: `4*y*(y-1) - y*y* (x > (0.5-1e-5))` and `sin(2*pi*x) ; sin(2*pi*y)`.
 * do **not** write apostrophes (**'**) or other special characters in **comments** since the parser stops processing the file after encountering them.
+
+#### Build documentation
+Reference manuals for the code can be generated with Doxygen, version 1.8.17 by running `doxygen Doxyfile` in the current directory. Two different formats are available:
+* `doc/html` contains the manual in the html format; to open it, point a HTML browser to the `index.html` file;
+* `doc/latex` contains the LaTeX documentation; to generate the `.pdf` file, go to that folder and run `make pdf`.
