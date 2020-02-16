@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% parameters for program laplacian: soluzione y a sx e 3y a dx  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[bulkData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/   % per caricare mesh fatte con altri tool
+
+                spatialDiscretizationX = 80  % la mesh è conforme: suddivisione uguale in omega1 e omega2
+                spatialDiscretizationY = 160
+                lengthAbscissa = 0.5  % misure in x e y per entrambi
+                lengthOrdinate = 1.0
+                startingAbscissa1 = 0 % punto in basso a sx per omega1
+                startingOrdinate1 = 0
+                startingAbscissa2 = 0.5 % punto in basso a sx per omega2
+                startingOrdinate2 = 0
+                meshType = GT_PK(2,1)  % questa mesh è di triangoli lineari
+                spaceDimension = 2   % bidimensionale
+
+        [../]
+
+
+        [./laplacian1]
+
+            		bcflag = [0,0,0,0]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+                interfaceIdx = 1 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+                diff = 1  %coefficiente di diffusione
+                exact_sol = y % soluzione esatta
+		qzero = -2*y
+
+            		% soluzione LINEARE : y
+            		bulkload = 0
+            		u_BC = y
+            		du_BC = 0
+
+        [../]
+
+
+        [./laplacian2]
+
+                bcflag = [0,0,0,1]   %0 diri, 1 neumann, numerazione dei bordi: sotto, destra, sopra, sinistra
+                interfaceIdx = 3 % Sto assumendo che i lati siano ordinati come prima, partendo da 0=sotto.
+                diff = 1  %coefficiente di diffusione
+                exact_sol = 3*y % soluzione esatta
+		qzero = -2*y
+
+                % soluzione SENO DI X sin(2 pi x) : così le condizioni di salto sono nulle sia per u che per du
+                bulkload = 0
+                u_BC = 3*y
+                du_BC = 0
+
+        [../]
+
+
+        [./femspaces]
+
+                FEMTypeSol = FEM_PK(2,1)  %tipo fem per la soluzione: FEM lineari su triangoli
+                FEMTypeCoeff = FEM_PK(2,0)  %tipo fem per l approssimazione dei coefficienti: FEM costanti su triangoli
+                integrationMethod = IM_TRIANGLE(6)
+
+        [../]
+
+
+[../]

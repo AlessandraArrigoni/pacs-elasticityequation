@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% parameters for program linear elasticity: continuous stress and continuous normal component, discontinuous tangential component
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[bulkData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/   % to load meshes defined with other tools
+
+                spatialDiscretizationX = 80
+                spatialDiscretizationY = 160
+                lengthAbscissa = 0.5  % dimensions of both domains
+                lengthOrdinate = 1.0
+                startingAbscissa1 = 0 % coordinates of bottom left point in Omega1
+                startingOrdinate1 = 0
+                startingAbscissa2 = 0.5 % coordinates of bottom left point in Omega2
+                startingOrdinate2 = 0
+                meshType = GT_PK(2,1)  % triangle mesh
+                spaceDimension = 2   % dimension of the domain
+
+        [../]
+
+
+        [./elasticity1]
+
+            		bcflag = [0,0,0,0]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 1 % The borders are numbered starting from 0 = bottom.
+                lambda = 1  % Lamé coefficient
+                mu = 1 % Lamé coefficient
+                exact_sol = x*x*x;y*y*x % Exact solution: first and second component are separated by a ";"
+
+
+            		bulkload = -18*x-4*y;-6*x
+            		u_BC = x*x*x*(x<(0.5-1e-5));y*y*x*(x<(0.5-1e-5))-3*(x>(0.5-1e-5)) % It includes the jump q0 on Gamma
+            		du_BC = 0;0
+
+        [../]
+
+
+        [./elasticity2]
+
+                bcflag = [0,0,0,1]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 3 % The borders are numbered starting from 0 = bottom.
+                lambda = 1  % Lamé coefficient
+                mu = 1 % Lamé coefficient
+                exact_sol = x*x*x;y*y*x+3  % Exact solution: first and second component are separated by a ";"
+
+
+                bulkload = -18*x-4*y;-6*x
+                u_BC = x*x*x;y*y*x+3
+                du_BC = 0;0 % q1 = jump of the conormal derivative on the interface Gamma
+
+        [../]
+
+
+        [./femspaces]
+
+                FEMTypeSol = FEM_PK(2,1)  % FEM type for the solution: linear on triangle mesh
+                FEMTypeCoeff = FEM_PK(2,0)  % FEM type for the coefficients: constant on triangle mesh
+                integrationMethod = IM_TRIANGLE(6)
+
+        [../]
+
+
+[../]

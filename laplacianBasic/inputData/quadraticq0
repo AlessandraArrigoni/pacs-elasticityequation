@@ -1,0 +1,65 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% parameters for program laplacian: different parabolic solutions on omega1 and omega2, jump q0 not zero
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[bulkData]
+
+        [./domain]
+
+                meshExternal = none
+                meshFolder = ./meshes/   % to load meshes defined with other tools
+
+                spatialDiscretizationX = 40
+                spatialDiscretizationY = 80
+                lengthAbscissa = 0.5  % dimensions of both domains
+                lengthOrdinate = 1.0
+                startingAbscissa1 = 0 % coordinates of bottom left point in Omega1
+                startingOrdinate1 = 0
+                startingAbscissa2 = 0.5 % coordinates of bottom left point in Omega2
+                startingOrdinate2 = 0
+                meshType = GT_PK(2,1)  % triangle mesh
+                spaceDimension = 2   % dimension of the domain
+
+        [../]
+
+
+        [./laplacian1]
+
+            		bcflag = [0,0,0,0]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 1 % The borders are numbered starting from 0 = bottom.
+                diff = 1   % Diffusion coefficient
+                exact_sol = 4*y*(y-1) % Exact solution
+
+
+                bulkload = -8
+            		u_BC = 4*y*(y-1)-y*y*(x>(0.5-1e-5)) % It includes the jump q0 on Gamma
+            		du_BC = 0
+
+        [../]
+
+
+        [./laplacian2]
+
+                bcflag = [0,0,0,1]   %0 Dirichlet, 1 Neumann, order of the boundaries: bottom, right, top, left.
+                interfaceIdx = 3 % The borders are numbered starting from 0 = bottom.
+                diff = 1  % Diffusion coefficient
+                exact_sol = y*y % Exact solution
+
+
+                bulkload = -2
+            		u_BC = y*y
+            		du_BC = 0 % q1 = jump of the conormal derivative on the interface Gamma
+
+        [../]
+
+
+        [./femspaces]
+
+                FEMTypeSol = FEM_PK(2,1)  % FEM type for the solution: linear on triangle mesh
+                FEMTypeCoeff = FEM_PK(2,0)  % FEM type for the coefficients: constant on triangle mesh
+                integrationMethod = IM_TRIANGLE(6)
+
+        [../]
+
+
+[../]
