@@ -7,7 +7,7 @@ This repository contains the code to solve scalar elliptic problems and the 2D l
 The code was developed and run on Ubuntu 18.04.2 and Ubuntu 18.04.4 with the `g++` compiler, version 7.4.0.
 It is based on the library GetFEM++, version 5.3 which can be downloaded from the [official website](http://getfem.org/index.html "getFEM website") and installed following the instructions provided by the developers.
 
-Each subfolder associated to combination problem/method is organised as follows:`inputData` contains the input files to perform the tests, `output_vtk` will store the mesh and the solutions in the `.vtk` format, `outputData` will store the matrices with the `.mm` extension and the files with the errors in the L^2 and H^1 norms. It also contains a `main_test.cc` and a `Makefile` to compile, according to the `C++14` standard, the corresponding problem/method with the following options:
+Each subfolder associated to combination problem/method is organised as follows:`inputData` contains the input files to perform the tests, `output_vtk` will store the mesh and the solutions in the `.vtk` format, `outputData` will store the matrices with the `.mm` extension and the files with the errors in the L^2 and H^1 norms. It also contains a `main_test.cc` and a `Makefile` to compile, according to the `C++11` standard, the corresponding problem/method with the following options:
 * `all` : builds the program with few output information at runtime and generating only the `.vtk` files;
 * `clean` : as usual, deleting also all the output files in `output_vtk` and `outputData`;
 * `debug` : builds the program with extensive output information at runtime and generating also the `.mm` and errors files;
@@ -40,3 +40,8 @@ Here are some notes and tips on how to write an input file that can be read corr
 * for the **vectorial** problem the strings for the first and second component are separated by a "**;**".
 * do **not** put additional blank lines at the beginning of the file or blank spaces in the definition of the strings, e.g. *correct*: `4*y*(y-1)-y*y*(x>(0.5-1e-5))` or `sin(2*pi*x);sin(2*pi*y)`, *wrong*: `4*y*(y-1) - y*y* (x > (0.5-1e-5))` and `sin(2*pi*x) ; sin(2*pi*y)`.
 * do **not** write apostrophes (**'**) or other special characters in **comments** since the parser stops processing the file after encountering them.
+
+#### Build documentation
+Reference manuals for the code can be generated with Doxygen, version 1.8.13 by running `doxygen Doxyfile` in the current directory. Two different formats are available:
+* `doc/html` contains the manual in the html format; to open it, point a HTML browser to the `index.html` file;
+* `doc/latex` contains the LaTeX documentation; to generate the `.pdf` file, go to that folder and run `make pdf`.
